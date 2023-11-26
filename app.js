@@ -8,6 +8,7 @@ const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
 const { addRequestContext } = require("./src/helpers/requests");
 
+// Declare express app and function middleware
 const app = express();
 app.set('etag', false);
 app.use(cors());
@@ -17,8 +18,7 @@ app.use(context());
 app.use(addRequestContext)
 if (process.env.NODE_ENV !== "test") app.use(morganLog);
 
-
-
+// Declare subrouters
 app.use("/server_health", serverHealthRouter);
 
 
@@ -30,3 +30,6 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 
+module.exports = {
+    server
+}
