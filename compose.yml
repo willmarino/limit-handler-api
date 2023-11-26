@@ -4,7 +4,7 @@ services:
     container_name: redis-lh
     image: redis:6.2
     ports:
-      - '6389:6389'
+      - '6389:6379'
   db-lh:
     container_name: mysql-lh
     image: mysql:5.7

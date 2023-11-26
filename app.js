@@ -2,6 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const context = require("express-context-store");
 
+const REDIS_WRAPPER = require("./src/util/redis_connection_wrapper");
 const serverHealthRouter = require("./src/routers/server_health");
 
 const { logger } = require("./src/util/logger");
@@ -21,12 +22,15 @@ if (process.env.NODE_ENV !== "test") app.use(morganLog);
 // Declare subrouters
 app.use("/server_health", serverHealthRouter);
 
-
 let server;
 if (process.env.NODE_ENV !== "test") {
-    server = app.listen(process.env.EXPRESS_PORT, async () => {
-        logger.info("Express server initiated on port " + process.env.EXPRESS_PORT + "...");
-    });
+    server = app.listen(
+        process.env.EXPRESS_PORT,
+        async () => {
+            await REDIS_WRAPPER.setClient();
+            logger.info("Express server initiated on port " + process.env.EXPRESS_PORT + "...");
+        }
+    );
 }
 
 
