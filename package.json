@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-context-store": "^0.3.2",
+    "morgan": "^1.10.0",
+    "redis": "^4.5.1",
+    "uuid": "^9.0.1",
+    "winston": "^3.8.2"
+  },
+  "name": "limit-handler",
+  "description": "This express server receives and processes request data from clients using the limit-handler-client npm package.",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willmarino/limit-handler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/willmarino/limit-handler/issues"
+  },
+  "homepage": "https://github.com/willmarino/limit-handler#readme"
+}
