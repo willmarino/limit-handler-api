@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  redis-lh:
+    container_name: redis-lh
+    image: redis:6.2
+    ports:
+      - '6389:6379'
+  db-lh:
+    container_name: mysql-lh
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - '127.0.0.1:7306:3306'
+    volumes:
+      - local_db_volume_lh:/var/lib/mysql
+    command: mysqld --sql_mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+
+
+volumes:
+  local_db_volume_lh:
