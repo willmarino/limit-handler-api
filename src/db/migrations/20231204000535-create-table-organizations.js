@@ -18,6 +18,11 @@ module.exports = {
                     allowNull: false,
                     field: "name"
                 },
+                apiKey: {
+                    type: Sequelize.DataTypes.STRING(36),
+                    allowNull: false,
+                    field: "api_key"
+                },
                 createdAt: {
                     type: Sequelize.DataTypes.DATE,
                     allowNull: false,
