@@ -22,12 +22,32 @@ module.exports = {
                     },
                     field: 'subscription_tier_id',
                 },
+                organizationId: {
+                    type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+                    allowNull: false,
+                    references: {
+                        model: 'organizations',
+                        key: 'id',
+                    },
+                    field: 'organization_id',
+                },
                 isActive: {
                     type: Sequelize.DataTypes.BOOLEAN,
                     allowNull: false,
                     field: "is_active"
+                },
+                createdAt: {
+                    type: Sequelize.DataTypes.DATE,
+                    allowNull: false,
+                    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+                    field: 'created_at',
+                },
+                updatedAt: {
+                    type: Sequelize.DataTypes.DATE,
+                    allowNull: true,
+                    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+                    field: 'updated_at',
                 }
-                
             }
         )
     },

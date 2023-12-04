@@ -4,7 +4,7 @@
 module.exports = {
     async up (queryInterface, Sequelize) {
         await queryInterface.createTable(
-            "subscription_tiers",
+            "memberships",
             {
                 id: {
                     type: Sequelize.DataTypes.INTEGER.UNSIGNED,
@@ -13,20 +13,21 @@ module.exports = {
                     allowNull: false,
                     field: "id"
                 },
-                name: {
-                    type: Sequelize.DataTypes.STRING(24),
+                organizationId: {
                     allowNull: false,
-                    field: "name"
+                    references: {
+                        model: "organizations",
+                        key: "id"
+                    },
+                    field: "organization_id"
                 },
-                cost: {
-                    type: Sequelize.DataTypes.DECIMAL(10, 2),
+                usersId: {
                     allowNull: false,
-                    field: "cost"
-                },
-                userLimitCount: {
-                    type: Sequelize.DataTypes.INTEGER,
-                    allowNull: false,
-                    field: "user_limit_count"
+                    references: {
+                        model: "users",
+                        key: "id"
+                    },
+                    field: "user_id"
                 },
                 createdAt: {
                     type: Sequelize.DataTypes.DATE,
@@ -45,6 +46,6 @@ module.exports = {
     },
 
     async down (queryInterface, Sequelize) {
-        await queryInterface.dropTable("subscription_tiers");
+        await queryInterface.dropTable("memberships");
     }
 };

@@ -18,13 +18,17 @@ module.exports = {
                     allowNull: false,
                     field: "name"
                 },
-                subscriptionId: {
+                createdAt: {
+                    type: Sequelize.DataTypes.DATE,
                     allowNull: false,
-                    references: {
-                        model: "subscriptions",
-                        key: "id"
-                    },
-                    field: "subscription_id"
+                    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+                    field: 'created_at',
+                },
+                updatedAt: {
+                    type: Sequelize.DataTypes.DATE,
+                    allowNull: true,
+                    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+                    field: 'updated_at',
                 }
             }
         )
@@ -34,5 +38,3 @@ module.exports = {
         await queryInterface.dropTable("organizations");
     }
 };
-
-// 20231204000535
