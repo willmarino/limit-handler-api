@@ -4,6 +4,7 @@ const context = require("express-context-store");
 
 const REDIS_WRAPPER = require("./src/util/redis_connection_wrapper");
 const serverHealthRouter = require("./src/routers/server_health");
+const organizationsRouter = require("./src/routers/organizations");
 
 const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
@@ -20,6 +21,7 @@ app.use(addRequestContext)
 if (process.env.NODE_ENV !== "test") app.use(morganLog);
 
 // Declare subrouters
+app.use("/organizations", organizationsRouter);
 app.use("/server_health", serverHealthRouter);
 
 let server;
