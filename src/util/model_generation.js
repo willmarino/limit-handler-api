@@ -1,24 +1,27 @@
 const fs = require("fs");
 const { Sequelize } = require("sequelize");
 const sequelizeAuto = require("sequelize-auto");
-const logger = require("./logger");
+const { logger } = require("./logger");
 
 // Connect to database, run auto-generation of models
 const run = async () => {
 
-    if (!fs.existsSync(`src/models`)) {
-        fs.mkdirSync(`src/models`);
+    logger.info("Ensuring directory structure...");
+    if (!fs.existsSync("src/db/models")) {
+        fs.mkdirSync("src/db/models");
     }
 
+    logger.info("Removing old model files...");
     const previouslyGeneratedModelFiles = fs.readdirSync(
-        `./src/models`
+        "./src/db/models"
     );
 
     for (const fileName of previouslyGeneratedModelFiles) {
         logger.info(`Removing models/${fileName}`);
-        fs.unlinkSync(`./src/models/${fileName}`);
+        fs.unlinkSync(`./src/db/models/${fileName}`);
     }
 
+    logger.info("Initializing db connection...");
     const sequelize = new Sequelize(
         process.env.DB_URL,
         {
@@ -26,7 +29,8 @@ const run = async () => {
                 max: 5,
                 min: 0,
                 idle: 10000,
-            }
+            },
+            logging: false
         }
     );
 
@@ -34,9 +38,10 @@ const run = async () => {
         await sequelize.authenticate();
         logger.info("Connection has been established successfully.");
     } catch (err) {
-        console.error(`Unable to connect to the database`);
+        logger.error(`Unable to connect to the database`);
     }
 
+    logger.info("Generating new models...");
     const options = {
         caseFile: "p",
         caseModel: "p",
@@ -45,11 +50,12 @@ const run = async () => {
         additional: {
             timestamps: false,
         },
-        directory: `src/models`,
+        directory: `src/db/models`,
     };
     const auto = new sequelizeAuto(sequelize, null, null, options);
     await auto.run();
-    logger.info("ENDING MODEL GENERATION --------------------------");
+    
+    logger.info("Model generation complete");
 };
 
 run();
