@@ -8,22 +8,31 @@ const organizationsRouter = require("./src/routers/organizations");
 
 const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
-const { addRequestContext } = require("./src/helpers/requests");
+const customMiddleware = require("./src/helpers/middleware");
 
-// Declare express app and function middleware
 const app = express();
+
+// 3rd party middleware
 app.set('etag', false);
 app.use(cors());
 app.use(express.json({ limit: Infinity }));
 app.use(express.urlencoded({ extended: false }));
 app.use(context());
-app.use(addRequestContext)
 if (process.env.NODE_ENV !== "test") app.use(morganLog);
+
+// Custom middelware - add in request logger and unique tag
+app.use(customMiddleware.addRequestContext);
+
 
 // Declare subrouters
 app.use("/organizations", organizationsRouter);
 app.use("/server_health", serverHealthRouter);
 
+
+// Custom middelware - catch-all error handler
+app.use(customMiddleware.errorHandler);
+
+// Initiate express server
 let server;
 if (process.env.NODE_ENV !== "test") {
     server = app.listen(
