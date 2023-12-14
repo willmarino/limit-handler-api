@@ -3,7 +3,7 @@ const { logger } = require("../util/logger");
 const responseTemplates = require("../util/response_templates");
 
 
-function addRequestContext(req, res, next){
+const addRequestContext = (req, res, next) => {
     const requestId = uuidv4();
     
     req.context.set("reqId", requestId);
@@ -19,7 +19,7 @@ function addRequestContext(req, res, next){
 };
 
 
-function errorHandler(err, req, res, next){
+const errorHandler = (err, req, res, next) => {
 
     req.logger.error({
         message: err.toString(),
@@ -37,7 +37,7 @@ function errorHandler(err, req, res, next){
                     : "System error, please contact an administrator",
                 err.statusCode || 500,
             )
-        )
+        );
 };
 
 
