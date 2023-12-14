@@ -1,14 +1,16 @@
 const { randomBytes, timingSafeEqual } = require("node:crypto");
+const ErrorWrapper = require("../util/error_wrapper");
 
 /**
  * @description Generate an API Key for a new organization
+ * @param reqLogger - Request logger
  */
-const generateApiKey = async () => {
+const generateApiKey = async (reqLogger) => {
     
     let apiKey;
     try{
         apiKey = await new Promise((resolve, reject) => {
-            randomBytes(32, (err, buf) => {
+            randomBytes(36, (err, buf) => {
                 if(err) reject(err);
                 resolve(buf.toString("hex"));
             })
