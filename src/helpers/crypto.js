@@ -16,7 +16,7 @@ const generateApiKey = async (reqLogger) => {
             })
         });
     }catch(err){
-        logger.info(err);
+        reqLogger.error("Failed to create api key", err);
         throw new ErrorWrapper("Failed to create api key", 500); // TODO ErrorWrapper should support passing in an error object
     }
     

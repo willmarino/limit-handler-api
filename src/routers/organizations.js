@@ -24,7 +24,7 @@ router.post("/create", async (req, res, next) => {
     try{
         const { name } = req.body;
 
-        const org = await organizationsService.createOrganization(name);
+        const org = await organizationsService.createOrganization(name, req.logger);
         res.status(200).send(
             responseTemplates.success( org, "Success creating organization" )
         );

@@ -1,6 +1,6 @@
 const { models } = require("../db/connection");
 const { logger } = require("../util/logger")
-const cryptoHelpers = require("../heleprs/crypto");
+const cryptoHelpers = require("../helpers/crypto");
 
 
 /**
@@ -16,10 +16,10 @@ const getOrganizations = async () => {
  * @description - Create a new organization given a name and a randomly generate api key.
  * @param name - Name of the new organization
  */
-const createOrganization = async (name) => {
+const createOrganization = async (name, reqLogger) => {
     
     // Generate new api key
-    const apiKey = await cryptoHelpers.generateApiKey();
+    const apiKey = await cryptoHelpers.generateApiKey(reqLogger);
 
     // Create organization db record
     const organization = await models.Organizations.create({
