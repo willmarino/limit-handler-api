@@ -21,7 +21,7 @@ const sequelize = new Sequelize(
     }
 );
 
-const models = require("../models/init-models").initModels(sequelize);
+const models = require("./models/init-models").initModels(sequelize);
 
 
 
