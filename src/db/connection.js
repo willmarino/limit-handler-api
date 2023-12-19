@@ -1,7 +1,6 @@
 const { Sequelize } = require("sequelize");
 
 let namespace;
-
 if (process.env.NODE_ENV === "test") {
     const cls = require("cls-hooked");
     namespace = cls.createNamespace("lh-tests");
