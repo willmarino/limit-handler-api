@@ -21,10 +21,13 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "db:seed": "npx sequelize-cli db:seed:all",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo:all",
     "gen-models": "node src/util/model_generation",
-    "test": "NODE_ENV=test mocha test --async-only --recursive --timeout 5000"
+    "pretest": "if [ $NODE_ENV = \"test\" ]; then echo \"Environment validated :)\"; else exit ; fi",
+    "test": "mocha test --async-only --recursive --timeout 5000",
+    "test:setup": " npm run db:migrate:undo && npm run db:migrate && npm run db:seed"
   },
   "repository": {
     "type": "git",
@@ -36,5 +39,10 @@
   "bugs": {
     "url": "https://github.com/willmarino/limit-handler/issues"
   },
-  "homepage": "https://github.com/willmarino/limit-handler#readme"
+  "homepage": "https://github.com/willmarino/limit-handler#readme",
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "chai-http": "^4.4.0",
+    "cls-hooked": "^4.2.2"
+  }
 }
