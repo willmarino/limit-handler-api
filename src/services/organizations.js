@@ -1,4 +1,4 @@
-const { models } = require("../db/connection");
+const { sequelize, models } = require("../db/connection");
 const { logger } = require("../util/logger")
 const cryptoHelpers = require("../helpers/crypto");
 
@@ -26,6 +26,8 @@ const createOrganization = async (name, reqLogger) => {
         apiKey,
         name
     });
+
+    await organization.reload();
 
     return organization;
 }

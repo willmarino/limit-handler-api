@@ -10,7 +10,7 @@ const generateApiKey = async (reqLogger) => {
     let apiKey;
     try{
         apiKey = await new Promise((resolve, reject) => {
-            randomBytes(36, (err, buf) => {
+            randomBytes(18, (err, buf) => {
                 if(err) reject(err);
                 resolve(buf.toString("hex"));
             })

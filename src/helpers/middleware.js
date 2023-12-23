@@ -24,7 +24,6 @@ const errorHandler = (err, req, res, next) => {
     req.logger.error({
         message: err.toString(),
         stack: err.stack,
-        statusCode: err.statusCode || 500
     });
     
     res
@@ -35,7 +34,6 @@ const errorHandler = (err, req, res, next) => {
                 (err.statusCode === 400)
                     ? err.message
                     : "System error, please contact an administrator",
-                err.statusCode || 500,
             )
         );
 };

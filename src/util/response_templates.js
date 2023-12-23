@@ -5,20 +5,18 @@
  */
 
 
-const success = (data, message, statusCode) => {
+const success = (data, message) => {
     return {
         data: data || {},
-        message: message || "Request Successful",
-        statusCode: statusCode || 200
+        message: message || "Request Successful"
     }
 };
 
 
-const error = (data, message, statusCode) => {
+const error = (data, message) => {
     return {
         data: data || {},
-        message: message || "Request Failed",
-        statusCode: statusCode || 500
+        message: message || "Request Failed"
     }
 };
 
