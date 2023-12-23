@@ -28,6 +28,11 @@ module.exports = {
                     allowNull: false,
                     field: "user_limit_count"
                 },
+                callLimit: {
+                    type: Sequelize.DataTypes.INTEGER,
+                    allowNull: false,
+                    field: "call_limit"
+                },
                 createdAt: {
                     type: Sequelize.DataTypes.DATE,
                     allowNull: false,

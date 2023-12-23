@@ -1,6 +1,5 @@
 const { chai, it, should } = require("./setup");
 const { app } = require("../app");
-// const { sequelize, models } = require("")
 
 describe("/organizations", () => {
     it("should return organization objects", async () => {

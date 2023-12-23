@@ -34,4 +34,12 @@ router.post("/create", async (req, res, next) => {
 });
 
 
+/**
+ * @description Get route for individual organizations.
+ * TODO: Build out subscriptions, subscription_tiers, memberships, etc before writing this
+ * We will want to return all this information along with the individual organization
+ */
+
+
+
 module.exports = router;
