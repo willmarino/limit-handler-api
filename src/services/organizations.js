@@ -9,7 +9,7 @@ const cryptoHelpers = require("../helpers/crypto");
 const getOrganizations = async () => {
     const organizations = await models.Organizations.findAll();
     return organizations;
-}
+};
 
 
 /**
@@ -30,7 +30,9 @@ const createOrganization = async (name, reqLogger) => {
     await organization.reload();
 
     return organization;
-}
+};
+
+
 
 
 
