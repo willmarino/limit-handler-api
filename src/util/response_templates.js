@@ -1,24 +1,22 @@
 /**
  * Just some helper functions which make sending data back to clients a bit simpler.
- * response, message, and statusCode parameters have default values which can all be overwritten.
+ * data, message, and statusCode parameters have default values which can all be overwritten.
  * One for success, one for error.
  */
 
 
-const success = (response, message, statusCode) => {
+const success = (data, message) => {
     return {
-        response: response || {},
-        message: message || "Request Successful",
-        statusCode: statusCode || 200
+        data: data || {},
+        message: message || "Request Successful"
     }
 };
 
 
-const error = (response, message, statusCode) => {
+const error = (data, message) => {
     return {
-        response: response || {},
-        message: message || "Request Failed",
-        statusCode: statusCode || 500
+        data: data || {},
+        message: message || "Request Failed"
     }
 };
 
