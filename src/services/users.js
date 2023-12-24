@@ -2,8 +2,8 @@ const { sequelize, models } = require("../db/connection");
 const { logger } = require("../util/logger");
 
 
-const getUser = async (userId) => {
-    const user = await models.Users.findOne({ id: userId });
+const getUser = async (id) => {
+    const user = await models.Users.findOne({ where: { id } });
     return user;
 }
 

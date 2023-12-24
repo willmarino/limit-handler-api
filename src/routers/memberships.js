@@ -1,17 +1,17 @@
 const router = require("express").Router();
-const usersService = require("../services/users");
+const membershipsService = require("../services/memberships");
 const responseTemplates = require("../util/response_templates");
 
 
 /**
- * @description Users show route.
+ * @description Memberships show route
  */
 router.get("/:id", async (req, res, next) => {
     try{
         const { id } = req.params;
-        const usersResponse = await usersService.getUser(id);
+        const membership = await membershipsService.getMembership(id);
         res.status(200).send(
-            responseTemplates.success(usersResponse, "Successfully fetched user information")
+            responseTemplates.success(membership, "Success fetching membership")
         );
     }catch(err){
         next(err);
