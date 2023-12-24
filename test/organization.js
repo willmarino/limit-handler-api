@@ -11,9 +11,20 @@ describe("/organizations", () => {
         organizationsResponse.status.should.eq(200);
         organizationsResponse.body.data.length.should.eq(2);
         
-        const [ firstOrg, secondOrg ] = organizationsResponse.body.data;
-        firstOrg.name.should.eq("test org 1");
-        secondOrg.name.should.eq("test org 2");
+        const [ orgOne, orgTwo ] = organizationsResponse.body.data;
+        
+        const { name: orgOneName, memberships: orgOneMemberships } = orgOne;
+        const { name: orgTwoName, memberships: orgTwoMemberships } = orgTwo;
+        
+        orgOneName.should.eq("test org 1");
+        orgTwoName.should.eq("test org 2");
+
+        orgOneMemberships.length.should.eq(3);
+        orgOneMemberships.forEach((mem) => should.exist(mem.user));
+
+        orgTwoMemberships.length.should.eq(2);
+        orgTwoMemberships.forEach((mem) => should.exist(mem.user));
+        
 
     })
 });

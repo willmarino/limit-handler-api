@@ -6,7 +6,20 @@ const cryptoHelpers = require("../helpers/crypto");
  * @description - Fetch all existing organizations.
  */
 const getOrganizations = async () => {
-    const organizations = await models.Organizations.findAll();
+    const organizations = await models.Organizations.findAll({
+        include: [
+            {
+                model: models.Memberships,
+                as: "memberships",
+                include: [
+                    {
+                        model: models.Users,
+                        as: "user"
+                    }
+                ]
+            }
+        ]
+    });
     return organizations;
 };
 
