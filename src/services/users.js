@@ -1,4 +1,4 @@
-const { sequelize, models } = require("../db/connection");
+const { models } = require("../db/connection");
 const { logger } = require("../util/logger");
 
 

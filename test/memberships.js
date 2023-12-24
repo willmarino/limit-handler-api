@@ -2,7 +2,7 @@ const { chai, it, should } = require("./setup");
 const { app } = require("../app");
 
 
-describe("/memberships", () => {
+describe("/memberships/:id", () => {
     it("should fetch a membership", async () => {
         const membershipResponse = await chai.request(app)
             .get("/memberships/2")

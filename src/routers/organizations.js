@@ -2,14 +2,16 @@ const router = require("express").Router();
 const organizationsService = require("../services/organizations");
 const responseTemplates = require("../util/response_templates");
 
+
 /**
- * @description Index route for organizations. Not usable by users.
+ * @description Show route for organizations.
  */
-router.get("/", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
     try{
-        const orgArr = await organizationsService.getOrganizations();
+        const { id } = req.params;
+        const organization = await organizationsService.getOrganization(id);
         res.status(200).send(
-            responseTemplates.success( orgArr, "Success fetching organizations" )
+            responseTemplates.success( organization, "Success fetching single organization" )
         );
     }catch(err){
         next(err);
