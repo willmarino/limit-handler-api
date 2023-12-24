@@ -2,8 +2,8 @@ const { chai, it, should } = require("./setup");
 const { app } = require("../app");
 
 
-describe("/users", () => {
-    it("fetches users", async () => {
+describe("/users/:id", () => {
+    it("fetches a user", async () => {
         const subscriptionsResponse = await chai.request(app)
             .get("/users/1")
             .send();
