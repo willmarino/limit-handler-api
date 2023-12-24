@@ -1,12 +1,12 @@
 const { models } = require("../db/connection");
 const cryptoHelpers = require("../helpers/crypto");
 
-
 /**
- * @description - Fetch all existing organizations.
+ * @description Get organization by id.
  */
-const getOrganizations = async () => {
-    const organizations = await models.Organizations.findAll({
+const getOrganization = async (id) => {
+    const organization = await models.Organizations.findOne({
+        where: { id },
         include: [
             {
                 model: models.Memberships,
@@ -20,8 +20,8 @@ const getOrganizations = async () => {
             }
         ]
     });
-    return organizations;
-};
+    return organization;
+}
 
 
 /**
@@ -49,6 +49,6 @@ const createOrganization = async (name, reqLogger) => {
 
 
 module.exports = {
-    getOrganizations,
+    getOrganization,
     createOrganization
 }
