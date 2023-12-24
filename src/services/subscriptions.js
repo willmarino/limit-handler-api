@@ -1,5 +1,5 @@
 const { sequelize, models } = require("../db/connection");
-const { logger } = require("../util/logger")
+const { logger } = require("../util/logger");
 
 
 /**
