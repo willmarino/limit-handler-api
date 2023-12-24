@@ -1,5 +1,4 @@
-const { sequelize, models } = require("../db/connection");
-const { logger } = require("../util/logger")
+const { models } = require("../db/connection");
 const cryptoHelpers = require("../helpers/crypto");
 
 

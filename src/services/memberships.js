@@ -1,5 +1,4 @@
 const { models } = require("../db/connection");
-const { logger } = require("../util/logger");
 
 
 const getMembership = async (id) => {
