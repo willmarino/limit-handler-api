@@ -4,7 +4,7 @@
 module.exports = {
     async up (queryInterface, Sequelize) {
         await queryInterface.createTable(
-            "sessions",
+            "time_frames",
             {
                 id: {
                     type: Sequelize.DataTypes.INTEGER.UNSIGNED,
@@ -13,10 +13,15 @@ module.exports = {
                     allowNull: false,
                     field: "id"
                 },
-                userId: {
+                name: {
+                    type: Sequelize.DataTypes.STRING(36),
+                    allowNull: false,
+                    field: "name"
+                },
+                ms: {
                     type: Sequelize.DataTypes.INTEGER.UNSIGNED,
                     allowNull: false,
-                    field: "user_id"
+                    field: "ms"
                 },
                 createdAt: {
                     type: Sequelize.DataTypes.DATE,
@@ -35,6 +40,6 @@ module.exports = {
     },
 
     async down (queryInterface, Sequelize) {
-        await queryInterface.dropTable("sessions");
+        await queryInterface.dropTable("time_frames");
     }
 };
