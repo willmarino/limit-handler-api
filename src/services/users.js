@@ -31,7 +31,6 @@ const getUser = async (id) => {
         include: {
             model: models.Memberships,
             as: "memberships",
-            where: { userId: { [Op.ne]: id } },
             include: [
                 { model: models.UserRoles, as: "userRole" },
                 { model: models.Users, as: "user" }
@@ -39,21 +38,26 @@ const getUser = async (id) => {
         }
     });
 
+    // console.log(JSON.stringify(organizationsAndTeammates, null, 4));
+
     // Compile results from the two queries into an intuitive JSON
     const userInfo = {
         user: {
-            userName: userWithMemberships.userName,
+            name: userWithMemberships.userName,
             createdAt: userWithMemberships.createdAt
         },
         organizations: organizationsAndTeammates.map((org) => {
             return {
                 name: org.name,
-                members: org.memberships.map((m) => {
-                    return {
-                        userName: m.user.userName,
-                        userRole: m.userRole.role
-                    }
-                })
+                createdAt: org.createdAt,
+                members: org.memberships
+                    .sort((a, b) => a.id - b.id)
+                    .map((m) => {
+                        return {
+                            name: m.user.userName,
+                            role: m.userRole.role
+                        }
+                    })
             }
         }),
     };
