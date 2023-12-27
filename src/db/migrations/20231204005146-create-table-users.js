@@ -13,10 +13,10 @@ module.exports = {
                     allowNull: false,
                     field: "id"
                 },
-                username: {
+                userName: {
                     type: Sequelize.DataTypes.STRING(24),
                     allowNull: false,
-                    field: "username"
+                    field: "user_name"
                 },
                 password: {
                     type: Sequelize.DataTypes.STRING(24),

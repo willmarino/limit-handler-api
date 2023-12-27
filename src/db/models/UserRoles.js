@@ -1,20 +1,16 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Users', {
+  return sequelize.define('UserRoles', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       primaryKey: true
     },
-    userName: {
-      type: DataTypes.STRING(24),
+    role: {
+      type: DataTypes.STRING(12),
       allowNull: false,
-      field: 'user_name'
-    },
-    password: {
-      type: DataTypes.STRING(24),
-      allowNull: false
+      defaultValue: "member"
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -30,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'users',
+    tableName: 'user_roles',
     timestamps: false,
     indexes: [
       {

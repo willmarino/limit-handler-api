@@ -20,6 +20,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       field: 'user_limit_count'
     },
+    callLimit: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'call_limit'
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
