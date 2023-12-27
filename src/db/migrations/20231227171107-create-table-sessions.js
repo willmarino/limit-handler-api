@@ -4,7 +4,7 @@
 module.exports = {
     async up (queryInterface, Sequelize) {
         await queryInterface.createTable(
-            "users",
+            "sessions",
             {
                 id: {
                     type: Sequelize.DataTypes.INTEGER.UNSIGNED,
@@ -13,20 +13,10 @@ module.exports = {
                     allowNull: false,
                     field: "id"
                 },
-                userName: {
-                    type: Sequelize.DataTypes.STRING(24),
+                userId: {
+                    type: Sequelize.DataTypes.INTEGER.UNSIGNED,
                     allowNull: false,
-                    field: "user_name"
-                },
-                email: {
-                    type: Sequelize.DataTypes.STRING(36),
-                    allowNull: false,
-                    field: "email"
-                },
-                password: {
-                    type: Sequelize.DataTypes.STRING(64),
-                    allowNull: false,
-                    field: "password"
+                    field: "user_id"
                 },
                 createdAt: {
                     type: Sequelize.DataTypes.DATE,
@@ -42,16 +32,9 @@ module.exports = {
                 }
             }
         )
-
-        // await queryInterface.addIndex(
-        //     "users",
-        //     {
-        //         fields: ["email"],
-        //     }
-        // )
     },
 
     async down (queryInterface, Sequelize) {
-        await queryInterface.dropTable("users");
+        await queryInterface.bulkDelete("sessions");
     }
 };

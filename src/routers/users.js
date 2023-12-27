@@ -19,5 +19,22 @@ router.get("/:id", async (req, res, next) => {
     }
 });
 
+/**
+ * @description User registration route
+ */
+router.post("/create", async (req, res, next) => {
+    try{
+        const { userName, email, passwordInput } = req.body;
+        const registrationResponse = await usersService.registerUser(userName, email, passwordInput);
+        
+        res.status(200).send(
+            responseTemplates.success(registrationResponse, "User registered successfully")
+        );
+
+    }catch(err){
+        next(err);
+    }
+});
+
 
 module.exports = router;

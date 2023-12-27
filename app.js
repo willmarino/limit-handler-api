@@ -9,7 +9,7 @@ const subTiersRouter = require("./src/routers/subscription_tiers");
 const subscriptionsRouter = require("./src/routers/subscriptions");
 const usersRouter = require("./src/routers/users");
 const membershipsRouter = require("./src/routers/memberships");
-const authRouter = require("./src/routers/auth");
+const sessionsRouter = require("./src/routers/sessions");
 
 const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
@@ -31,12 +31,12 @@ app.use(customMiddleware.addRequestContext);
 
 
 // Declare subrouters
-app.use("/auth", authRouter);
 app.use("/organizations", organizationsRouter);
 app.use("/subscription_tiers", subTiersRouter);
 app.use("/subscriptions", subscriptionsRouter);
 app.use("/users", usersRouter);
 app.use("/memberships", membershipsRouter);
+app.use("/sessions", sessionsRouter);
 app.use("/server_health", serverHealthRouter);
 
 
