@@ -32,6 +32,11 @@ module.exports = {
                         },
                         field: "user_id"
                     },
+                    role: {
+                        type: Sequelize.DataTypes.STRING(12),
+                        allowNull: false,
+                        defaultValue: "member"
+                    },
                     createdAt: {
                         type: Sequelize.DataTypes.DATE,
                         allowNull: false,

@@ -12,6 +12,7 @@ const usersRouter = require("./src/routers/users");
 const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
 const customMiddleware = require("./src/helpers/middleware");
+require("./src/helpers/array_extensions");
 
 const app = express();
 
