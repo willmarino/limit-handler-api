@@ -8,15 +8,22 @@ const bcrypt = require("bcrypt");
  * Returns a hashed password.
  * @param passwordInput - String entered by user representing their desired password
  */
-const hashPassword = async (passwordInput) => {
+const createPasswordHash = async (passwordInput) => {
     const hashedPassword = await bcrypt.hash(passwordInput, 10);
-    return hashedPassword
+    return hashedPassword;
 };
 
-
+/**
+ * @description Wrapper func for bcrypt compare
+ */
+const compare = async (passwordInput, hashedPassword) => {
+    const passwordMatches = await bcrypt.compare(passwordInput, hashedPassword);
+    return passwordMatches;
+}
 
 
 
 module.exports = {
-    hashPassword
+    createPasswordHash,
+    compare
 }

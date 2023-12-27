@@ -1,5 +1,5 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const bcryptHelpers = require("../helpers/bcrypt");
+const jwtHelpers = require("../helpers/jwt");
 const { models } = require("../db/connection");
 const ErrorWrapper = require("../util/error_wrapper");
 
@@ -15,17 +15,16 @@ const login = async (email, passwordInput) => {
     if(!user)
         throw new ErrorWrapper("Unable to validate credentials", 400);
 
-    const passwordMatches = await bcrypt.compare(passwordInput, user.password);
+    // const passwordMatches = await bcrypt.compare(passwordInput, user.password);
+    const passwordMatches = await bcryptHelpers.compare(passwordInput, user.password);
     if(!passwordMatches)
         throw new ErrorWrapper("Unable to validate credentials", 400);
 
-    const token = jwt.sign(
-        { sub: user.email },
-        process.env.JWT_SECRET,
-        {
-            expiresIn: "6h"
-        }
-    );
+    await models.Sessions.create({
+        userId: user.id
+    });
+
+    const token = jwtHelpers.createNewJWT(user.email);
 
     return { token };
 };

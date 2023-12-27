@@ -1,8 +1,8 @@
 const { Op } = require("sequelize");
-const bcrypt = require("bcrypt");
 const BadWordsFilter = require("bad-words");
 const badWordsFilter = new BadWordsFilter();
 const emailValidator = require("email-validator");
+const bcryptHelpers = require("../helpers/bcrypt");
 const { models } = require("../db/connection");
 const ErrorWrapper = require("../util/error_wrapper");
 
@@ -124,8 +124,7 @@ const registerUser = async (userName, email, passwordInput) => {
 
     
     // All validations have passed, created new user
-    // const hashedPassword = await bcrypt.hash(passwordInput, 10);
-    const hashedPassword = await bcrypt.hash(passwordInput, 10);
+    const hashedPassword = await bcryptHelpers.createPasswordHash(passwordInput);
 
     const user = await models.Users.create({
         userName,
