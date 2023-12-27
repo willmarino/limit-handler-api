@@ -32,6 +32,15 @@ module.exports = {
                         },
                         field: "user_id"
                     },
+                    userRoleId: {
+                        type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+                        allowNull: false,
+                        references: {
+                            model: "user_roles",
+                            key: "id"
+                        },
+                        field: "user_role_id"
+                    },
                     createdAt: {
                         type: Sequelize.DataTypes.DATE,
                         allowNull: false,

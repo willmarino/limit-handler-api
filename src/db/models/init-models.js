@@ -4,6 +4,7 @@ var _Memberships = require("./Memberships");
 var _Organizations = require("./Organizations");
 var _SubscriptionTiers = require("./SubscriptionTiers");
 var _Subscriptions = require("./Subscriptions");
+var _UserRoles = require("./UserRoles");
 var _Users = require("./Users");
 
 function initModels(sequelize) {
@@ -12,6 +13,7 @@ function initModels(sequelize) {
   var Organizations = _Organizations(sequelize, DataTypes);
   var SubscriptionTiers = _SubscriptionTiers(sequelize, DataTypes);
   var Subscriptions = _Subscriptions(sequelize, DataTypes);
+  var UserRoles = _UserRoles(sequelize, DataTypes);
   var Users = _Users(sequelize, DataTypes);
 
   Memberships.belongsTo(Organizations, { as: "organization", foreignKey: "organizationId"});
@@ -20,6 +22,8 @@ function initModels(sequelize) {
   Organizations.hasMany(Subscriptions, { as: "subscriptions", foreignKey: "organizationId"});
   Subscriptions.belongsTo(SubscriptionTiers, { as: "subscriptionTier", foreignKey: "subscriptionTierId"});
   SubscriptionTiers.hasMany(Subscriptions, { as: "subscriptions", foreignKey: "subscriptionTierId"});
+  Memberships.belongsTo(UserRoles, { as: "userRole", foreignKey: "userRoleId"});
+  UserRoles.hasMany(Memberships, { as: "memberships", foreignKey: "userRoleId"});
   Memberships.belongsTo(Users, { as: "user", foreignKey: "userId"});
   Users.hasMany(Memberships, { as: "memberships", foreignKey: "userId"});
 
@@ -29,6 +33,7 @@ function initModels(sequelize) {
     Organizations,
     SubscriptionTiers,
     Subscriptions,
+    UserRoles,
     Users,
   };
 }

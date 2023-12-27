@@ -4,7 +4,7 @@
 module.exports = {
     async up (queryInterface, Sequelize) {
         await queryInterface.createTable(
-            "users",
+            "user_roles",
             {
                 id: {
                     type: Sequelize.DataTypes.INTEGER.UNSIGNED,
@@ -13,15 +13,11 @@ module.exports = {
                     allowNull: false,
                     field: "id"
                 },
-                userName: {
-                    type: Sequelize.DataTypes.STRING(24),
+                role: {
+                    type: Sequelize.DataTypes.STRING(12),
                     allowNull: false,
-                    field: "user_name"
-                },
-                password: {
-                    type: Sequelize.DataTypes.STRING(24),
-                    allowNull: false,
-                    field: "password"
+                    defaultValue: "member",
+                    field: "role"
                 },
                 createdAt: {
                     type: Sequelize.DataTypes.DATE,
@@ -40,6 +36,6 @@ module.exports = {
     },
 
     async down (queryInterface, Sequelize) {
-        await queryInterface.dropTable("users");
+        await queryInterface.bulkDelete("user_roles");
     }
 };

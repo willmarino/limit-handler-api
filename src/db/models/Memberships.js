@@ -25,6 +25,15 @@ module.exports = function(sequelize, DataTypes) {
       },
       field: 'user_id'
     },
+    userRoleId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: {
+        model: 'user_roles',
+        key: 'id'
+      },
+      field: 'user_role_id'
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -62,6 +71,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "user_id" },
+        ]
+      },
+      {
+        name: "user_role_id",
+        using: "BTREE",
+        fields: [
+          { name: "user_role_id" },
         ]
       },
     ]

@@ -7,11 +7,11 @@ module.exports = {
         await queryInterface.bulkInsert(
             "users",
             [
-                { id: 1, username: "bob", password: "placeholder" },
-                { id: 2, username: "dan", password: "placeholder" },
-                { id: 3, username: "greg", password: "placeholder" },
-                { id: 4, username: "jack", password: "placeholder" },
-                { id: 5, username: "bill", password: "placeholder" }
+                { id: 1, user_name: "bob", password: "placeholder" },
+                { id: 2, user_name: "dan", password: "placeholder" },
+                { id: 3, user_name: "greg", password: "placeholder" },
+                { id: 4, user_name: "jack", password: "placeholder" },
+                { id: 5, user_name: "bill", password: "placeholder" }
             ]
         )
     },
