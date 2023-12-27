@@ -38,12 +38,11 @@ const getUser = async (id) => {
         }
     });
 
-    // console.log(JSON.stringify(organizationsAndTeammates, null, 4));
-
     // Compile results from the two queries into an intuitive JSON
     const userInfo = {
         user: {
             name: userWithMemberships.userName,
+            email: userWithMemberships.email,
             createdAt: userWithMemberships.createdAt
         },
         organizations: organizationsAndTeammates.map((org) => {
@@ -55,6 +54,7 @@ const getUser = async (id) => {
                     .map((m) => {
                         return {
                             name: m.user.userName,
+                            email: m.user.email,
                             role: m.userRole.role
                         }
                     })

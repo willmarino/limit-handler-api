@@ -18,8 +18,13 @@ module.exports = {
                     allowNull: false,
                     field: "user_name"
                 },
+                email: {
+                    type: Sequelize.DataTypes.STRING(36),
+                    allowNull: false,
+                    field: "email"
+                },
                 password: {
-                    type: Sequelize.DataTypes.STRING(24),
+                    type: Sequelize.DataTypes.STRING(64),
                     allowNull: false,
                     field: "password"
                 },

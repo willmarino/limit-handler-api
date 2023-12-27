@@ -12,8 +12,12 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       field: 'user_name'
     },
+    email: {
+      type: DataTypes.STRING(36),
+      allowNull: false
+    },
     password: {
-      type: DataTypes.STRING(24),
+      type: DataTypes.STRING(64),
       allowNull: false
     },
     createdAt: {
