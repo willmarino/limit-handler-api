@@ -3,6 +3,7 @@ const REDIS_WRAPPER = require("../src/util/redis_connection_wrapper");
 const { sequelize, namespace } = require("../src/db/connection");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const jwtHelpers = require("../src/helpers/jwt");
 
 chai.use(chaiHttp);
 
@@ -58,5 +59,6 @@ function it(title, fn) {
 module.exports = {
     chai,
     it,
-    should: chai.should()
+    should: chai.should(),
+    jwtHelpers
 };

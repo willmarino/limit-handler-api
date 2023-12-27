@@ -2,6 +2,7 @@ var DataTypes = require("sequelize").DataTypes;
 var _SequelizeMeta = require("./SequelizeMeta");
 var _Memberships = require("./Memberships");
 var _Organizations = require("./Organizations");
+var _Sessions = require("./Sessions");
 var _SubscriptionTiers = require("./SubscriptionTiers");
 var _Subscriptions = require("./Subscriptions");
 var _UserRoles = require("./UserRoles");
@@ -11,6 +12,7 @@ function initModels(sequelize) {
   var SequelizeMeta = _SequelizeMeta(sequelize, DataTypes);
   var Memberships = _Memberships(sequelize, DataTypes);
   var Organizations = _Organizations(sequelize, DataTypes);
+  var Sessions = _Sessions(sequelize, DataTypes);
   var SubscriptionTiers = _SubscriptionTiers(sequelize, DataTypes);
   var Subscriptions = _Subscriptions(sequelize, DataTypes);
   var UserRoles = _UserRoles(sequelize, DataTypes);
@@ -31,6 +33,7 @@ function initModels(sequelize) {
     SequelizeMeta,
     Memberships,
     Organizations,
+    Sessions,
     SubscriptionTiers,
     Subscriptions,
     UserRoles,

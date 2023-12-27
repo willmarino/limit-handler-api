@@ -1,24 +1,16 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Users', {
+  return sequelize.define('Sessions', {
     id: {
       autoIncrement: true,
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       primaryKey: true
     },
-    userName: {
-      type: DataTypes.STRING(24),
+    userId: {
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
-      field: 'user_name'
-    },
-    email: {
-      type: DataTypes.STRING(36),
-      allowNull: false
-    },
-    password: {
-      type: DataTypes.STRING(64),
-      allowNull: false
+      field: 'user_id'
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -34,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'users',
+    tableName: 'sessions',
     timestamps: false,
     indexes: [
       {

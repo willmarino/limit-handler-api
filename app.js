@@ -9,6 +9,7 @@ const subTiersRouter = require("./src/routers/subscription_tiers");
 const subscriptionsRouter = require("./src/routers/subscriptions");
 const usersRouter = require("./src/routers/users");
 const membershipsRouter = require("./src/routers/memberships");
+const sessionsRouter = require("./src/routers/sessions");
 
 const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV !== "test") app.use(morganLog);
 
 // Custom middelware - add in request logger and unique tag
 app.use(customMiddleware.addRequestContext);
+app.use(customMiddleware.authenticateSiteRequest);
 
 
 // Declare subrouters
@@ -35,6 +37,7 @@ app.use("/subscription_tiers", subTiersRouter);
 app.use("/subscriptions", subscriptionsRouter);
 app.use("/users", usersRouter);
 app.use("/memberships", membershipsRouter);
+app.use("/sessions", sessionsRouter);
 app.use("/server_health", serverHealthRouter);
 
 

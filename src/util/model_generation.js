@@ -53,7 +53,11 @@ const run = async () => {
         directory: `src/db/models`,
     };
     const auto = new sequelizeAuto(sequelize, null, null, options);
-    await auto.run();
+    try{
+        await auto.run();
+    }catch(err){
+        logger.error(err);
+    }
     
     logger.info("Model generation complete");
 };
