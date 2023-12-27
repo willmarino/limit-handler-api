@@ -1,15 +1,27 @@
-const { sequelize, models } = require("../db/connection");
-const { logger } = require("../util/logger")
+const { models } = require("../db/connection");
 const cryptoHelpers = require("../helpers/crypto");
 
-
 /**
- * @description - Fetch all existing organizations.
+ * @description Get organization by id.
  */
-const getOrganizations = async () => {
-    const organizations = await models.Organizations.findAll();
-    return organizations;
-};
+const getOrganization = async (id) => {
+    const organization = await models.Organizations.findOne({
+        where: { id },
+        include: [
+            {
+                model: models.Memberships,
+                as: "memberships",
+                include: [
+                    {
+                        model: models.Users,
+                        as: "user"
+                    }
+                ]
+            }
+        ]
+    });
+    return organization;
+}
 
 
 /**
@@ -37,6 +49,6 @@ const createOrganization = async (name, reqLogger) => {
 
 
 module.exports = {
-    getOrganizations,
+    getOrganization,
     createOrganization
 }

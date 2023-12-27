@@ -1,20 +1,18 @@
 const { chai, it, should } = require("./setup");
 const { app } = require("../app");
 
-describe("/organizations", () => {
+describe("/organizations/:id", () => {
     it("should return organization objects", async () => {
         const organizationsResponse = await chai.request(app)
-            .get("/organizations")
+            .get("/organizations/1")
             .send();
 
-            
         organizationsResponse.status.should.eq(200);
-        organizationsResponse.body.data.length.should.eq(2);
-        
-        const [ firstOrg, secondOrg ] = organizationsResponse.body.data;
-        firstOrg.name.should.eq("test org 1");
-        secondOrg.name.should.eq("test org 2");
 
+        const org = organizationsResponse.body.data;
+        org.name.should.eq("test org 1");
+        org.memberships.length.should.eq(3);
+        org.memberships.forEach((mem) => should.exist(mem.user));
     })
 });
 
