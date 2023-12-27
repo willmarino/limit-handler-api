@@ -24,7 +24,7 @@ const login = async (email, passwordInput) => {
         userId: user.id
     });
 
-    const token = jwtHelpers.createNewJWT(user.email);
+    const token = jwtHelpers.create(user.email);
 
     return { token };
 };

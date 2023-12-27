@@ -1,8 +1,14 @@
 const { v4: uuidv4 } = require('uuid');
-const { logger } = require("../util/logger");
+const { models } = require("../db/connection");
+const jwtHelpers = require("./jwt");
+const ErrorWrapper = require("../util/error_wrapper");
 const responseTemplates = require("../util/response_templates");
+const { logger } = require("../util/logger");
 
 
+/**
+ * @description Add information to req.context which will help debugging and logging.
+ */
 const addRequestContext = (req, res, next) => {
     const requestId = uuidv4();
     
@@ -19,6 +25,47 @@ const addRequestContext = (req, res, next) => {
 };
 
 
+/**
+ * @description Check JWT's on incoming requests IF the user is using the website (not the actual rate limiting service).
+ */
+const authenticateSiteRequest = async (req, res, next) => {
+
+    const routeRequiresJWTAuth = ![ "/users/create", "/sessions/create" ]
+        .some((p) => req.path.startsWith(p));
+
+    if(!routeRequiresJWTAuth){
+        next();
+
+    }else{
+        const token = req.headers.token;
+        if(!token){
+            throw new ErrorWrapper("Missing user authentication", 400);
+        }
+
+        let jwtEmail;
+        try{
+            const verifiedTokenData = jwtHelpers.verify(token);
+            jwtEmail = verifiedTokenData.sub;
+        }catch(err){
+            throw new ErrorWrapper("Unable to authenticate user", 500);
+        }
+
+        const user = await models.Users.findOne({ where: { email: jwtEmail } });
+        if(!user)
+            throw new ErrorWrapper("Invalid user authentication", 400);
+
+        req.context.set("user", user);
+        next();
+    }
+
+
+}
+
+
+/**
+ * @description Catch errors thrown in previous middlewares,
+ * send responses with appropriate information.
+ */
 const errorHandler = (err, req, res, next) => {
 
     req.logger.error({
@@ -41,5 +88,6 @@ const errorHandler = (err, req, res, next) => {
 
 module.exports = {
     addRequestContext,
+    authenticateSiteRequest,
     errorHandler
 }

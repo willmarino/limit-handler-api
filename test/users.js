@@ -1,11 +1,12 @@
-const { chai, it, should } = require("./setup");
+const { chai, it, should, jwtHelpers } = require("./setup");
 const { app } = require("../app");
 
 
-describe("/users/:id", () => {
+describe("/users", () => {
     it("fetches a user", async () => {
         const subscriptionsResponse = await chai.request(app)
-            .get("/users/1")
+            .get("/users")
+            .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send();
         
         subscriptionsResponse.status.should.eq(200);
