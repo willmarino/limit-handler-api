@@ -8,8 +8,9 @@ const responseTemplates = require("../util/response_templates");
  */
 router.get("/:id", async (req, res, next) => {
     try{
-        const { id } = req.params;
-        const organization = await organizationsService.getOrganization(id);
+        const { id: orgId } = req.params;
+        const userId = req.context.get("user").id;
+        const organization = await organizationsService.getOrganization(orgId, userId);
         res.status(200).send(
             responseTemplates.success( organization, "Success fetching single organization" )
         );

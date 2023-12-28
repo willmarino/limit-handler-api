@@ -71,7 +71,7 @@ const getUser = async (id) => {
                 name: org.name,
                 createdAt: org.createdAt,
                 members: org.memberships
-                    .sort((a, b) => a.id - b.id)
+                    .sort((a, b) => a.userRoleId - b.userRoleId)
                     .map((m) => {
                         return {
                             name: m.user.userName,
