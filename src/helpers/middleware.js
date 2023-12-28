@@ -30,8 +30,13 @@ const addRequestContext = (req, res, next) => {
  */
 const authenticateSiteRequest = async (req, res, next) => {
 
-    const routeRequiresJWTAuth = ![ "/users/create", "/sessions/create" ]
-        .some((p) => req.path.startsWith(p));
+    const authExemptRouteMethodPairs = [
+        ["POST", "/users"],
+        ["POST", "/sessions"]
+    ]
+
+    const routeRequiresJWTAuth = !authExemptRouteMethodPairs
+        .some((rmp) => req.method === rmp[0] && req.path.startsWith(rmp[1]))
 
     if(!routeRequiresJWTAuth){
         next();

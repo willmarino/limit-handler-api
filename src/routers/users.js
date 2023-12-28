@@ -21,7 +21,7 @@ router.get("/", async (req, res, next) => {
 /**
  * @description User registration route
  */
-router.post("/create", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
     try{
         const { userName, email, passwordInput } = req.body;
         const registrationResponse = await usersService.registerUser(userName, email, passwordInput);

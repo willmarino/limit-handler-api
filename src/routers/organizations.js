@@ -23,7 +23,7 @@ router.get("/:id", async (req, res, next) => {
 /**
  * @description Create route for making new organizations.
  */
-router.post("/create", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
     try{
         const { name } = req.body;
 

@@ -3,11 +3,11 @@ const { app } = require("../app");
 const { models } = require("../src/db/connection");
 
 
-describe("/sessions/create", () => {
+describe("POST /sessions", () => {
     
     it("should fail to login user when no user with the input email is found", async () => {
         const loginResponse = await chai.request(app)
-            .post("/sessions/create")
+            .post("/sessions")
             .send({
                 email: "nonexistantemail@mail.com",
                 passwordInput: "unimportantPassword"
@@ -19,7 +19,7 @@ describe("/sessions/create", () => {
 
     it("should fail to login user with an incorrect password", async () => {
         const loginResponse = await chai.request(app)
-            .post("/sessions/create")
+            .post("/sessions")
             .send({
                 email: "testemail1@mail.com",
                 passwordInput: "incorrectPassword"
@@ -31,7 +31,7 @@ describe("/sessions/create", () => {
 
     it("should return a valid jwt when correct information is passed", async () => {
         const loginResponse = await chai.request(app)
-            .post("/sessions/create")
+            .post("/sessions")
             .send({
                 email: "testemail1@mail.com",
                 passwordInput: "password1!"
@@ -44,7 +44,7 @@ describe("/sessions/create", () => {
 
     it("should create a new session record when correct information is passed", async () => {
         const loginResponse = await chai.request(app)
-            .post("/sessions/create")
+            .post("/sessions")
             .send({
                 email: "testemail1@mail.com",
                 passwordInput: "password1!"

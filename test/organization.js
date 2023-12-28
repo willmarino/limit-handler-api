@@ -1,7 +1,7 @@
 const { chai, it, should, jwtHelpers } = require("./setup");
 const { app } = require("../app");
 
-describe("/organizations/:id", () => {
+describe("GET /organizations/:id", () => {
     it("should return an error message if a user is not a member of the organization", async () => {
         const organizationsResponse = await chai.request(app)
             .get("/organizations/1")
@@ -39,10 +39,10 @@ describe("/organizations/:id", () => {
 
 });
 
-describe("/organizations/create", () => {
+describe("POST /organizations", () => {
     it("should create a new organization object", async () => {
         const creationResponse = await chai.request(app)
-            .post("/organizations/create")
+            .post("/organizations")
             .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send({ name: "new test org" });
 
