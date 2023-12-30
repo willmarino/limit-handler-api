@@ -2,7 +2,7 @@ const { chai, it, should, jwtHelpers } = require("./setup");
 const { app } = require("../app");
 
 
-describe("/memberships/:id", () => {
+describe("GET /memberships/:id", () => {
     it("should fetch a membership", async () => {
         const membershipResponse = await chai.request(app)
             .get("/memberships/2")

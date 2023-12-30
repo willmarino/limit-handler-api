@@ -22,7 +22,7 @@ const getUser = async (id) => {
             include: {
                 model: models.UserRoles,
                 as: "userRole"
-            }   
+            }
         }
     });
 
@@ -33,14 +33,30 @@ const getUser = async (id) => {
                 [Op.in]: userWithMemberships.memberships.map((m) => m.organizationId)
             }
         },
-        include: {
-            model: models.Memberships,
-            as: "memberships",
-            include: [
-                { model: models.UserRoles, as: "userRole" },
-                { model: models.Users, as: "user" }
-            ]   
-        }
+        include: [
+            {
+                model: models.Memberships,
+                as: "memberships",
+                include: [
+                    { model: models.UserRoles, as: "userRole" },
+                    { model: models.Users, as: "user" }
+                ]   
+            },
+            {
+                model: models.Projects,
+                as: "projects",
+                include: [
+                    {
+                        model: models.Users,
+                        as: "creator"
+                    },
+                    {
+                        model: models.TimeFrames,
+                        as: "timeFrame"
+                    }
+                ]
+            }
+        ]
     });
 
     // Compile results from the two queries into an intuitive JSON
@@ -55,14 +71,22 @@ const getUser = async (id) => {
                 name: org.name,
                 createdAt: org.createdAt,
                 members: org.memberships
-                    .sort((a, b) => a.id - b.id)
+                    .sort((a, b) => a.userRoleId - b.userRoleId)
                     .map((m) => {
                         return {
                             name: m.user.userName,
                             email: m.user.email,
                             role: m.userRole.role
                         }
-                    })
+                    }),
+                projects: org.projects.map((p) => {
+                    return {
+                        name: p.name,
+                        creator: p.creator.userName,
+                        callLimit: p.callLimit,
+                        timeFrame: p.timeFrame.name
+                    }
+                })
             }
         }),
     };

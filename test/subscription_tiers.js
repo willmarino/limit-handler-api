@@ -2,7 +2,7 @@ const { chai, it, should, jwtHelpers } = require("./setup");
 const { app } = require("../app");
 
 
-describe("/subscription_tiers", () => {
+describe("GET /subscription_tiers", () => {
     it("fetches subscription tiers", async () => {
         const subTiersResponse = await chai.request(app)
             .get("/subscription_tiers")
