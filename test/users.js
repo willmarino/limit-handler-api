@@ -1,5 +1,7 @@
 const { chai, it, should, jwtHelpers } = require("./setup");
 const { app } = require("../app");
+const REDIS_WRAPPER = require("../src/util/redis_connection_wrapper");
+
 
 
 describe("GET /users", () => {
@@ -23,7 +25,7 @@ describe("GET /users", () => {
         subscriptionsResponse.body.data.organizations[0].members[1].email.should.eq("testemail1@mail.com");
         subscriptionsResponse.body.data.organizations[0].members[1].role.should.eq("admin");
 
-        subscriptionsResponse.body.data.organizations[0].projects.length.should.eq(1);
+        subscriptionsResponse.body.data.organizations[0].projects.length.should.eq(2);
         subscriptionsResponse.body.data.organizations[0].projects[0].name.should.eq("org 2 10 per second");
         subscriptionsResponse.body.data.organizations[0].projects[0].creator.should.eq("usernamebob");
         subscriptionsResponse.body.data.organizations[0].projects[0].callLimit.should.eq(10);

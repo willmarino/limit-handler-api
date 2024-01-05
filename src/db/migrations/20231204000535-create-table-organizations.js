@@ -19,7 +19,7 @@ module.exports = {
                     field: "name"
                 },
                 apiKey: {
-                    type: Sequelize.DataTypes.STRING(36),
+                    type: Sequelize.DataTypes.STRING(60),
                     allowNull: false,
                     field: "api_key"
                 },

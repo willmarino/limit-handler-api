@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     apiKey: {
-      type: DataTypes.STRING(36),
+      type: DataTypes.STRING(60),
       allowNull: false,
       field: 'api_key'
     },

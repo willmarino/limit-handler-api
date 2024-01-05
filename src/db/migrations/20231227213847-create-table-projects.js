@@ -50,6 +50,12 @@ module.exports = {
                     allowNull: false,
                     field: "call_limit"
                 },
+                active: {
+                    type: Sequelize.DataTypes.BOOLEAN,
+                    allowNull: false,
+                    defaultValue: true,
+                    field: "active"
+                },
                 createdAt: {
                     type: Sequelize.DataTypes.DATE,
                     allowNull: false,
