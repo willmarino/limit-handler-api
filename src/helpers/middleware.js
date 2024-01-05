@@ -28,11 +28,12 @@ const addRequestContext = (req, res, next) => {
 /**
  * @description Check JWT's on incoming requests IF the user is using the website (not the actual rate limiting service).
  */
-const authenticateSiteRequest = async (req, res, next) => {
+const authenticateJWT = async (req, res, next) => {
 
     const authExemptRouteMethodPairs = [
         ["POST", "/users"],
-        ["POST", "/sessions"]
+        ["POST", "/sessions"],
+        ["POST", "/requests"]
     ]
 
     const routeRequiresJWTAuth = !authExemptRouteMethodPairs
@@ -62,6 +63,22 @@ const authenticateSiteRequest = async (req, res, next) => {
         req.context.set("user", user);
         next();
     }
+}
+
+
+/**
+ * @description Check Api Key in headers of incoming request.
+ */
+const authenticateApiKey = async (req, res, next) => {
+    const authedRouteMethodPairs = [
+        "POST", "/requests"
+    ];
+
+    const routeRequiresApiKeyAuth = authedRouteMethodPairs
+        .some((rmp) => req.method === rmp[0] && route.path.startsWith(rmp[1]));
+
+    
+
 
 
 }
@@ -93,6 +110,7 @@ const errorHandler = (err, req, res, next) => {
 
 module.exports = {
     addRequestContext,
-    authenticateSiteRequest,
+    authenticateJWT,
+    authenticateApiKey,
     errorHandler
 }

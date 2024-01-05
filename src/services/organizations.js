@@ -1,5 +1,6 @@
 const { models } = require("../db/connection");
 const cryptoHelpers = require("../helpers/crypto");
+const bcrypyHelpers = require("../helpers/bcrypt");
 const ErrorWrapper = require("../util/error_wrapper");
 
 /**
@@ -85,16 +86,20 @@ const createOrganization = async (name, reqLogger) => {
     
     // Generate new api key
     const apiKey = await cryptoHelpers.generateApiKey(reqLogger);
+    const hashedApiKey = await bcrypyHelpers.createPasskeyHash(apiKey);
 
     // Create organization db record
     const organization = await models.Organizations.create({
-        apiKey,
+        apiKey: hashedApiKey,
         name
     });
 
     await organization.reload();
 
-    return organization;
+    return {
+        name: organization.name,
+        apiKey: apiKey
+    };
 };
 
 

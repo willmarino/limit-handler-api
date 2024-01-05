@@ -11,6 +11,7 @@ const usersRouter = require("./src/routers/users");
 const membershipsRouter = require("./src/routers/memberships");
 const sessionsRouter = require("./src/routers/sessions");
 const projectsRouter = require("./src/routers/projects");
+const requestsRouter = require("./src/routers/requests");
 
 const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
@@ -29,7 +30,7 @@ if (process.env.NODE_ENV !== "test") app.use(morganLog);
 
 // Custom middelware - add in request logger and unique tag
 app.use(customMiddleware.addRequestContext);
-app.use(customMiddleware.authenticateSiteRequest);
+app.use(customMiddleware.authenticateJWT);
 
 
 // Declare subrouters
@@ -40,6 +41,7 @@ app.use("/subscriptions", subscriptionsRouter);
 app.use("/users", usersRouter);
 app.use("/memberships", membershipsRouter);
 app.use("/sessions", sessionsRouter);
+app.use("/requests", requestsRouter);
 app.use("/server_health", serverHealthRouter);
 
 
@@ -53,6 +55,7 @@ if (process.env.NODE_ENV !== "test") {
         process.env.EXPRESS_PORT,
         async () => {
             await REDIS_WRAPPER.setClient();
+            await REDIS_WRAPPER.setupProjects();
             logger.info("Express server initiated on port " + process.env.EXPRESS_PORT + "...");
         }
     );

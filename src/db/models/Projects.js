@@ -43,6 +43,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       field: 'call_limit'
     },
+    active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 1
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
