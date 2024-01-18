@@ -31,8 +31,8 @@ if (process.env.NODE_ENV !== "test") app.use(morganLog);
 
 // Custom middelware - add in request logger and unique tag
 app.use(customMiddleware.addRequestContext);
-app.use(customMiddleware.authenticateJWT);
-app.use(customMiddleware.authenticateAuthToken);
+app.use(customMiddleware.validateJWT);
+app.use(customMiddleware.validateAuthToken);
 
 
 // Declare subrouters

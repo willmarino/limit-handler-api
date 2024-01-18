@@ -27,11 +27,12 @@ const validateRefreshToken = async (refreshTokenInput, orgIdentifier) => {
 /**
  * @description Check for existing (org-scoped) auth token.
  * If none, generate random string, return it.
+ * @param orgIdentifier - Organization identifier
  */
-const generateAuthToken = async (org) => {
+const generateAuthToken = async (orgIdentifier) => {
     let authToken;
 
-    const existingAuthToken = await RED.client.get(`authtoken:org:${org.identifier}`);
+    const existingAuthToken = await RED.client.get(`authtoken:org:${orgIdentifier}`);
     if(!existingAuthToken){
         authToken = await cryptoHelpers.generateRandomString(12);
     }else{
@@ -44,12 +45,12 @@ const generateAuthToken = async (org) => {
 
 /**
  * @description Store auth token in cache at key of org id
- * @param orgId - Organization id
+ * @param orgIdentifier - Organization identifier
  * @param authToken - Auth token which was just generated (and should be cached)
  */
-const cacheAuthToken = async (org, authToken) => {
+const cacheAuthToken = async (orgIdentifier, authToken) => {
     await RED.client.set(
-        `authtoken:org:${org.identifier}`,
+        `authtoken:org:${orgIdentifier}`,
         authToken
     );
 

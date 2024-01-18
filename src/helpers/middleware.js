@@ -30,7 +30,7 @@ const addRequestContext = (req, res, next) => {
 /**
  * @description Check JWT's on incoming requests IF the user is using the website (not the actual rate limiting service).
  */
-const authenticateJWT = async (req, res, next) => {
+const validateJWT = async (req, res, next) => {
     try{
         const authExemptRouteMethodPairs = [
             ["POST", "/users"],
@@ -75,7 +75,7 @@ const authenticateJWT = async (req, res, next) => {
 /**
  * @description Check auth token in headers of incoming request.
  */
-const authenticateAuthToken = async (req, res, next) => {
+const validateAuthToken = async (req, res, next) => {
     try{
         const authedRouteMethodPairs = [
             ["POST", "/requests"]
@@ -89,8 +89,9 @@ const authenticateAuthToken = async (req, res, next) => {
 
             const cachedAuthToken = await RED.client.get(`authtoken:org:${orgIdentifierHeader}`);
             
+            console.log(authTokenHeader, cachedAuthToken)
             const authTokenMatch = Boolean(authTokenHeader === cachedAuthToken);
-            if(!authTokenMatch) throw new ErrorWrapper("Invalid auth token, please double check your 'auth_token' header value", 400);
+            if(!authTokenMatch) throw new ErrorWrapper("Invalid auth token, please double check your 'authtoken' header value", 400);
         }
 
         next();
@@ -127,7 +128,7 @@ const errorHandler = (err, req, res, next) => {
 
 module.exports = {
     addRequestContext,
-    authenticateJWT,
-    authenticateAuthToken,
+    validateJWT,
+    validateAuthToken,
     errorHandler
 }
