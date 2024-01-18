@@ -9,6 +9,31 @@ class RedisWrapper {
 
 
     /**
+     * @description GET - handle the json stringifying/parsing here
+     */
+    async get(key){
+        if(!this.client){
+            throw new Error("Unable to retrieve client connection");
+        }
+
+        const stringifiedData = await this.client.get(key);
+        return JSON.parse(stringifiedData);
+    }
+
+    
+    /**
+     * @description SET - handle the json stringifying/parsing here
+     */
+    async set(key, json){
+        if(!this.client){
+            throw new Error("Unable to retrieve client connection");
+        }
+
+        await this.client.set(key, JSON.stringify(json));
+    }
+
+
+    /**
      * @description Set up an initial redis connection (run on express boot)
      */
     async setClient() {
