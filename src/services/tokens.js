@@ -41,9 +41,7 @@ const generateAuthToken = async () => {
 const cacheAuthToken = async (orgId, authToken) => {
     await RED.client.set(
         `authtoken:org:${orgId}`,
-        JSON.stringify({
-            authToken
-        })
+        authToken
     );
 
     return;

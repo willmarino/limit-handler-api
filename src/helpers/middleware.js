@@ -73,10 +73,11 @@ const authenticateJWT = async (req, res, next) => {
 
 
 /**
- * @description Check Api Key in headers of incoming request.
+ * @description Check auth token in headers of incoming request.
  */
 const authenticateAuthToken = async (req, res, next) => {
     try{
+        console.time("authTokenCheck");
         const authedRouteMethodPairs = [
             ["POST", "/requests"]
         ];
@@ -84,28 +85,21 @@ const authenticateAuthToken = async (req, res, next) => {
         const routeRequiresAuthToken = authedRouteMethodPairs
             .some((rmp) => req.method === rmp[0] && req.path.startsWith(rmp[1]));
     
-    
+        // console.log("routeRequiresAuthToken", routeRequiresAuthToken);
         if(routeRequiresAuthToken){
-            const { identifier: identifierHeader, authtoken: authTokenHeader } = req.headers;
+            const { orgidentifier: orgIdentifierHeader, authtoken: authTokenHeader } = req.headers;
             
-            const org = await models.Organizations.findOne({
-                where: { identifier: identifierHeader }
-            });
+            const org = await models.Organizations.findOne({ where: { identifier: orgIdentifierHeader } });
             if(!org) throw new ErrorWrapper("Unable to find organization, please double check your 'identifier' header value", 400);
-    
-            console.time("authTokenCheck");
-            // const authTokenMatch = await bcryptHelpers.compare(authTokenHeader, org.authToken);
         
-            const cachedAuthToken = await RED.client.get(`authtoken:org:`);
-
-            const authTokenMatch = Boolean()
-            console.timeEnd("authTokenCheck");
+            const cachedAuthToken = await RED.client.get(`authtoken:org:${org.id}`);
+            const authTokenMatch = Boolean(authTokenHeader === cachedAuthToken);
             if(!authTokenMatch) throw new ErrorWrapper("Invalid auth token, please double check your 'auth_token' header value", 400);
 
         }
 
+            console.timeEnd("authTokenCheck");
         next();
-
     }catch(err){
         next(err);
     }
