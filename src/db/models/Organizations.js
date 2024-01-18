@@ -9,11 +9,13 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(24),
-      allowNull: false
+      allowNull: false,
+      unique: "organizations_name_idx"
     },
     identifier: {
       type: DataTypes.STRING(16),
-      allowNull: false
+      allowNull: false,
+      unique: "organizations_identifier_idx"
     },
     refreshToken: {
       type: DataTypes.STRING(60),
@@ -43,6 +45,22 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "organizations_identifier_idx",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "identifier" },
+        ]
+      },
+      {
+        name: "organizations_name_idx",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "name" },
         ]
       },
     ]

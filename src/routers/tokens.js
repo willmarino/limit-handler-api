@@ -9,7 +9,7 @@ const responseTemplates = require("../util/response_templates");
  */
 router.post("/", async (req, res, next) => {
     try{
-        
+
         const { refreshToken, orgIdentifier } = req.body;
         const orgId = await tokensService.validateRefreshToken(refreshToken, orgIdentifier);
 

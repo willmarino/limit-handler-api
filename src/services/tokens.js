@@ -12,6 +12,7 @@ const validateRefreshToken = async (refreshTokenInput, orgIdentifier) => {
     const org = await models.Organizations.findOne({
         where: { identifier: orgIdentifier }
     });
+    if(!org) throw new ErrorWrapper("Invalid organization identifier", 400);
 
     const isMatch = await bcryptHelpers(refreshTokenInput, org.refreshToken);
     if(isMatch){

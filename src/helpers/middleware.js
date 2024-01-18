@@ -35,7 +35,8 @@ const authenticateJWT = async (req, res, next) => {
         const authExemptRouteMethodPairs = [
             ["POST", "/users"],
             ["POST", "/sessions"],
-            ["POST", "/requests"]
+            ["POST", "/requests"],
+            ["POST", "/tokens"]
         ]
 
         const routeRequiresJWTAuth = !authExemptRouteMethodPairs
