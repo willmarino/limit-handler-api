@@ -58,7 +58,8 @@ if (process.env.NODE_ENV !== "test") {
         process.env.EXPRESS_PORT,
         async () => {
             await RED.setClient();
-            await RED.setupProjects();
+            await RED.storeOrganizations();
+            await RED.storeProjects();
             logger.info("Express server initiated on port " + process.env.EXPRESS_PORT + "...");
         }
     );

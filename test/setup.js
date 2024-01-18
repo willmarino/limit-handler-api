@@ -13,7 +13,8 @@ before(async () => {
 });
 
 beforeEach(async () => {
-    await RED.setupProjects();
+    await RED.storeOrganizations();
+    await RED.storeProjects();
 })
 
 // Shutdown server (why?) and redis client after all tests. This is required to have

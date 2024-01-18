@@ -11,10 +11,10 @@ router.post("/", async (req, res, next) => {
     try{
 
         const { refreshToken, orgIdentifier } = req.body;
-        const orgId = await tokensService.validateRefreshToken(refreshToken, orgIdentifier);
+        const org = await tokensService.validateRefreshToken(refreshToken, orgIdentifier);
 
-        const tokenResponse = await tokensService.generateAuthToken();
-        await tokensService.cacheAuthToken(orgId, tokenResponse.authToken);
+        const tokenResponse = await tokensService.generateAuthToken(org);
+        await tokensService.cacheAuthToken(org, tokenResponse.authToken);
 
         res.status(200).send(
             responseTemplates.success(tokenResponse, "Success generating auth token")

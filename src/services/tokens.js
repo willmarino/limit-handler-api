@@ -17,7 +17,7 @@ const validateRefreshToken = async (refreshTokenInput, orgIdentifier) => {
 
     const isMatch = await bcryptHelpers.compare(refreshTokenInput, org.refreshToken);
     if(isMatch){
-        return org.id;
+        return org;
     }else{
         throw new ErrorWrapper("Invalid refresh token", 400);
     }
@@ -25,10 +25,19 @@ const validateRefreshToken = async (refreshTokenInput, orgIdentifier) => {
 
 
 /**
- * @description Generate random string, return it.
+ * @description Check for existing (org-scoped) auth token.
+ * If none, generate random string, return it.
  */
-const generateAuthToken = async () => {
-    const authToken = await cryptoHelpers.generateRandomString(12);
+const generateAuthToken = async (org) => {
+    let authToken;
+
+    const existingAuthToken = await RED.client.get(`authtoken:org:${org.identifier}`);
+    if(!existingAuthToken){
+        authToken = await cryptoHelpers.generateRandomString(12);
+    }else{
+        authToken = existingAuthToken; // TODO Add token age check
+    }
+
     return { authToken };
 }
 
@@ -38,9 +47,9 @@ const generateAuthToken = async () => {
  * @param orgId - Organization id
  * @param authToken - Auth token which was just generated (and should be cached)
  */
-const cacheAuthToken = async (orgId, authToken) => {
+const cacheAuthToken = async (org, authToken) => {
     await RED.client.set(
-        `authtoken:org:${orgId}`,
+        `authtoken:org:${org.identifier}`,
         authToken
     );
 

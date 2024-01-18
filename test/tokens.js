@@ -56,7 +56,7 @@ describe("POST /tokens", () => {
             });
 
         
-        const cachedAuthToken = await RED.client.get(`authtoken:org:${org.id}`);
+        const cachedAuthToken = await RED.client.get(`authtoken:org:testidentifier1`);
         should.exist(cachedAuthToken);
 
     })
