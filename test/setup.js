@@ -1,5 +1,5 @@
 const { server } = require("../app");
-const REDIS_WRAPPER = require("../src/util/redis_connection_wrapper");
+const RED = require("../src/util/redis_connection_wrapper");
 const { sequelize, models, namespace } = require("../src/db/connection");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
@@ -9,23 +9,23 @@ chai.use(chaiHttp);
 
 // Initialize redis connection
 before(async () => {
-    await REDIS_WRAPPER.setClient();
+    await RED.setClient();
 });
 
 beforeEach(async () => {
-    await REDIS_WRAPPER.setupProjects();
+    await RED.setupProjects();
 })
 
 // Shutdown server (why?) and redis client after all tests. This is required to have
 // mocha exit successfully.
 after(async () => {
-    await REDIS_WRAPPER.closeClient();
+    await RED.closeClient();
     await sequelize.close();
 });
 
 // Clear out redis storage
 afterEach(async () => {
-    await REDIS_WRAPPER.clear();
+    await RED.clear();
 });
 
 
@@ -59,5 +59,5 @@ module.exports = {
     it,
     should: chai.should(),
     jwtHelpers,
-    REDIS_WRAPPER
+    RED
 };

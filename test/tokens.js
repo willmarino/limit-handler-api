@@ -1,4 +1,4 @@
-const { chai, it, should, REDIS_WRAPPER } = require("./setup");
+const { chai, it, should, RED } = require("./setup");
 const { app } = require("../app");
 const { models } = require("../src/db/connection");
 
@@ -56,7 +56,7 @@ describe("POST /tokens", () => {
             });
 
         
-        const cachedAuthToken = await REDIS_WRAPPER.client.get(`authtoken:org:${org.id}`);
+        const cachedAuthToken = await RED.client.get(`authtoken:org:${org.id}`);
         should.exist(cachedAuthToken);
 
     })

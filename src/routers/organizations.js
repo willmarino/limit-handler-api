@@ -32,6 +32,7 @@ router.post("/", async (req, res, next) => {
             responseTemplates.success( org, "Success creating organization" )
         );
     }catch(err){
+        console.log(err);
         next(err);
     }
 });

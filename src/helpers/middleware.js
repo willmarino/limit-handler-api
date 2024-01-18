@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { models } = require("../db/connection");
 const jwtHelpers = require("./jwt");
-const REDIS_WRAPPER = require("../util/redis_connection_wrapper");
+const RED = require("../util/redis_connection_wrapper");
 const bcryptHelpers = require("./bcrypt");
 const ErrorWrapper = require("../util/error_wrapper");
 const responseTemplates = require("../util/response_templates");
@@ -96,7 +96,7 @@ const authenticateAuthToken = async (req, res, next) => {
             console.time("authTokenCheck");
             // const authTokenMatch = await bcryptHelpers.compare(authTokenHeader, org.authToken);
         
-            const cachedAuthToken = await REDIS_WRAPPER.client.get(`authtoken:org:`);
+            const cachedAuthToken = await RED.client.get(`authtoken:org:`);
 
             const authTokenMatch = Boolean()
             console.timeEnd("authTokenCheck");

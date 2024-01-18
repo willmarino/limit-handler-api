@@ -1,7 +1,7 @@
 const { models } = require("../db/connection");
 const bcryptHelpers = require("../helpers/bcrypt");
 const cryptoHelpers = require("../helpers/crypto")
-const REDIS_WRAPPER = require("../util/redis_connection_wrapper");
+const RED = require("../util/redis_connection_wrapper");
 const ErrorWrapper = require("../util/error_wrapper");
 
 
@@ -39,7 +39,7 @@ const generateAuthToken = async () => {
  * @param authToken - Auth token which was just generated (and should be cached)
  */
 const cacheAuthToken = async (orgId, authToken) => {
-    await REDIS_WRAPPER.client.set(
+    await RED.client.set(
         `authtoken:org:${orgId}`,
         JSON.stringify({
             authToken

@@ -1,6 +1,6 @@
 const { chai, it, should, jwtHelpers } = require("./setup");
 const { app } = require("../app");
-const REDIS_WRAPPER = require("../src/util/redis_connection_wrapper");
+const RED = require("../src/util/redis_connection_wrapper");
 
 
 

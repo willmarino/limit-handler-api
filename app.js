@@ -2,7 +2,7 @@ const cors = require("cors");
 const express = require("express");
 const context = require("express-context-store");
 
-const REDIS_WRAPPER = require("./src/util/redis_connection_wrapper");
+const RED = require("./src/util/redis_connection_wrapper");
 const serverHealthRouter = require("./src/routers/server_health");
 const organizationsRouter = require("./src/routers/organizations");
 const subTiersRouter = require("./src/routers/subscription_tiers");
@@ -57,8 +57,8 @@ if (process.env.NODE_ENV !== "test") {
     server = app.listen(
         process.env.EXPRESS_PORT,
         async () => {
-            await REDIS_WRAPPER.setClient();
-            await REDIS_WRAPPER.setupProjects();
+            await RED.setClient();
+            await RED.setupProjects();
             logger.info("Express server initiated on port " + process.env.EXPRESS_PORT + "...");
         }
     );

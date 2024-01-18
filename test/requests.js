@@ -1,4 +1,4 @@
-const { chai, it, should, jwtHelpers, REDIS_WRAPPER } = require("./setup");
+const { chai, it, should, jwtHelpers, RED } = require("./setup");
 const { app } = require("../app");
 const { models } = require("../src/db/connection");
 
