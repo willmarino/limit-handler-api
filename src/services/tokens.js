@@ -14,7 +14,7 @@ const validateRefreshToken = async (refreshTokenInput, orgIdentifier) => {
     });
     if(!org) throw new ErrorWrapper("Invalid organization identifier", 400);
 
-    const isMatch = await bcryptHelpers(refreshTokenInput, org.refreshToken);
+    const isMatch = await bcryptHelpers.compare(refreshTokenInput, org.refreshToken);
     if(isMatch){
         return org.id;
     }else{
