@@ -33,5 +33,20 @@ describe("POST /tokens", () => {
         getAuthTokenResponse.body.message.should.eq("Invalid refresh token");
     })
 
+    it("should return a new auth token if info is valid", async () => {
+        const org = await models.Organizations.findOne({ where: { identifier: "testidentifier1" } });
+
+        const getAuthTokenResponse = await chai.request(app)
+            .post("/tokens")
+            .send({
+                orgIdentifier: "testidentifier1",
+                refreshToken: "testrefreshtoken1"
+            });
+
+        getAuthTokenResponse.status.should.eq(200);
+        getAuthTokenResponse.body.message.should.eq("Success generating auth token");
+        should.exist(getAuthTokenResponse.body.data.authToken);
+    })
+
 
 })

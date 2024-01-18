@@ -1,5 +1,6 @@
 const { models } = require("../db/connection");
 const bcryptHelpers = require("../helpers/bcrypt");
+const cryptoHelpers = require("../helpers/crypto")
 const REDIS_WRAPPER = require("../util/redis_connection_wrapper");
 const ErrorWrapper = require("../util/error_wrapper");
 
@@ -27,7 +28,7 @@ const validateRefreshToken = async (refreshTokenInput, orgIdentifier) => {
  * @description Generate random string, return it.
  */
 const generateAuthToken = async () => {
-    const authToken = await generateRandomString(12);
+    const authToken = await cryptoHelpers.generateRandomString(12);
     return { authToken };
 }
 

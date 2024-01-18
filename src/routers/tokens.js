@@ -17,11 +17,10 @@ router.post("/", async (req, res, next) => {
         await tokensService.cacheAuthToken(orgId, tokenResponse.authToken);
 
         res.status(200).send(
-            responseTemplates(tokenResponse, "Success generating auth token")
+            responseTemplates.success(tokenResponse, "Success generating auth token")
         )
 
     }catch(err){
-        console.log(err);
         next(err);
     }
 });
