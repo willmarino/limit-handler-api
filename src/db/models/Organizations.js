@@ -11,10 +11,14 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(24),
       allowNull: false
     },
-    apiKey: {
+    identifier: {
+      type: DataTypes.STRING(16),
+      allowNull: false
+    },
+    refreshToken: {
       type: DataTypes.STRING(60),
       allowNull: false,
-      field: 'api_key'
+      field: 'refresh_token'
     },
     createdAt: {
       type: DataTypes.DATE,

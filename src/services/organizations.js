@@ -85,12 +85,12 @@ const getOrganization = async (orgId, userId) => {
 const createOrganization = async (name, reqLogger) => {
     
     // Generate new api key
-    const apiKey = await cryptoHelpers.generateApiKey(reqLogger);
-    const hashedApiKey = await bcrypyHelpers.createPasskeyHash(apiKey);
+    const refreshToken = await cryptoHelpers.generateRandomString(18, reqLogger);
+    const hashedRefreshToken = await bcrypyHelpers.createHash(refreshToken);
 
     // Create organization db record
     const organization = await models.Organizations.create({
-        apiKey: hashedApiKey,
+        refreshToken: hashedRefreshToken,
         name
     });
 
@@ -98,7 +98,7 @@ const createOrganization = async (name, reqLogger) => {
 
     return {
         name: organization.name,
-        apiKey: apiKey
+        refreshToken: refreshToken
     };
 };
 

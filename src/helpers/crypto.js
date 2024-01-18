@@ -3,42 +3,37 @@ const ErrorWrapper = require("../util/error_wrapper");
 
 /**
  * @description Generate an API Key for a new organization
- * @param reqLogger - Request logger
+ * @param numBytes - Byte length of string to be generated
  */
-const generateApiKey = async (reqLogger) => {
+const generateRandomString = async (numBytes) => {
     
-    let apiKey;
-    try{
-        apiKey = await new Promise((resolve, reject) => {
-            randomBytes(18, (err, buf) => {
-                if(err) reject(err);
-                resolve(buf.toString("hex"));
-            })
-        });
-    }catch(err){
-        reqLogger.error("Failed to create api key", err);
-        throw new ErrorWrapper("Failed to create api key", 500); // TODO ErrorWrapper should support passing in an error object
-    }
+    const randomString = await new Promise((resolve, reject) => {
+        randomBytes(numBytes, (err, buf) => {
+            if(err) reject(err);
+            resolve(buf.toString("hex"));
+        })
+    });
     
-    return apiKey;
+    return randomString;
 }
 
 
 /**
- * @description Secure compare func used to validate api keys embedded in incoming requests
- * @param apiKeyInput - What the user has sent as their api key
- * @param apiKey - What the organization's api key actually is, as stored in our database
+ * @description Secure compare func used to validate api keys embedded in incoming requests.
+ * Do I need this for any reason if I already have bcrypt compare???
+ * @param input - User input which we want to test
+ * @param hash - Hash of the actual value we are trying to match to
  */
-const secureCompare = async (apiKeyInput, apiKey) => {
-    const apiKeyInputBuf = Buffer.from(apiKeyInput, "utf8");
-    const apiKeyBuf = Buffer.from(apiKey, "utf8");
+const secureCompare = async (input, hash) => {
+    const inputBuf = Buffer.from(input, "utf8");
+    const hashBuf = Buffer.from(hash, "utf8");
 
-    const isApiKeyValid = timingSafeEqual(apiKeyInputBuf, apiKeyBuf);
-    return isApiKeyValid;
+    const isHashValid = timingSafeEqual(inputBuf, hashBuf);
+    return isHashValid;
 
 }
 
 module.exports = {
-    generateApiKey,
+    generateRandomString,
     secureCompare
 }

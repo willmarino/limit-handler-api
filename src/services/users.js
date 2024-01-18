@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const BadWordsFilter = require("bad-words");
 const badWordsFilter = new BadWordsFilter();
 const emailValidator = require("email-validator");
-const { createPasskeyHash } = require("../helpers/bcrypt");
+const { createHash } = require("../helpers/bcrypt");
 const { models } = require("../db/connection");
 const ErrorWrapper = require("../util/error_wrapper");
 const REDIS_WRAPPER = require("../util/redis_connection_wrapper");
@@ -158,7 +158,7 @@ const registerUser = async (userName, email, passwordInput) => {
 
     
     // All validations have passed, created new user
-    const hashedPassword = await createPasskeyHash(passwordInput);
+    const hashedPassword = await createHash(passwordInput);
 
     const user = await models.Users.create({
         userName,
