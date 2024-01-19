@@ -1,6 +1,8 @@
 const { v4: uuidv4 } = require('uuid');
 const { models } = require("../db/connection");
 const jwtHelpers = require("./jwt");
+const RED = require("../util/redis_connection_wrapper");
+const bcryptHelpers = require("./bcrypt");
 const ErrorWrapper = require("../util/error_wrapper");
 const responseTemplates = require("../util/response_templates");
 const { logger } = require("../util/logger");
@@ -28,58 +30,73 @@ const addRequestContext = (req, res, next) => {
 /**
  * @description Check JWT's on incoming requests IF the user is using the website (not the actual rate limiting service).
  */
-const authenticateJWT = async (req, res, next) => {
+const validateJWT = async (req, res, next) => {
+    try{
+        const authExemptRouteMethodPairs = [
+            ["POST", "/users"],
+            ["POST", "/sessions"],
+            ["POST", "/requests"],
+            ["POST", "/tokens"]
+        ]
 
-    const authExemptRouteMethodPairs = [
-        ["POST", "/users"],
-        ["POST", "/sessions"],
-        ["POST", "/requests"]
-    ]
+        const routeRequiresJWTAuth = !authExemptRouteMethodPairs
+            .some((rmp) => req.method === rmp[0] && req.path.startsWith(rmp[1]))
 
-    const routeRequiresJWTAuth = !authExemptRouteMethodPairs
-        .some((rmp) => req.method === rmp[0] && req.path.startsWith(rmp[1]))
+        if(!routeRequiresJWTAuth){
+            next();
 
-    if(!routeRequiresJWTAuth){
-        next();
+        }else{
+            const token = req.headers.token;
+            if(!token){
+                throw new ErrorWrapper("Missing user authentication", 400);
+            }
 
-    }else{
-        const token = req.headers.token;
-        if(!token){
-            throw new ErrorWrapper("Missing user authentication", 400);
+            let jwtEmail;
+            try{
+                const verifiedTokenData = jwtHelpers.verify(token);
+                jwtEmail = verifiedTokenData.sub;
+            }catch(err){
+                throw new ErrorWrapper("Unable to authenticate user", 500);
+            }
+
+            const user = await models.Users.findOne({ where: { email: jwtEmail } });
+            if(!user)
+                throw new ErrorWrapper("Invalid user authentication", 400);
+
+            req.context.set("user", user);
+            next();
         }
-
-        let jwtEmail;
-        try{
-            const verifiedTokenData = jwtHelpers.verify(token);
-            jwtEmail = verifiedTokenData.sub;
-        }catch(err){
-            throw new ErrorWrapper("Unable to authenticate user", 500);
-        }
-
-        const user = await models.Users.findOne({ where: { email: jwtEmail } });
-        if(!user)
-            throw new ErrorWrapper("Invalid user authentication", 400);
-
-        req.context.set("user", user);
-        next();
+    }catch(err){
+        next(err);
     }
 }
 
 
 /**
- * @description Check Api Key in headers of incoming request.
+ * @description Check auth token in headers of incoming request.
  */
-const authenticateApiKey = async (req, res, next) => {
-    const authedRouteMethodPairs = [
-        "POST", "/requests"
-    ];
-
-    const routeRequiresApiKeyAuth = authedRouteMethodPairs
-        .some((rmp) => req.method === rmp[0] && route.path.startsWith(rmp[1]));
-
+const validateAuthToken = async (req, res, next) => {
+    try{
+        const authedRouteMethodPairs = [
+            ["POST", "/requests"]
+        ];
     
+        const routeRequiresAuthToken = authedRouteMethodPairs
+            .some((rmp) => req.method === rmp[0] && req.path.startsWith(rmp[1]));
+    
+        if(routeRequiresAuthToken){
+            const { orgidentifier: orgIdentifierHeader, authtoken: authTokenHeader } = req.headers;
 
+            const cachedAuthToken = await RED.client.get(`authtoken:org:${orgIdentifierHeader}`);
+            
+            const authTokenMatch = Boolean(authTokenHeader === cachedAuthToken);
+            if(!authTokenMatch) throw new ErrorWrapper("Invalid auth token, please double check your 'authtoken' header value", 400);
+        }
 
+        next();
+    }catch(err){
+        next(err);
+    }
 
 }
 
@@ -110,7 +127,7 @@ const errorHandler = (err, req, res, next) => {
 
 module.exports = {
     addRequestContext,
-    authenticateJWT,
-    authenticateApiKey,
+    validateJWT,
+    validateAuthToken,
     errorHandler
 }

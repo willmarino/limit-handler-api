@@ -1,13 +1,21 @@
 'use strict';
+const { createHash } = require("../../helpers/bcrypt");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up (queryInterface, Sequelize) {
-        await queryInterface.bulkInsert("organizations", [
-            { id: 1, name: "test org 1", api_key: "testapikey1" },
-            { id: 2, name: "test org 2", api_key: "testapikey2" },
-            { id: 3, name: "test org 3", api_key: "testapikey3" }
-        ]);
+
+        const orgData = [
+            { id: 1, name: "test org 1", identifier: "testidentifier1", refresh_token: "testrefreshtoken1" },
+            { id: 2, name: "test org 2", identifier: "testidentifier2", refresh_token: "testrefreshtoken2" },
+            { id: 3, name: "test org 3", identifier: "testidentifier3", refresh_token: "testrefreshtoken3" }
+        ];
+
+        for(const d of orgData){
+            d.refresh_token = await createHash(d.refresh_token);
+        }
+
+        await queryInterface.bulkInsert("organizations", orgData);
     },
 
     async down (queryInterface, Sequelize) {

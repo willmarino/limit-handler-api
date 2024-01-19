@@ -30,9 +30,25 @@ class RedisWrapper {
     }
 
     /**
+     * @description Cache organizations on boot.
+     * They will be read constantly and updated very rarely.
+     * Figure out cache inval soon.
+     */
+    async storeOrganizations(){
+        const orgs = await models.Organizations.findAll();
+        for(const org of orgs){
+            await this.client.set(
+                `organizations:${org.identifier}`,
+                JSON.stringify(org)
+            )   
+        }
+    }
+
+
+    /**
      * @description Pull and cache project information for fast lookup during request processing.
      */
-    async setupProjects(){
+    async storeProjects(){
         const projects = await models.Projects.findAll({
             where: { active: true },
             include: [
@@ -86,5 +102,5 @@ class RedisWrapper {
 
 }
 
-const REDIS_WRAPPER = new RedisWrapper();
-module.exports = REDIS_WRAPPER;
+const RED = new RedisWrapper();
+module.exports = RED;

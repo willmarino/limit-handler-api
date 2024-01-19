@@ -2,28 +2,26 @@ const bcrypt = require("bcrypt");
 
 
 /**
- * @description Helper func for hashing passwords.
- * Super simple, but just easier to use the same func for testing/actual functionality
- * if it is abstracted into a helpers file.
- * Returns a hashed password.
- * @param passwordInput - String entered by user representing their desired password
+ * @description Helper func for hashing any string.
+ * @param input - String entered by user representing their desired password
  */
-const createPasskeyHash = async (passwordInput) => {
-    const hashedPassword = await bcrypt.hash(passwordInput, 10);
-    return hashedPassword;
+const createHash = async (input) => {
+    const hash = await bcrypt.hash(input, 10);
+    return hash;
 };
 
 /**
- * @description Wrapper func for bcrypt compare
+ * @description Wrapper func for bcrypt compare.
+ * Used for user passwords, api keys
  */
-const compare = async (passwordInput, hashedPassword) => {
-    const passwordMatches = await bcrypt.compare(passwordInput, hashedPassword);
-    return passwordMatches;
+const compare = async (input, storedHash) => {
+    const match = await bcrypt.compare(input, storedHash);
+    return match;
 }
 
 
 
 module.exports = {
-    createPasskeyHash,
+    createHash,
     compare
 }

@@ -1,5 +1,5 @@
 'use strict';
-const { createPasskeyHash } = require("../../helpers/bcrypt");
+const { createHash } = require("../../helpers/bcrypt");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
         ]
 
         for(const user of userData){
-            user.password = await createPasskeyHash(user.password);
+            user.password = await createHash(user.password);
         }
         
         await queryInterface.bulkInsert(

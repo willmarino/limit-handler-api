@@ -31,9 +31,9 @@ describe("GET /organizations/:id", () => {
         });
 
         org.projects.length.should.eq(1);
-        org.projects[0].name.should.eq("org 1 80 per min");
+        org.projects[0].name.should.eq("org 1 5 per min");
         org.projects[0].creator.should.eq("usernamebill");
-        org.projects[0].callLimit.should.eq(80);
+        org.projects[0].callLimit.should.eq(5);
         org.projects[0].timeFrame.should.eq("minute");
     })
 

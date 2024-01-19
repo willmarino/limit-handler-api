@@ -18,10 +18,15 @@ module.exports = {
                     allowNull: false,
                     field: "name"
                 },
-                apiKey: {
+                identifier: {
+                    type: Sequelize.DataTypes.STRING(16),
+                    allowNull: false,
+                    field: "identifier"
+                },
+                refreshToken: {
                     type: Sequelize.DataTypes.STRING(60),
                     allowNull: false,
-                    field: "api_key"
+                    field: "refresh_token"
                 },
                 createdAt: {
                     type: Sequelize.DataTypes.DATE,
@@ -35,6 +40,28 @@ module.exports = {
                     defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
                     field: 'updated_at',
                 }
+            }
+        )
+
+        await queryInterface.addIndex(
+            "organizations",
+            ["identifier"],
+            {
+                name: "organizations_identifier_idx",
+                unique: "true",
+                using: "BTREE",
+                fields: ["identifier"],
+            }
+        )
+
+        await queryInterface.addIndex(
+            "organizations",
+            ["name"],
+            {
+                name: "organizations_name_idx",
+                unique: "true",
+                using: "BTREE",
+                fields: ["name"],
             }
         )
     },

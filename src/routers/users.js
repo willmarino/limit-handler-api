@@ -14,7 +14,6 @@ router.get("/", async (req, res, next) => {
             responseTemplates.success(usersResponse, "Successfully fetched user information")
         );
     }catch(err){
-        console.log(err);
         next(err);
     }
 });

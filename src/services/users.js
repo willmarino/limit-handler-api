@@ -2,10 +2,10 @@ const { Op } = require("sequelize");
 const BadWordsFilter = require("bad-words");
 const badWordsFilter = new BadWordsFilter();
 const emailValidator = require("email-validator");
-const { createPasskeyHash } = require("../helpers/bcrypt");
+const { createHash } = require("../helpers/bcrypt");
 const { models } = require("../db/connection");
 const ErrorWrapper = require("../util/error_wrapper");
-const REDIS_WRAPPER = require("../util/redis_connection_wrapper");
+const RED = require("../util/redis_connection_wrapper");
 
 /**
  * @description Fetch a user, along with their memberships, organizations, and teammates
@@ -63,7 +63,7 @@ const getUser = async (id) => {
     const projectRequestsById = {};
     for(const org of organizationsAndTeammates){
         for(const project of org.projects){
-            const projectConfig = await REDIS_WRAPPER.client.get(`projects:${project.id}`);
+            const projectConfig = await RED.client.get(`projects:${project.id}`);
             projectRequestsById[project.id] = JSON.parse(projectConfig).requests;
         }
     }
@@ -158,7 +158,7 @@ const registerUser = async (userName, email, passwordInput) => {
 
     
     // All validations have passed, created new user
-    const hashedPassword = await createPasskeyHash(passwordInput);
+    const hashedPassword = await createHash(passwordInput);
 
     const user = await models.Users.create({
         userName,

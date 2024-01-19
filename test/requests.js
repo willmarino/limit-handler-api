@@ -1,10 +1,19 @@
-const { chai, it, should, jwtHelpers, REDIS_WRAPPER } = require("./setup");
+const { chai, it, should, jwtHelpers, RED } = require("./setup");
 const { app } = require("../app");
 const { models } = require("../src/db/connection");
 
 describe("POST /requests", () => {
+
+    const setAuthToken = async (refreshToken) => {
+        const tokenResponse = await chai.request(app)
+            .post("/tokens")
+            .send({ refreshToken, orgIdentifier: "testidentifier2" })
+        
+        return tokenResponse.body.data.authToken;
+    };
     
     it("correctly calculates wait time correctly when there is no need to wait", async () => {
+        const authToken = await setAuthToken("testrefreshtoken2")
 
         const project = await models.Projects.findOne({
             where: { id: 3 },
@@ -16,7 +25,8 @@ describe("POST /requests", () => {
         for(let i = 0; i < mockRequestTimestamps.length; i++){
             const response = await chai.request(app)
                 .post("/requests")
-                .set("token", jwtHelpers.create(project.creator.email))
+                .set("orgidentifier", "testidentifier2")
+                .set("authtoken", authToken)
                 .send({
                     projectId: project.id,
                     requestTimestamp: mockRequestTimestamps[i]
@@ -30,6 +40,7 @@ describe("POST /requests", () => {
 
 
     it("correctly calculates wait time correctly when there is a non-zero wait time", async () => {
+        const authToken = await setAuthToken("testrefreshtoken2")
 
         const project = await models.Projects.findOne({
             where: { id: 3 },
@@ -42,7 +53,8 @@ describe("POST /requests", () => {
         for(let i = 0; i < mockRequestTimestamps.length; i++){
             const response = await chai.request(app)
                 .post("/requests")
-                .set("token", jwtHelpers.create(project.creator.email))
+                .set("orgidentifier", "testidentifier2")
+                .set("authtoken", authToken)
                 .send({
                     projectId: project.id,
                     requestTimestamp: mockRequestTimestamps[i]
@@ -55,6 +67,7 @@ describe("POST /requests", () => {
     });
 
     it("correctly calculates wait time correctly when there is are several non-zero wait times", async () => {
+        const authToken = await setAuthToken("testrefreshtoken2")
 
         const project = await models.Projects.findOne({
             where: { id: 3 },
@@ -67,7 +80,8 @@ describe("POST /requests", () => {
         for(let i = 0; i < mockRequestTimestamps.length; i++){
             const response = await chai.request(app)
                 .post("/requests")
-                .set("token", jwtHelpers.create(project.creator.email))
+                .set("orgidentifier", "testidentifier2")
+                .set("authtoken", authToken)
                 .send({
                     projectId: project.id,
                     requestTimestamp: mockRequestTimestamps[i]
