@@ -7,6 +7,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    identifier: {
+      type: DataTypes.STRING(16),
+      allowNull: false,
+      unique: "projects_identifier_idx"
+    },
     organizationId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
@@ -36,7 +41,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(36),
-      allowNull: false
+      allowNull: false,
+      unique: "projects_name_idx"
     },
     callLimit: {
       type: DataTypes.INTEGER.UNSIGNED,
@@ -71,6 +77,22 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "projects_identifier_idx",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "identifier" },
+        ]
+      },
+      {
+        name: "projects_name_idx",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "name" },
         ]
       },
       {

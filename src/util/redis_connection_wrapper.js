@@ -57,7 +57,7 @@ class RedisWrapper {
         });
         for(const project of projects){
             await this.client.set(
-                `projects:${project.id}`,
+                `projects:${project.identifier}`,
                 JSON.stringify({
                     name: project.name,
                     callLimit: project.callLimit,

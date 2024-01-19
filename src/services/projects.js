@@ -1,5 +1,6 @@
 const { models } = require("../db/connection");
 const ErrorWrapper = require("../util/error_wrapper");
+const cryptoHelpers = require("../helpers/crypto");
 
 
 /**
@@ -25,10 +26,12 @@ const create = async (creator, projectConfig) => {
     if(!["owner", "admin"].includes(membership.userRole.role))
         throw new ErrorWrapper("Insufficiet permissions, you need to be an owner or admin to create projects", 400);
 
+    const identifier = await cryptoHelpers.generateRandomString(8);
     const project = await models.Projects.create({
         creatorId: creator.id,
         organizationId,
         name,
+        identifier,
         callLimit,
         timeFrameId
     });

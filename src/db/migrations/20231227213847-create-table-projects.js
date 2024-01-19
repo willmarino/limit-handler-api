@@ -13,6 +13,11 @@ module.exports = {
                     allowNull: false,
                     field: "id"
                 },
+                identifier: {
+                    type: Sequelize.DataTypes.STRING(16),
+                    allowNull: false,
+                    field: "identifier"
+                },
                 organizationId: {
                     type: Sequelize.DataTypes.INTEGER.UNSIGNED,
                     allowNull: false,
@@ -70,6 +75,29 @@ module.exports = {
                 }
             }
         )
+
+        await queryInterface.addIndex(
+            "projects",
+            ["identifier"],
+            {
+                name: "projects_identifier_idx",
+                unique: "true",
+                using: "BTREE",
+                fields: ["identifier"],
+            }
+        )
+
+        await queryInterface.addIndex(
+            "projects",
+            ["name"],
+            {
+                name: "projects_name_idx",
+                unique: "true",
+                using: "BTREE",
+                fields: ["name"],
+            }
+        )
+
     },
 
     async down (queryInterface, Sequelize) {

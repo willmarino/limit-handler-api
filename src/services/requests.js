@@ -14,8 +14,8 @@ const RED = require("../util/redis_connection_wrapper");
  * 
  * @param requestTS - Timestamp denoting when the request was initiated from the client.
  */
-const processRequest = async (projectId, requestTS) => {
-    const projectInfoString = await RED.client.get(`projects:${projectId}`);
+const processRequest = async (projectIdentifier, requestTS) => {
+    const projectInfoString = await RED.client.get(`projects:${projectIdentifier}`);
     const projectInfo = JSON.parse(projectInfoString);
     const { callLimit, timeFrameMS, requests: prevRequests } = projectInfo;
 
@@ -40,7 +40,7 @@ const processRequest = async (projectId, requestTS) => {
     }
 
     await RED.client.set(
-        `projects:${projectId}`,
+        `projects:${projectIdentifier}`,
         JSON.stringify({
             callLimit,
             timeFrameMS,

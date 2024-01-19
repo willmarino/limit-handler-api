@@ -13,12 +13,13 @@ const responseTemplates = require("../util/response_templates");
  */
 router.post("/", async (req, res, next) => {
     try{
-        const { projectId, requestTimestamp } = req.body;
-        const responseData = await requestsService.processRequest(projectId, requestTimestamp);
+        const { projectIdentifier, requestTimestamp } = req.body;
+        const responseData = await requestsService.processRequest(projectIdentifier, requestTimestamp);
         res.status(200).send(
             responseTemplates.success(responseData, "Request processed successfully")
         )
     }catch(err){
+        console.log(err);
         next(err);
     }
 });

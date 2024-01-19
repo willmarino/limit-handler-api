@@ -63,8 +63,8 @@ const getUser = async (id) => {
     const projectRequestsById = {};
     for(const org of organizationsAndTeammates){
         for(const project of org.projects){
-            const projectConfig = await RED.client.get(`projects:${project.id}`);
-            projectRequestsById[project.id] = JSON.parse(projectConfig).requests;
+            const projectConfig = await RED.client.get(`projects:${project.identifier}`);
+            projectRequestsById[project.identifier] = JSON.parse(projectConfig).requests;
         }
     }
 
