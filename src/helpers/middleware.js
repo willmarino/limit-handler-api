@@ -89,7 +89,6 @@ const validateAuthToken = async (req, res, next) => {
 
             const cachedAuthToken = await RED.client.get(`authtoken:org:${orgIdentifierHeader}`);
             
-            console.log(authTokenHeader, cachedAuthToken)
             const authTokenMatch = Boolean(authTokenHeader === cachedAuthToken);
             if(!authTokenMatch) throw new ErrorWrapper("Invalid auth token, please double check your 'authtoken' header value", 400);
         }
