@@ -1,0 +1,46 @@
+name: Node.js CI
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    services:
+      mysql:
+        image: mysql:8.0.35
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ROOT_HOST: '%'
+        ports:
+        - '7306:3306'
+      redis:
+        image: redis:6.2
+        ports:
+          - '6389:6379'
+
+    strategy:
+      matrix:
+        node-version: [18.12]
+
+    env:
+      NODE_ENV: test
+      EXPRESS_PORT: 5050
+      REDIS_URL: 127.0.0.1:6389
+      DB_URL: mysql://root:password@127.0.0.1:7306/lh_test
+      JWT_SECRET: secret
+      
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: node src/db/scripts/create_test_db.js
+      - run: npm run test:setup
+      - run: npm run test
