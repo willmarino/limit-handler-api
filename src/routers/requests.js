@@ -19,7 +19,6 @@ router.post("/", async (req, res, next) => {
             responseTemplates.success(responseData, "Request processed successfully")
         )
     }catch(err){
-        console.log(err);
         next(err);
     }
 });
