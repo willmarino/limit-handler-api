@@ -28,7 +28,7 @@ describe("POST /requests", () => {
                 .set("orgidentifier", "testidentifier2")
                 .set("authtoken", authToken)
                 .send({
-                    projectId: project.id,
+                    projectIdentifier: project.identifier,
                     requestTimestamp: mockRequestTimestamps[i]
                 });
 
@@ -56,7 +56,7 @@ describe("POST /requests", () => {
                 .set("orgidentifier", "testidentifier2")
                 .set("authtoken", authToken)
                 .send({
-                    projectId: project.id,
+                    projectIdentifier: project.identifier,
                     requestTimestamp: mockRequestTimestamps[i]
                 });
 
@@ -83,7 +83,7 @@ describe("POST /requests", () => {
                 .set("orgidentifier", "testidentifier2")
                 .set("authtoken", authToken)
                 .send({
-                    projectId: project.id,
+                    projectIdentifier: project.identifier,
                     requestTimestamp: mockRequestTimestamps[i]
                 });
 
