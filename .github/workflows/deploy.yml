@@ -1,0 +1,45 @@
+name: Build and send application image to ECR
+
+on:
+  push:
+    branches: [ staging ]
+
+jobs:
+  build:
+
+    name: Build Image
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - id: commit
+      uses: pr-mpt/actions-commit-hash@v3
+      # continue-on-error: true
+
+    - name: Configure AWS Staging credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      if: github.ref_name == 'staging'
+      with:
+        aws-access-key-id: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.STAGING_AWS_SECRET_KEY }}
+        aws-region: us-east-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build, tag, and push image to Amazon ECR (staging)
+      if: github.ref_name == 'staging'
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: staging-limit-handler
+        IMAGE_TAG: ${{ steps.commit.outputs.short }}
+      run: |
+        docker build --build-arg NODE_ENV=staging -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+        docker push --all-tags $ECR_REGISTRY/$ECR_REPOSITORY
+  
+
+  
