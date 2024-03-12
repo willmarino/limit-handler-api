@@ -17,7 +17,6 @@ jobs:
 
     - id: commit
       uses: pr-mpt/actions-commit-hash@v3
-      #
 
     - name: Configure AWS Staging credentials
       uses: aws-actions/configure-aws-credentials@v2
