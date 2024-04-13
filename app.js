@@ -1,3 +1,4 @@
+console.log("aaa");
 const cors = require("cors");
 const express = require("express");
 const context = require("express-context-store");
@@ -18,6 +19,8 @@ const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
 const customMiddleware = require("./src/helpers/middleware");
 require("./src/helpers/array_extensions");
+
+logger.info("from logger");
 
 const app = express();
 
