@@ -36,7 +36,8 @@ const validateJWT = async (req, res, next) => {
             ["POST", "/users"],
             ["POST", "/sessions"],
             ["POST", "/requests"],
-            ["POST", "/tokens"]
+            ["POST", "/tokens"],
+            ["GET", "/server_health"]
         ]
 
         const routeRequiresJWTAuth = !authExemptRouteMethodPairs
