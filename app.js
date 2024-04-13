@@ -18,6 +18,7 @@ const tokensRouter = require("./src/routers/tokens");
 const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
 const customMiddleware = require("./src/helpers/middleware");
+const migHelpers = require("./src/helpers/migrate");
 require("./src/helpers/array_extensions");
 
 logger.info("from logger");
@@ -57,12 +58,19 @@ app.use(customMiddleware.errorHandler);
 // Initiate express server
 let server;
 if (process.env.NODE_ENV !== "test") {
+
+    (async () => {
+        await migHelpers.migrationCheckup();
+        await RED.setClient();
+        await RED.storeOrganizations();
+        await RED.storeProjects();;
+    })();
+
+    logger.info("Pre-boot checks completed, running express server");
+
     server = app.listen(
         process.env.EXPRESS_PORT,
         async () => {
-            await RED.setClient();
-            await RED.storeOrganizations();
-            await RED.storeProjects();
             logger.info("Express server initiated on port " + process.env.EXPRESS_PORT + "...");
         }
     );

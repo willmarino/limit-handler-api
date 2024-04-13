@@ -42,6 +42,8 @@ class RedisWrapper {
                 JSON.stringify(org)
             )   
         }
+        
+        logger.info("Successfully stored organizations in cache", { orgs });
     }
 
 
@@ -66,6 +68,8 @@ class RedisWrapper {
                 })
             );
         }
+
+        logger.info("Successfully stored projects in cache", { projects });
     }
 
     /**
