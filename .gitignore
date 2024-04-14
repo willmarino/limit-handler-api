@@ -1,3 +1,4 @@
+.env*
 .env.dev.sh
 .env.test.sh
 

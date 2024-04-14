@@ -1,5 +1,6 @@
+const { Sequelize } = require("sequelize");
 const { Umzug, SequelizeStorage } = require("umzug");
-const { sequelize, models } = require("../db/connection");
+const { sequelize } = require("../db/connection");
 const { logger } = require("../util/logger");
 
 
@@ -7,7 +8,18 @@ const migrationCheckup = async () => {
     logger.info("checking migrations");
 
     const umzugInst = new Umzug({
-        migrations: { glob: "src/db/migrations/*.js" },
+        migrations: {
+            glob: "src/db/migrations/*.js",
+            resolve: ({ name, path, context }) => {
+                const migration = require(path);
+    
+                return {
+                    name,
+                    up: async () => migration.up(context, Sequelize),
+                    down: async () => migration.down(context, Sequelize)
+                }
+            }
+        },
         context: sequelize.getQueryInterface(),
         storage: new SequelizeStorage({ sequelize }),
         logger: console
