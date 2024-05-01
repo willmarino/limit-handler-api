@@ -1,12 +1,12 @@
 const { chai, it, should, jwtHelpers } = require("./setup");
-const { app } = require("../app");
+const { webApp } = require("../web");
 
 
 describe("POST /projects", () => {
 
     it("throws an error if the creating user is not a member of the marked organization", async () => {
 
-        const projectResponse = await chai.request(app)
+        const projectResponse = await chai.request(webApp)
             .post("/projects")
             .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send({
@@ -25,7 +25,7 @@ describe("POST /projects", () => {
 
     it("throws an error if the creating user does not have a significant enough role in the organization", async () => {
 
-        const projectResponse = await chai.request(app)
+        const projectResponse = await chai.request(webApp)
             .post("/projects")
             .set('token', jwtHelpers.create("testemail3@mail.com"))
             .send({
@@ -44,7 +44,7 @@ describe("POST /projects", () => {
 
     it("successfully creates a project with valid input", async () => {
 
-        const projectResponse = await chai.request(app)
+        const projectResponse = await chai.request(webApp)
             .post("/projects")
             .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send({

@@ -24,8 +24,10 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
+    "start:web": "node web.js",
+    "start:service": "node service.js",
+    "dev:web": "nodemon web.js",
+    "dev:service": "nodemon service.js",
     "db:seed": "npx sequelize-cli db:seed:all",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo:all",

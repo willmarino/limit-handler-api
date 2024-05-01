@@ -1,4 +1,5 @@
-const { server } = require("../app");
+// const { webServer } = require("../web");
+// const { serviceServer } = require("../service");
 const RED = require("../src/util/redis_connection_wrapper");
 const { sequelize, models, namespace } = require("../src/db/connection");
 const chai = require("chai");

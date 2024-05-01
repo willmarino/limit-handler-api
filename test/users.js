@@ -1,12 +1,12 @@
 const { chai, it, should, jwtHelpers } = require("./setup");
-const { app } = require("../app");
+const { webApp } = require("../web");
 const RED = require("../src/util/redis_connection_wrapper");
 
 
 
 describe("GET /users", () => {
     it("fetches a user", async () => {
-        const subscriptionsResponse = await chai.request(app)
+        const subscriptionsResponse = await chai.request(webApp)
             .get("/users")
             .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send();
@@ -39,7 +39,7 @@ describe("GET /users", () => {
 describe("POST /users", () => {
 
     it("should fail to create a new user with null request body attributes", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send();
 
@@ -48,7 +48,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with a username which is too short", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "inval",
@@ -61,7 +61,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with a username which is too long", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "this username is wayyyyyyyy too long why would anyone do this",
@@ -74,7 +74,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with a username which has special characters", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "crazy&",
@@ -87,7 +87,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with a username which is profane", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "asshole",
@@ -100,7 +100,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with an email which is invalid", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "validUsername",
@@ -113,7 +113,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with an email which is profane", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "validUsername",
@@ -126,7 +126,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with a password which is too short", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "aValidUsername",
@@ -139,7 +139,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with a password which is too long", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "aValidUsername",
@@ -152,7 +152,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with a password which has no special characters", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "aValidUsername",
@@ -165,7 +165,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with a password which has no numeric characters", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "aValidUsername",
@@ -178,7 +178,7 @@ describe("POST /users", () => {
     });
 
     it("should fail to create a new user with a password which is profane", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "aValidUsername",
@@ -191,7 +191,7 @@ describe("POST /users", () => {
     });
 
     it("should create a new user with a valid inputs", async () => {
-        const registrationResponse = await chai.request(app)
+        const registrationResponse = await chai.request(webApp)
             .post("/users")
             .send({
                 userName: "aValidUsername",

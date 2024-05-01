@@ -1,10 +1,10 @@
 const { chai, it, should, jwtHelpers } = require("./setup");
-const { app } = require("../app");
+const { webApp } = require("../web");
 
 
 describe("GET /subscriptions", () => {
     it("fetches subscriptions", async () => {
-        const subscriptionsResponse = await chai.request(app)
+        const subscriptionsResponse = await chai.request(webApp)
             .get("/subscriptions")
             .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send();

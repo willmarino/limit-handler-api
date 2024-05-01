@@ -1,11 +1,11 @@
 const { chai, it, should, jwtHelpers, RED } = require("./setup");
-const { app } = require("../app");
 const { models } = require("../src/db/connection");
+const { reqUtilApp } = require("../req_util");
 
 describe("POST /requests", () => {
 
     const setAuthToken = async (refreshToken) => {
-        const tokenResponse = await chai.request(app)
+        const tokenResponse = await chai.request(reqUtilApp)
             .post("/tokens")
             .send({ refreshToken, orgIdentifier: "testidentifier2" })
         
@@ -23,7 +23,7 @@ describe("POST /requests", () => {
         const mockRequestTimestamps = [ 1704000280894, 1704000280944, 1704000280954, 1704000280964 ];
 
         for(let i = 0; i < mockRequestTimestamps.length; i++){
-            const response = await chai.request(app)
+            const response = await chai.request(reqUtilApp)
                 .post("/requests")
                 .set("orgidentifier", "testidentifier2")
                 .set("authtoken", authToken)
@@ -51,7 +51,7 @@ describe("POST /requests", () => {
         const expectedWaitTimes = [ 0, 0, 0, 0, 400 ];
 
         for(let i = 0; i < mockRequestTimestamps.length; i++){
-            const response = await chai.request(app)
+            const response = await chai.request(reqUtilApp)
                 .post("/requests")
                 .set("orgidentifier", "testidentifier2")
                 .set("authtoken", authToken)
@@ -78,7 +78,7 @@ describe("POST /requests", () => {
         const expectedWaitTimes = [ 0, 0, 0, 0, 400, 288 ];
 
         for(let i = 0; i < mockRequestTimestamps.length; i++){
-            const response = await chai.request(app)
+            const response = await chai.request(reqUtilApp)
                 .post("/requests")
                 .set("orgidentifier", "testidentifier2")
                 .set("authtoken", authToken)
