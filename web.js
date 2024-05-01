@@ -47,7 +47,7 @@ webApp.use("/server_health", serverHealthRouter);
 webApp.use(customMiddleware.errorHandler);
 
 // Initiate express server
-let server;
+let webServer;
 if (process.env.NODE_ENV !== "test") {
 
     (async () => {
@@ -57,17 +57,17 @@ if (process.env.NODE_ENV !== "test") {
         await RED.storeProjects();;
     })();
 
-    logger.info("Pre-boot checks completed, running express server");
+    logger.info("Pre-boot checks completed, running express webServer");
 
-    server = webApp.listen(
+    webServer = webApp.listen(
         process.env.EXPRESS_PORT,
         async () => {
-            logger.info("Express server initiated on port " + process.env.EXPRESS_PORT + "...");
+            logger.info("Express webServer initiated on port " + process.env.EXPRESS_PORT + "...");
         }
     );
 }
 
 module.exports = {
     webApp,
-    server
+    webServer
 }

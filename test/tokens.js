@@ -1,13 +1,13 @@
 const { chai, it, should, RED } = require("./setup");
-const { app } = require("../app");
 const { models } = require("../src/db/connection");
+const { serviceApp } = require("../service");
 
 
 describe("POST /tokens", () => {
 
     it("should throw an error given an invalid organization identifier", async () => {
 
-        const getAuthTokenResponse = await chai.request(app)
+        const getAuthTokenResponse = await chai.request(serviceApp)
             .post("/tokens")
             .send({
                 orgIdentifier: "testidentifiernonexistent",
@@ -20,7 +20,7 @@ describe("POST /tokens", () => {
 
     it("should throw an error given an invalid refresh token", async () => {
 
-        const getAuthTokenResponse = await chai.request(app)
+        const getAuthTokenResponse = await chai.request(serviceApp)
             .post("/tokens")
             .send({
                 orgIdentifier: "testidentifier1",
@@ -33,7 +33,7 @@ describe("POST /tokens", () => {
 
     it("should return a new auth token if info is valid", async () => {
 
-        const getAuthTokenResponse = await chai.request(app)
+        const getAuthTokenResponse = await chai.request(serviceApp)
             .post("/tokens")
             .send({
                 orgIdentifier: "testidentifier1",
@@ -48,7 +48,7 @@ describe("POST /tokens", () => {
     it("should cache a new auth token if info is valid", async () => {
         const org = await models.Organizations.findOne({ where: { identifier: "testidentifier1" } });
 
-        await chai.request(app)
+        await chai.request(serviceApp)
             .post("/tokens")
             .send({
                 orgIdentifier: "testidentifier1",
