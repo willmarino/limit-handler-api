@@ -7,7 +7,7 @@ const config = {
     [process.env.NODE_ENV]: {
         url: process.env.DB_URL,
         dialect: "mysql",
-        logging: process.env.DB_LOGGING === 'true' ? console.log : false,
+        logging: false,
         pool: {
             max: 5,
             min: 0,
