@@ -60,9 +60,9 @@ if (process.env.NODE_ENV !== "test") {
     logger.info("Pre-boot checks completed, running express webServer");
 
     webServer = webApp.listen(
-        process.env.EXPRESS_PORT,
+        process.env.EXPRESS_WEB_PORT,
         async () => {
-            logger.info("Express webServer initiated on port " + process.env.EXPRESS_PORT + "...");
+            logger.info("Express webServer initiated on port " + process.env.EXPRESS_WEB_PORT + "...");
         }
     );
 }
