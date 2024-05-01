@@ -54,7 +54,7 @@ if (process.env.NODE_ENV !== "test") {
         await migHelpers.migrationCheckup();
         await RED.setClient();
         await RED.storeOrganizations();
-        await RED.storeProjects();;
+        await RED.storeProjects();
     })();
 
     logger.info("Pre-boot checks completed, running express webServer");

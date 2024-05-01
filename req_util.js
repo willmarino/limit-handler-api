@@ -14,52 +14,52 @@ const migHelpers = require("./src/helpers/migrate");
 require("./src/helpers/array_extensions");
 
 
-const serviceApp = express();
+const reqUtilApp = express();
 
 // 3rd party middleware
-serviceApp.set('etag', false);
-serviceApp.use(cors());
-serviceApp.use(express.json({ limit: Infinity }));
-serviceApp.use(express.urlencoded({ extended: false }));
-serviceApp.use(context());
-if (process.env.NODE_ENV !== "test") serviceApp.use(morganLog);
+reqUtilApp.set('etag', false);
+reqUtilApp.use(cors());
+reqUtilApp.use(express.json({ limit: Infinity }));
+reqUtilApp.use(express.urlencoded({ extended: false }));
+reqUtilApp.use(context());
+if (process.env.NODE_ENV !== "test") reqUtilApp.use(morganLog);
 
 // Custom middelware - add in request logger and unique tag
-serviceApp.use(customMiddleware.addRequestContext);
-serviceApp.use(customMiddleware.validateAuthToken);
+reqUtilApp.use(customMiddleware.addRequestContext);
+reqUtilApp.use(customMiddleware.validateAuthToken);
 
 
 // Declare subrouters
-serviceApp.use("/requests", requestsRouter);
-serviceApp.use("/tokens", tokensRouter);
-serviceApp.use("/server_health", serverHealthRouter);
+reqUtilApp.use("/requests", requestsRouter);
+reqUtilApp.use("/tokens", tokensRouter);
+reqUtilApp.use("/server_health", serverHealthRouter);
 
 
 // Custom middelware - catch-all error handler
-serviceApp.use(customMiddleware.errorHandler);
+reqUtilApp.use(customMiddleware.errorHandler);
 
 // Initiate express server
-let serviceServer;
+let reqUtilServer;
 if (process.env.NODE_ENV !== "test") {
 
     (async () => {
         await migHelpers.migrationCheckup();
         await RED.setClient();
         await RED.storeOrganizations();
-        await RED.storeProjects();;
+        await RED.storeProjects();
     })();
 
-    logger.info("Pre-boot checks completed, running express serviceServer");
+    logger.info("Pre-boot checks completed, running express reqUtilServer");
 
-    serviceServer = serviceApp.listen(
+    reqUtilServer = reqUtilApp.listen(
         process.env.EXPRESS_PORT,
         async () => {
-            logger.info("Express serviceServer initiated on port " + process.env.EXPRESS_PORT + "...");
+            logger.info("Express reqUtilServer initiated on port " + process.env.EXPRESS_PORT + "...");
         }
     );
 }
 
 module.exports = {
-    serviceApp,
-    serviceServer
+    reqUtilApp,
+    reqUtilServer
 }
