@@ -1,4 +1,3 @@
-console.log("aaa");
 const cors = require("cors");
 const express = require("express");
 const context = require("express-context-store");
