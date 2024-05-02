@@ -25,9 +25,9 @@
   "main": "app.js",
   "scripts": {
     "start:web": "node web.js",
-    "start:service": "node service.js",
+    "start:reqUtil": "node req_util.js",
     "dev:web": "nodemon web.js",
-    "dev:service": "nodemon service.js",
+    "dev:reqUtil": "nodemon req_util.js",
     "db:seed": "npx sequelize-cli db:seed:all",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo:all",
