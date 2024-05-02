@@ -1,3 +1,4 @@
+const path = require("node:path");
 const cors = require("cors");
 const express = require("express");
 const context = require("express-context-store");
@@ -21,7 +22,9 @@ require("./src/helpers/array_extensions");
 const webApp = express();
 
 // 3rd party middleware
-webApp.set('etag', false);
+webApp.set("view engine", "pug");
+webApp.set("views", path.join(__dirname, "src/views"));
+webApp.set("etag", false);
 webApp.use(cors());
 webApp.use(express.json({ limit: Infinity }));
 webApp.use(express.urlencoded({ extended: false }));
@@ -45,6 +48,11 @@ webApp.use("/server_health", serverHealthRouter);
 
 // Custom middelware - catch-all error handler
 webApp.use(customMiddleware.errorHandler);
+
+
+webApp.use("/", (req, res, next) => {
+    res.render("index")
+})
 
 // Initiate express server
 let webServer;

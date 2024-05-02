@@ -1,3 +1,4 @@
+const pug = require("pug");
 const router = require("express").Router();
 const usersService = require("../services/users");
 const responseTemplates = require("../util/response_templates");
@@ -18,8 +19,24 @@ router.get("/", async (req, res, next) => {
     }
 });
 
+
 /**
- * @description User registration route
+ * @description User registration GET FORM route.
+ * * This is going to be my first HTMX route.
+ */
+router.get("/register", async (req, res, next) => {
+    try{
+        const template = pug.compileFile("src/views/users/register.pug");
+        const markup = template();
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+})
+
+
+/**
+ * @description User registration route.
  */
 router.post("/", async (req, res, next) => {
     try{

@@ -32,21 +32,21 @@ const addRequestContext = (req, res, next) => {
  */
 const validateJWT = async (req, res, next) => {
     try{
-        const authExemptRouteMethodPairs = [
-            ["POST", "/users"],
-            ["POST", "/sessions"],
-            ["POST", "/requests"],
-            ["POST", "/tokens"],
-            ["GET", "/server_health"]
+        const authRoutes = [
+            "/projects",
+            "/organizations",
+            "/subscription_tiers",
+            "/subscriptions",
+            "/memberships"
         ]
 
-        const routeRequiresJWTAuth = !authExemptRouteMethodPairs
-            .some((rmp) => req.method === rmp[0] && req.path.startsWith(rmp[1]))
+        const routeRequiresJWTAuth = authRoutes.some((p) => req.path.includes(p));
 
         if(!routeRequiresJWTAuth){
             next();
 
         }else{
+            console.log(req.method, req.path);
             const token = req.headers.token;
             if(!token){
                 throw new ErrorWrapper("Missing user authentication", 400);
