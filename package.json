@@ -24,8 +24,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start:web": "node web.js",
-    "start:reqUtil": "node req_util.js",
+    "web": "node web.js",
+    "reqUtil": "node req_util.js",
     "dev:web": "nodemon web.js",
     "dev:reqUtil": "nodemon req_util.js",
     "db:seed": "npx sequelize-cli db:seed:all",
