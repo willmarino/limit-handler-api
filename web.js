@@ -53,10 +53,6 @@ webApp.use("/server_health", serverHealthRouter);
 webApp.use(customMiddleware.errorHandler);
 
 
-webApp.use("/", (req, res, next) => {
-    res.render("index")
-})
-
 // Initiate express server
 let webServer;
 if (process.env.NODE_ENV !== "test") {
