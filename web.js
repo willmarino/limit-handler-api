@@ -28,6 +28,9 @@ webApp.set("etag", false);
 webApp.use(cors());
 webApp.use(express.json({ limit: Infinity }));
 webApp.use(express.urlencoded({ extended: false }));
+
+webApp.use(express.static(path.join(__dirname, "src/assets")));
+
 webApp.use(context());
 if (process.env.NODE_ENV !== "test") webApp.use(morganLog);
 
