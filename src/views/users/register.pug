@@ -9,19 +9,29 @@ html(lang="en")
         link(rel="stylesheet" type="text/css" href="/css/fonts.css")
     body
         div(class="page background-color")
-            div(class="centered-column")
-                div(class="auth-container")
-                    div(class="auth-header")
-                        p Limit Handler
-                        img(src="/img/logo.svg" alt="Hourglass...")
-                    form(class="auth-form")
-                        div(class="input-container")
-                            p Email
-                            input.edit(type="text" name="username" placeholder="Email")
-                        div(class="input-container")
-                            p Username
-                            input.edit(type="text" name="email" placeholder="Username")
-                        div(class="input-container")
-                            p Password
-                            input.edit(type="password" name="password" placeholder="Password")
-            //- footer()
+            div(class="site-header")
+                div(class="site-header-left")
+                    p Limit Handler
+                    img(src="/img/logo.svg" alt="Hourglass...")
+                div(class="site-header-right")
+                    img(src="/img/question-mark.svg" alt="Question...")
+            div(class="page-content")
+                div(class="centered-column")
+                    div(class="auth-container")
+                        div(class="auth-header")
+                            p Sign up
+                        form(class="auth-form")
+                            div(class="input-container")
+                                p Email
+                                input.edit(type="text" name="username" placeholder="Email")
+                            div(class="input-container")
+                                p Username
+                                input.edit(type="text" name="email" placeholder="Username")
+                            div(class="input-container")
+                                p Password
+                                input.edit(type="password" name="password" placeholder="Password")
+            div(class="site-footer")
+                div(class="site-footer-left")
+                div(class="site-footer-right")
+                    a(href="https://github.com/willmarino/limit-handler-api") Check out the code here :)
+
