@@ -1,3 +1,4 @@
+const qs = require("node:querystring");
 const pug = require("pug");
 const router = require("express").Router();
 const usersService = require("../services/users");
@@ -7,7 +8,7 @@ const responseTemplates = require("../util/response_templates");
 /**
  * @description Users show route.
  */
-router.get("/", async (req, res, next) => {
+router.get("/show", async (req, res, next) => {
     try{
         const id = req.context.get("user").id;
         const usersResponse = await usersService.getUser(id);
@@ -15,6 +16,7 @@ router.get("/", async (req, res, next) => {
             responseTemplates.success(usersResponse, "Successfully fetched user information")
         );
     }catch(err){
+        console.log(err);
         next(err);
     }
 });
@@ -22,13 +24,16 @@ router.get("/", async (req, res, next) => {
 
 /**
  * @description User registration GET FORM route.
- * * This is going to be my first HTMX route.
  */
 router.get("/register", async (req, res, next) => {
     try{
+        const errMessage = req.query.errMessage || "";
+        const status = (errMessage === "") ? 200 : 400;
+
         const template = pug.compileFile("src/views/users/register.pug");
-        const markup = template();
-        res.status(200).send(markup);
+        const markup = template({ errMessage });
+        
+        res.status(status).send(markup);
     }catch(err){
         next(err);
     }
@@ -36,9 +41,9 @@ router.get("/register", async (req, res, next) => {
 
 
 /**
- * @description User registration route.
+ * @description User registration route. Redirect to GET FORM route if registration fails.
  */
-router.post("/", async (req, res, next) => {
+router.post("/register", async (req, res, next) => {
     try{
         const { userName, email, passwordInput } = req.body;
         const registrationResponse = await usersService.registerUser(userName, email, passwordInput);
@@ -48,7 +53,7 @@ router.post("/", async (req, res, next) => {
         );
 
     }catch(err){
-        next(err);
+        res.redirect(`/users/register?errMessage=${err.message}`);
     }
 });
 

@@ -11,7 +11,7 @@
  * 
  * This gives flexibility in that we can either hide or show the cause of an error to a user.
  */
-class ErrorWrapper extends Error{
+class SimpleErrorWrapper extends Error{
     constructor(message, statusCode){
         super(message);
         this.message = message;
@@ -21,4 +21,4 @@ class ErrorWrapper extends Error{
 
 
 
-module.exports = ErrorWrapper;
+module.exports = SimpleErrorWrapper;

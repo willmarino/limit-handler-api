@@ -1,7 +1,7 @@
 const { models } = require("../db/connection");
 const cryptoHelpers = require("../helpers/crypto");
 const bcrypyHelpers = require("../helpers/bcrypt");
-const ErrorWrapper = require("../util/error_wrapper");
+const SimpleErrorWrapper = require("../util/error_wrapper");
 
 /**
  * @description Get organization by id.
@@ -20,7 +20,7 @@ const getOrganization = async (orgId, userId) => {
     );
     
     if(!requestingUserInOrg){
-        throw new ErrorWrapper("Not a member of this organization", 400);
+        throw new SimpleErrorWrapper("Not a member of this organization", 400);
     }
 
     const organization = await models.Organizations.findOne({

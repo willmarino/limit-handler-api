@@ -3,7 +3,7 @@
 }
 	
 .primary-color { 
-
+    background: #1e293b;
 }
 
 .background-color { 
@@ -16,3 +16,8 @@
 
 
 
+/*  */
+
+.slate-400{
+    background: #94a3b8;
+}

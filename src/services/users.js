@@ -4,7 +4,7 @@ const badWordsFilter = new BadWordsFilter();
 const emailValidator = require("email-validator");
 const { createHash } = require("../helpers/bcrypt");
 const { models } = require("../db/connection");
-const ErrorWrapper = require("../util/error_wrapper");
+const SimpleErrorWrapper = require("../util/error_wrapper");
 const RED = require("../util/redis_connection_wrapper");
 
 /**
@@ -128,7 +128,7 @@ const registerUser = async (userName, email, passwordInput) => {
     ];
 
     if(!userName || !email || !passwordInput)
-        throw new ErrorWrapper("Unable to process request", 400);
+        throw new SimpleErrorWrapper("Unable to process request", 400);
 
     const userNameValid = Boolean(
         userName.length >= 6 &&
@@ -137,14 +137,14 @@ const registerUser = async (userName, email, passwordInput) => {
         !specialChars.some((c) => userName.includes(c))
     );
     if(!userNameValid)
-        throw new ErrorWrapper("Username must be between 6 and 24 characters, and cannot include profanity", 400);
+        throw new SimpleErrorWrapper("Username must be between 6 and 24 characters, and cannot include profanity", 400);
 
     const emailValid = Boolean(
         emailValidator.validate(email) &&
         !badWordsFilter.isProfane(email)
     );
     if(!emailValid)
-        throw new ErrorWrapper("Invalid email address", 400);
+        throw new SimpleErrorWrapper("Invalid email address", 400);
 
     const passwordInputValid = Boolean(
         passwordInput.length >= 8 &&
@@ -154,7 +154,7 @@ const registerUser = async (userName, email, passwordInput) => {
         !badWordsFilter.isProfane(passwordInput)
     );
     if(!passwordInputValid)
-        throw new ErrorWrapper("Password must be between 8 and 32 characters, must contain a special character and number, and cannot contain profanity", 400);
+        throw new SimpleErrorWrapper("Password must be between 8 and 32 characters, must contain a special character and number, and cannot contain profanity", 400);
 
     
     // All validations have passed, created new user
