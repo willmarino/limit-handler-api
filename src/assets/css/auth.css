@@ -1,12 +1,12 @@
 .auth-container{
-    height: 360px;
+    height: 380px;
     width: 300px;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    margin: 0 0 200px 0;
+    margin: 0 0 120px 0;
 }
 
 .auth-header{
