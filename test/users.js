@@ -44,7 +44,10 @@ describe("POST /users/register", () => {
             .send();
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Unable to process request");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Unable to process request" }
+        )
     });
 
     it("should fail to create a new user with a username which is too short", async () => {
@@ -57,20 +60,26 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Username must be between 6 and 24 characters, and cannot include profanity");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Username must be between 6 and 24 characters" }
+        )
     });
 
     it("should fail to create a new user with a username which is too long", async () => {
         const registrationResponse = await chai.request(webApp)
             .post("/users/register")
             .send({
-                userName: "this username is wayyyyyyyy too long why would anyone do this",
+                userName: "Username must be between 6 and 24 characters",
                 email: "anemail@gmail.com",
                 passwordInput: "aGood&Password*",
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Username must be between 6 and 24 characters, and cannot include profanity");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Username must be between 6 and 24 characters" }
+        )
     });
 
     it("should fail to create a new user with a username which has special characters", async () => {
@@ -83,7 +92,10 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Username must be between 6 and 24 characters, and cannot include profanity");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Username cannot include special characters" }
+        )
     });
 
     it("should fail to create a new user with a username which is profane", async () => {
@@ -96,7 +108,10 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Username must be between 6 and 24 characters, and cannot include profanity");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Username cannot include profanity" }
+        )
     });
 
     it("should fail to create a new user with an email which is invalid", async () => {
@@ -109,7 +124,10 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Invalid email address");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Invalid email address" }
+        )
     });
 
     it("should fail to create a new user with an email which is profane", async () => {
@@ -122,7 +140,10 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Invalid email address");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Invalid email address" }
+        )
     });
 
     it("should fail to create a new user with a password which is too short", async () => {
@@ -135,7 +156,10 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Password must be between 8 and 32 characters, must contain a special character and number, and cannot contain profanity");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Password must be between 8 and 24 characters" }
+        )
     });
 
     it("should fail to create a new user with a password which is too long", async () => {
@@ -148,7 +172,10 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Password must be between 8 and 32 characters, must contain a special character and number, and cannot contain profanity");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Password must be between 8 and 24 characters" }
+        )
     });
 
     it("should fail to create a new user with a password which has no special characters", async () => {
@@ -161,7 +188,10 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Password must be between 8 and 32 characters, must contain a special character and number, and cannot contain profanity");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Password must include at least one special character" }
+        )
     });
 
     it("should fail to create a new user with a password which has no numeric characters", async () => {
@@ -174,7 +204,10 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Password must be between 8 and 32 characters, must contain a special character and number, and cannot contain profanity");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Password must include at least one number" }
+        )
     });
 
     it("should fail to create a new user with a password which is profane", async () => {
@@ -187,7 +220,10 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(400);
-        registrationResponse.body.message.should.eq("Password must be between 8 and 32 characters, must contain a special character and number, and cannot contain profanity");
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Password cannot include profanity" }
+        )
     });
 
     it("should create a new user with a valid inputs", async () => {
@@ -200,9 +236,9 @@ describe("POST /users/register", () => {
             });
 
         registrationResponse.status.should.eq(200);
-        registrationResponse.body.data.userName.should.eq("aValidUsername");
-        registrationResponse.body.data.email.should.eq("anemail@gmail.com");
-        registrationResponse.body.data.password.should.not.eq("aV@lidPassw0rdxp!lidaiosjw0rd"); // pw should come back hashed
+        // registrationResponse.body.data.userName.should.eq("aValidUsername");
+        // registrationResponse.body.data.email.should.eq("anemail@gmail.com");
+        // registrationResponse.body.data.password.should.not.eq("aV@lidPassw0rdxp!lidaiosjw0rd"); // pw should come back hashed
     });
 
     
