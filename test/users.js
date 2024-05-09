@@ -43,7 +43,7 @@ describe("POST /users/register", () => {
             .post("/users/register")
             .send();
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Unable to process request" }
@@ -59,7 +59,7 @@ describe("POST /users/register", () => {
                 passwordInput: "aGood&Password*",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Username must be between 6 and 24 characters" }
@@ -75,7 +75,7 @@ describe("POST /users/register", () => {
                 passwordInput: "aGood&Password*",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Username must be between 6 and 24 characters" }
@@ -91,7 +91,7 @@ describe("POST /users/register", () => {
                 passwordInput: "aGood&Password*",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Username cannot include special characters" }
@@ -107,7 +107,7 @@ describe("POST /users/register", () => {
                 passwordInput: "aGood&Password*",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Username cannot include profanity" }
@@ -123,7 +123,7 @@ describe("POST /users/register", () => {
                 passwordInput: "aGoo4&Password*",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Invalid email address" }
@@ -139,7 +139,7 @@ describe("POST /users/register", () => {
                 passwordInput: "aGood&Password*",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Invalid email address" }
@@ -155,7 +155,7 @@ describe("POST /users/register", () => {
                 passwordInput: "abc",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Password must be between 8 and 24 characters" }
@@ -171,7 +171,7 @@ describe("POST /users/register", () => {
                 passwordInput: "normal1!3normal1!3normal1!3normal1!3normal1!3normal1!3normal1!3normal1!3normal1!3normal1!3normal1!3normal1!3",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Password must be between 8 and 24 characters" }
@@ -187,7 +187,7 @@ describe("POST /users/register", () => {
                 passwordInput: "normal13",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Password must include at least one special character" }
@@ -203,7 +203,7 @@ describe("POST /users/register", () => {
                 passwordInput: "normal!!hihl",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Password must include at least one number" }
@@ -219,7 +219,7 @@ describe("POST /users/register", () => {
                 passwordInput: "!asshole!52",
             });
 
-        registrationResponse.status.should.eq(400);
+        registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
             ".auth-form-error-message",
             { textContent: "Password cannot include profanity" }

@@ -28,12 +28,12 @@ router.get("/show", async (req, res, next) => {
 router.get("/register", async (req, res, next) => {
     try{
         const errMessage = req.query.errMessage || "";
-        const status = (errMessage === "") ? 200 : 400;
+        if(errMessage) res.set("User-Error", true); // Using this in place of 400 response, html won't render if I attach a 400 status
 
         const template = pug.compileFile("src/views/users/register.pug");
         const markup = template({ errMessage });
         
-        res.status(status).send(markup);
+        res.status(200).send(markup);
     }catch(err){
         next(err);
     }
