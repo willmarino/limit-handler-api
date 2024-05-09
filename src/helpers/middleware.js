@@ -3,7 +3,7 @@ const { models } = require("../db/connection");
 const jwtHelpers = require("./jwt");
 const RED = require("../util/redis_connection_wrapper");
 const bcryptHelpers = require("./bcrypt");
-const ErrorWrapper = require("../util/error_wrapper");
+const SimpleErrorWrapper = require("../util/error_wrapper");
 const responseTemplates = require("../util/response_templates");
 const { logger } = require("../util/logger");
 
@@ -32,24 +32,25 @@ const addRequestContext = (req, res, next) => {
  */
 const validateJWT = async (req, res, next) => {
     try{
-        const authExemptRouteMethodPairs = [
-            ["POST", "/users"],
-            ["POST", "/sessions"],
-            ["POST", "/requests"],
-            ["POST", "/tokens"],
-            ["GET", "/server_health"]
+        const authRoutes = [
+            "/projects",
+            "/organizations",
+            "/subscription_tiers",
+            "/subscriptions",
+            "/memberships",
+            "/users/show"
         ]
 
-        const routeRequiresJWTAuth = !authExemptRouteMethodPairs
-            .some((rmp) => req.method === rmp[0] && req.path.startsWith(rmp[1]))
+        const routeRequiresJWTAuth = authRoutes.some((p) => req.path.includes(p));
 
         if(!routeRequiresJWTAuth){
             next();
 
         }else{
+            console.log(req.method, req.path);
             const token = req.headers.token;
             if(!token){
-                throw new ErrorWrapper("Missing user authentication", 400);
+                throw new SimpleErrorWrapper("Missing user authentication", 400);
             }
 
             let jwtEmail;
@@ -57,12 +58,12 @@ const validateJWT = async (req, res, next) => {
                 const verifiedTokenData = jwtHelpers.verify(token);
                 jwtEmail = verifiedTokenData.sub;
             }catch(err){
-                throw new ErrorWrapper("Unable to authenticate user", 500);
+                throw new SimpleErrorWrapper("Unable to authenticate user", 500);
             }
 
             const user = await models.Users.findOne({ where: { email: jwtEmail } });
             if(!user)
-                throw new ErrorWrapper("Invalid user authentication", 400);
+                throw new SimpleErrorWrapper("Invalid user authentication", 400);
 
             req.context.set("user", user);
             next();
@@ -91,7 +92,7 @@ const validateAuthToken = async (req, res, next) => {
             const cachedAuthToken = await RED.client.get(`authtoken:org:${orgIdentifierHeader}`);
             
             const authTokenMatch = Boolean(authTokenHeader === cachedAuthToken);
-            if(!authTokenMatch) throw new ErrorWrapper("Invalid auth token, please double check your 'authtoken' header value", 401);
+            if(!authTokenMatch) throw new SimpleErrorWrapper("Invalid auth token, please double check your 'authtoken' header value", 401);
         }
 
         next();

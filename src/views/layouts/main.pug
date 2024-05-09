@@ -1,0 +1,32 @@
+doctype html
+html(lang="en")
+    head
+        link(rel="stylesheet" type="text/css" href="/css/reset.css")
+        link(rel="stylesheet" type="text/css" href="/css/base.css")
+        link(rel="stylesheet" type="text/css" href="/css/page.css")
+        link(rel="stylesheet" type="text/css" href="/css/auth.css")
+        link(rel="stylesheet" type="text/css" href="/css/colors.css")
+        link(rel="stylesheet" type="text/css" href="/css/fonts.css")
+    body
+        
+        //- wrapper parent
+        div(class="page background-color")
+
+            //- footer
+            div(class="site-header")
+                div(class="site-header-left")
+                    p Limit Handler
+                    img(src="/img/logo.svg" alt="Hourglass...")
+                div(class="site-header-right")
+                    img(src="/img/question-mark.svg" alt="Question...")
+
+            //- actual page content
+            block content
+
+            //- footer
+            div(class="site-footer")
+                div(class="site-footer-left")
+                div(class="site-footer-right")
+                    a(href="https://github.com/willmarino/limit-handler-api") Check out the code here :)
+
+        script(src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous")

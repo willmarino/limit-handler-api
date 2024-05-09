@@ -2,7 +2,7 @@ const { models } = require("../db/connection");
 const bcryptHelpers = require("../helpers/bcrypt");
 const cryptoHelpers = require("../helpers/crypto")
 const RED = require("../util/redis_connection_wrapper");
-const ErrorWrapper = require("../util/error_wrapper");
+const SimpleErrorWrapper = require("../util/error_wrapper");
 
 
 /**
@@ -13,13 +13,13 @@ const validateRefreshToken = async (refreshTokenInput, orgIdentifier) => {
     const org = await models.Organizations.findOne({
         where: { identifier: orgIdentifier }
     });
-    if(!org) throw new ErrorWrapper("Invalid organization identifier", 400);
+    if(!org) throw new SimpleErrorWrapper("Invalid organization identifier", 400);
 
     const isMatch = await bcryptHelpers.compare(refreshTokenInput, org.refreshToken);
     if(isMatch){
         return org;
     }else{
-        throw new ErrorWrapper("Invalid refresh token", 400);
+        throw new SimpleErrorWrapper("Invalid refresh token", 400);
     }
 }
 

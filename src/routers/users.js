@@ -1,3 +1,5 @@
+const qs = require("node:querystring");
+const pug = require("pug");
 const router = require("express").Router();
 const usersService = require("../services/users");
 const responseTemplates = require("../util/response_templates");
@@ -6,7 +8,7 @@ const responseTemplates = require("../util/response_templates");
 /**
  * @description Users show route.
  */
-router.get("/", async (req, res, next) => {
+router.get("/show", async (req, res, next) => {
     try{
         const id = req.context.get("user").id;
         const usersResponse = await usersService.getUser(id);
@@ -14,14 +16,34 @@ router.get("/", async (req, res, next) => {
             responseTemplates.success(usersResponse, "Successfully fetched user information")
         );
     }catch(err){
+        console.log(err);
         next(err);
     }
 });
 
+
 /**
- * @description User registration route
+ * @description User registration GET FORM route.
  */
-router.post("/", async (req, res, next) => {
+router.get("/register", async (req, res, next) => {
+    try{
+        const errMessage = req.query.errMessage || "";
+        if(errMessage) res.set("User-Error", true); // Using this in place of 400 response, html won't render if I attach a 400 status
+
+        const template = pug.compileFile("src/views/users/register.pug");
+        const markup = template({ errMessage });
+        
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+})
+
+
+/**
+ * @description User registration route. Redirect to GET FORM route if registration fails.
+ */
+router.post("/register", async (req, res, next) => {
     try{
         const { userName, email, passwordInput } = req.body;
         const registrationResponse = await usersService.registerUser(userName, email, passwordInput);
@@ -31,7 +53,7 @@ router.post("/", async (req, res, next) => {
         );
 
     }catch(err){
-        next(err);
+        res.redirect(`/users/register?errMessage=${err.message}`);
     }
 });
 

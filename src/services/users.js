@@ -4,7 +4,7 @@ const badWordsFilter = new BadWordsFilter();
 const emailValidator = require("email-validator");
 const { createHash } = require("../helpers/bcrypt");
 const { models } = require("../db/connection");
-const ErrorWrapper = require("../util/error_wrapper");
+const SimpleErrorWrapper = require("../util/error_wrapper");
 const RED = require("../util/redis_connection_wrapper");
 
 /**
@@ -127,35 +127,47 @@ const registerUser = async (userName, email, passwordInput) => {
         '9', '0'
     ];
 
+    // Username validations
     if(!userName || !email || !passwordInput)
-        throw new ErrorWrapper("Unable to process request", 400);
+        throw new SimpleErrorWrapper("Unable to process request", 400);
 
-    const userNameValid = Boolean(
-        userName.length >= 6 &&
-        userName.length <= 24 &&
-        !badWordsFilter.isProfane(userName) &&
-        !specialChars.some((c) => userName.includes(c))
-    );
-    if(!userNameValid)
-        throw new ErrorWrapper("Username must be between 6 and 24 characters, and cannot include profanity", 400);
+    if(userName.length < 6 || userName.length > 24){
+        throw new SimpleErrorWrapper("Username must be between 6 and 24 characters", 400);
+    }
 
+    if(badWordsFilter.isProfane(userName)){
+        throw new SimpleErrorWrapper("Username cannot include profanity", 400);
+    }
+
+    if(specialChars.some((c) => userName.includes(c))){
+        throw new SimpleErrorWrapper("Username cannot include special characters", 400);
+    }
+
+    // Email validations
     const emailValid = Boolean(
         emailValidator.validate(email) &&
         !badWordsFilter.isProfane(email)
     );
     if(!emailValid)
-        throw new ErrorWrapper("Invalid email address", 400);
+        throw new SimpleErrorWrapper("Invalid email address", 400);
 
-    const passwordInputValid = Boolean(
-        passwordInput.length >= 8 &&
-        passwordInput.length <= 32 &&
-        specialChars.some((c) => passwordInput.includes(c)) && 
-        numbers.some((c) => passwordInput.includes(c)) &&
-        !badWordsFilter.isProfane(passwordInput)
-    );
-    if(!passwordInputValid)
-        throw new ErrorWrapper("Password must be between 8 and 32 characters, must contain a special character and number, and cannot contain profanity", 400);
 
+    // Password validations
+    if(passwordInput.length < 8 || passwordInput.length > 32){
+        throw new SimpleErrorWrapper("Password must be between 8 and 24 characters", 400);
+    }
+
+    if(!numbers.some((c) => passwordInput.includes(c))){
+        throw new SimpleErrorWrapper("Password must include at least one number", 400);
+    }
+
+    if(!specialChars.some((c) => passwordInput.includes(c))){
+        throw new SimpleErrorWrapper("Password must include at least one special character", 400);
+    }
+
+    if(badWordsFilter.isProfane(passwordInput)){
+        throw new SimpleErrorWrapper("Password cannot include profanity", 400);
+    }
     
     // All validations have passed, created new user
     const hashedPassword = await createHash(passwordInput);

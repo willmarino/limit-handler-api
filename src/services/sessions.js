@@ -1,7 +1,7 @@
 const bcryptHelpers = require("../helpers/bcrypt");
 const jwtHelpers = require("../helpers/jwt");
 const { models } = require("../db/connection");
-const ErrorWrapper = require("../util/error_wrapper");
+const SimpleErrorWrapper = require("../util/error_wrapper");
 
 
 /**
@@ -13,12 +13,12 @@ const ErrorWrapper = require("../util/error_wrapper");
 const login = async (email, passwordInput) => {
     const user = await models.Users.findOne({ where: { email } });
     if(!user)
-        throw new ErrorWrapper("Unable to validate credentials", 400);
+        throw new SimpleErrorWrapper("Unable to validate credentials", 400);
 
     // const passwordMatches = await bcrypt.compare(passwordInput, user.password);
     const passwordMatches = await bcryptHelpers.compare(passwordInput, user.password);
     if(!passwordMatches)
-        throw new ErrorWrapper("Unable to validate credentials", 400);
+        throw new SimpleErrorWrapper("Unable to validate credentials", 400);
 
     await models.Sessions.create({
         userId: user.id
