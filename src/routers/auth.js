@@ -1,8 +1,8 @@
 const pug = require("pug");
 const router = require("express").Router();
-const usersService = require("../../services/users");
-const sessionsService = require("../../services/sessions");
-const responseTemplates = require("../../util/response_templates");
+const usersService = require("../services/users");
+const sessionsService = require("../services/sessions");
+const responseTemplates = require("../util/response_templates");
 
 
 // router.use("/", (req, res, next) => {

@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const usersService = require("../../services/users");
-const responseTemplates = require("../../util/response_templates");
+const usersService = require("../services/users");
+const responseTemplates = require("../util/response_templates");
 
 
 /**

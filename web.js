@@ -6,14 +6,14 @@ const cookieSession = require("cookie-session");
 
 const RED = require("./src/util/redis_connection_wrapper");
 const serverHealthRouter = require("./src/routers/server_health");
-const usersRouter = require("./src/routers/web/users");
+const usersRouter = require("./src/routers/users");
 const organizationsRouter = require("./src/routers/organizations");
 const subTiersRouter = require("./src/routers/subscription_tiers");
 const subscriptionsRouter = require("./src/routers/subscriptions");
 const membershipsRouter = require("./src/routers/memberships");
 const projectsRouter = require("./src/routers/projects");
 
-const authRouter = require("./src/routers/web/auth");
+const authRouter = require("./src/routers/auth");
 
 const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
