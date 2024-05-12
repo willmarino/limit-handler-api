@@ -6,7 +6,7 @@ describe("GET /subscriptions", () => {
     it("fetches subscriptions", async () => {
         const subscriptionsResponse = await chai.request(webApp)
             .get("/subscriptions")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
+            .set('token', jwtHelpers.create("testemail1@mail.com", "$2b$10$P6Xs.d4j5njknHU.TQd97OF7pbYdSwuZmW7.DgkMXdsWbUpZhOFka"))
             .send();
         
         subscriptionsResponse.status.should.eq(200);

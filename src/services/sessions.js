@@ -15,7 +15,6 @@ const login = async (email, passwordInput) => {
     if(!user)
         throw new SimpleErrorWrapper("Unable to validate credentials", 400);
 
-    // const passwordMatches = await bcrypt.compare(passwordInput, user.password);
     const passwordMatches = await bcryptHelpers.compare(passwordInput, user.password);
     if(!passwordMatches)
         throw new SimpleErrorWrapper("Unable to validate credentials", 400);
@@ -24,7 +23,7 @@ const login = async (email, passwordInput) => {
         userId: user.id
     });
 
-    const token = jwtHelpers.create(user.email);
+    const token = jwtHelpers.create(user.email, user.password);
 
     return { token };
 };

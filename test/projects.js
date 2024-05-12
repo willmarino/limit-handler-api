@@ -8,7 +8,7 @@ describe("POST /projects", () => {
 
         const projectResponse = await chai.request(webApp)
             .post("/projects")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
+            .set('token', jwtHelpers.create("testemail1@mail.com", "$2b$10$P6Xs.d4j5njknHU.TQd97OF7pbYdSwuZmW7.DgkMXdsWbUpZhOFka"))
             .send({
                 projectConfig: {
                     organizationId: 1,
@@ -27,7 +27,7 @@ describe("POST /projects", () => {
 
         const projectResponse = await chai.request(webApp)
             .post("/projects")
-            .set('token', jwtHelpers.create("testemail3@mail.com"))
+            .set('token', jwtHelpers.create("testemail3@mail.com", "$2b$10$AUXe9ObULLTJuFP1pujMYepV1X6DiiuUp5TBAF.l.HGHxfGKVFLUC"))
             .send({
                 projectConfig: {
                     organizationId: 1,
@@ -46,7 +46,7 @@ describe("POST /projects", () => {
 
         const projectResponse = await chai.request(webApp)
             .post("/projects")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
+            .set('token', jwtHelpers.create("testemail1@mail.com", "$2b$10$P6Xs.d4j5njknHU.TQd97OF7pbYdSwuZmW7.DgkMXdsWbUpZhOFka"))
             .send({
                 projectConfig: {
                     organizationId: 2,

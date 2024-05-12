@@ -6,7 +6,7 @@ describe("GET /subscription_tiers", () => {
     it("fetches subscription tiers", async () => {
         const subTiersResponse = await chai.request(webApp)
             .get("/subscription_tiers")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
+            .set('token', jwtHelpers.create("testemail1@mail.com", "$2b$10$P6Xs.d4j5njknHU.TQd97OF7pbYdSwuZmW7.DgkMXdsWbUpZhOFka"))
             .send();
 
         subTiersResponse.status.should.eq(200);

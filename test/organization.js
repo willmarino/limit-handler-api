@@ -5,7 +5,7 @@ describe("GET /organizations/:id", () => {
     it("should return an error message if a user is not a member of the organization", async () => {
         const organizationsResponse = await chai.request(webApp)
             .get("/organizations/1")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
+            .set('token', jwtHelpers.create("testemail1@mail.com", "$2b$10$P6Xs.d4j5njknHU.TQd97OF7pbYdSwuZmW7.DgkMXdsWbUpZhOFka"))
             .send();
 
         organizationsResponse.status.should.eq(400);
@@ -15,7 +15,7 @@ describe("GET /organizations/:id", () => {
     it("should return an organization object if the user is a member of the organization", async () => {
         const organizationsResponse = await chai.request(webApp)
             .get("/organizations/1")
-            .set('token', jwtHelpers.create("testemail4@mail.com"))
+            .set('token', jwtHelpers.create("testemail4@mail.com", "$2b$10$p6zy6F3DAEh9vlVZzfwF3OQFJGqcs6f7yLwebUUe8Mh8Rf7wCLo/2"))
             .send();
 
         organizationsResponse.status.should.eq(200);
@@ -43,7 +43,7 @@ describe("POST /organizations", () => {
     it("should create a new organization object", async () => {
         const creationResponse = await chai.request(webApp)
             .post("/organizations")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
+            .set('token', jwtHelpers.create("testemail1@mail.com", "$2b$10$P6Xs.d4j5njknHU.TQd97OF7pbYdSwuZmW7.DgkMXdsWbUpZhOFka"))
             .send({ name: "new test org" });
 
         creationResponse.status.should.eq(200);

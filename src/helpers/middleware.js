@@ -30,45 +30,36 @@ const addRequestContext = (req, res, next) => {
 /**
  * @description Check JWT's on incoming requests IF the user is using the website (not the actual rate limiting service).
  */
-const validateJWT = async (req, res, next) => { // TODO do I need authRoutes or is there a better way to do this with subrouter structure/order
+const validateJWT = async (req, res, next) => {
     try{
-        const authRoutes = [
-            "/projects",
-            "/organizations",
-            "/subscription_tiers",
-            "/subscriptions",
-            "/memberships",
-            "/users/show"
-        ]
+        const token = req.headers.token;
 
-        const routeRequiresJWTAuth = authRoutes.some((p) => req.path.includes(p));
-
-        if(!routeRequiresJWTAuth){
-            next();
-
-        }else{
-            console.log(req.method, req.path);
-            const token = req.headers.token;
-            if(!token){
-                throw new SimpleErrorWrapper("Missing user authentication", 400);
-            }
-
-            let jwtEmail;
-            try{
-                const verifiedTokenData = jwtHelpers.verify(token);
-                jwtEmail = verifiedTokenData.sub;
-            }catch(err){
-                throw new SimpleErrorWrapper("Unable to authenticate user", 500);
-            }
-
-            const user = await models.Users.findOne({ where: { email: jwtEmail } });
-            if(!user)
-                throw new SimpleErrorWrapper("Invalid user authentication", 400);
-
-            req.context.set("user", user);
-            req.session.user = user; // NEW
-            next();
+        if(!token){
+            throw new SimpleErrorWrapper("Missing user authentication", 400);
         }
+
+        let verifiedTokenData;
+        try{
+            verifiedTokenData = jwtHelpers.verify(token);
+        }catch(err){
+            throw new SimpleErrorWrapper("Unable to authenticate user", 500);
+        }
+
+        const user = await models.Users.findOne({ where: { email: verifiedTokenData.sub } });
+        if(!user){
+            throw new SimpleErrorWrapper("Invalid user authentication", 400);
+        }
+
+        const passwordHashMatch = verifiedTokenData.pw === user.password;
+        if(!passwordHashMatch){
+            console.log(token)
+            throw new SimpleErrorWrapper("Invalid user authentication", 400);
+        }
+
+        // Storing user info twice here, we can store sensitive info in context that we wouldn't want to put into session
+        req.session.user = user; // NEW
+        req.context.set("user", user);
+        next();
     }catch(err){
         next(err);
     }

@@ -46,9 +46,9 @@ if (process.env.NODE_ENV !== "test") webApp.use(morganLog);
 // Custom middelware - add in request logger and unique tag
 webApp.use(customMiddleware.addRequestContext);
 
-webApp.use(customMiddleware.validateJWT);
 
 webApp.use("/auth", authRouter);
+webApp.use(customMiddleware.validateJWT);
 
 webApp.use("/users", usersRouter)
 webApp.use("/projects", projectsRouter);
