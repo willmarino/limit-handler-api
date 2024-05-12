@@ -30,7 +30,7 @@ const addRequestContext = (req, res, next) => {
 /**
  * @description Check JWT's on incoming requests IF the user is using the website (not the actual rate limiting service).
  */
-const validateJWT = async (req, res, next) => {
+const validateJWT = async (req, res, next) => { // TODO do I need authRoutes or is there a better way to do this with subrouter structure/order
     try{
         const authRoutes = [
             "/projects",
@@ -66,6 +66,7 @@ const validateJWT = async (req, res, next) => {
                 throw new SimpleErrorWrapper("Invalid user authentication", 400);
 
             req.context.set("user", user);
+            req.session.user = user; // NEW
             next();
         }
     }catch(err){
