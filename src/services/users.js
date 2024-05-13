@@ -130,7 +130,8 @@ const getUserSimple = async (id) => {
  * @param email - Email of new user
  * @param passwordInput - Unhashed password selected by user
  */
-const registerUser = async (userName, email, passwordInput) => {
+const registerUser = async (req) => {
+    const { userName, email, passwordInput } = req;
 
     const specialChars = [
         '!', '@', '#', '$',
@@ -197,6 +198,12 @@ const registerUser = async (userName, email, passwordInput) => {
     });
 
     await user.reload();
+
+    req.session.user = {
+        userId: user.id,
+        email: user.email,
+        password: user.password
+    }
 
     return user;
 };

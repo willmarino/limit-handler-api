@@ -1,32 +1,9 @@
 const { v4: uuidv4 } = require('uuid');
 const { models } = require("../db/connection");
-const jwtHelpers = require("./jwt");
 const RED = require("../util/redis_connection_wrapper");
 const SimpleErrorWrapper = require("../util/error_wrapper");
 const responseTemplates = require("../util/response_templates");
 const { logger } = require("../util/logger");
-
-
-/**
- * @description Add information to req.context which will help debugging and logging.
- * !Adding session info in sessionCookieValidation middleware instead
- */
-// const addWebRequestContext = async (req, res, next) => {
-//     const userId = req.session.userId;
-//     const user = await usersService.getUserSimple(userId);
-//     req.context.set("user", user);
-    
-//     const requestId = uuidv4();
-//     req.context.set("reqId", requestId);
-
-//     Object.defineProperty(req, "logger", {
-//         value: logger.child({ requestId }),
-//         writable: false,
-//         enumerable: false
-//     });
-
-//     next("route");
-// };
 
 
 /**
@@ -36,7 +13,6 @@ const addRequestContext = (req, res, next) => {
     const requestId = uuidv4();
     
     req.context.set("reqId", requestId);
-    req.context.set("User-Agent", req.get("User-Agent"));
 
     Object.defineProperty(req, "logger", {
         value: logger.child({ requestId }),
@@ -46,46 +22,6 @@ const addRequestContext = (req, res, next) => {
 
     next("route");
 };
-
-
-/**
- * @description Check JWT's on incoming requests IF the user is using the website (not the actual rate limiting service).
- * ! No longer using this to validate requests coming into the web API, now using cookie-session based auth, validated in the handler below
- */
-const validateJWT = async (req, res, next) => {
-    try{
-        const token = req.headers.token;
-
-        if(!token){
-            throw new SimpleErrorWrapper("Missing user authentication", 400);
-        }
-
-        let verifiedTokenData;
-        try{
-            verifiedTokenData = jwtHelpers.verify(token);
-        }catch(err){
-            throw new SimpleErrorWrapper("Unable to authenticate user", 500);
-        }
-
-        const user = await models.Users.findOne({ where: { email: verifiedTokenData.sub } });
-        if(!user){
-            throw new SimpleErrorWrapper("Invalid user authentication", 400);
-        }
-
-        const passwordHashMatch = verifiedTokenData.pw === user.password;
-        if(!passwordHashMatch){
-            console.log(token)
-            throw new SimpleErrorWrapper("Invalid user authentication", 400);
-        }
-
-        // Storing user info twice here, we can store sensitive info in context that we wouldn't want to put into session
-        // req.session.user = user; // NEW
-        req.context.set("user", user);
-        next();
-    }catch(err){
-        next(err);
-    }
-}
 
 /**
  * @description Validate requests coming into the web API based off of the info included in request session.
@@ -151,6 +87,8 @@ const validateAuthToken = async (req, res, next) => {
  * @description Catch errors thrown in previous middlewares,
  * send responses with appropriate information.
  */
+// TODO Change this error handler so that it sends the user an html doc.
+// TODO what should be on it? It would be great to be able to send a user back to their previous page along with an error message, is this possible?
 const errorHandler = (err, req, res, next) => {
 
     req.logger.error({

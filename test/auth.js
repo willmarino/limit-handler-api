@@ -29,18 +29,17 @@ describe("POST /auth/login", () => {
         loginResponse.body.message.should.eq("Unable to validate credentials");
     });
 
-    it("should return a valid jwt when correct information is passed", async () => {
-        const loginResponse = await chai.request(webApp)
-            .post("/auth/login")
-            .send({
-                email: "testemail1@mail.com",
-                passwordInput: "password1!"
-            });
+    // it("should return a valid jwt when correct information is passed", async () => {
+    //     const loginResponse = await chai.request(webApp)
+    //         .post("/auth/login")
+    //         .send({
+    //             email: "testemail1@mail.com",
+    //             passwordInput: "password1!"
+    //         });
 
-        loginResponse.status.should.eq(200);
-        should.exist(loginResponse.body.data.token);
-
-    });
+    //     loginResponse.status.should.eq(200);
+    //     should.exist(loginResponse.body.data.token);
+    // });
 
     it("should create a new session record when correct information is passed", async () => {
         const loginResponse = await chai.request(webApp)

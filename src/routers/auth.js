@@ -2,7 +2,6 @@ const pug = require("pug");
 const router = require("express").Router();
 const usersService = require("../services/users");
 const sessionsService = require("../services/sessions");
-const responseTemplates = require("../util/response_templates");
 
 
 /**
@@ -45,17 +44,10 @@ router.get("/login", async(req, res, next) => {
  */
 router.post("/login", async (req, res, next) => {
     try{
-        // const { email, passwordInput } = req.body;
-        // const loginResponse = await sessionsService.login(email, passwordInput);
         await sessionsService.login(req);
-
-        // const template = pug.compileFile("src/views/general/lobby.pug");
-        // const markup = template({ user });
-        // res.status(200).send(markup);
-
-        res.redirect("/main/lobby");
+        res.redirect("/users/show");
     }catch(err){
-        next(err);
+        res.redirect(`/auth/login?errMessage=${err.message}`);
     }
 });
 
@@ -87,14 +79,8 @@ router.get("/register", async (req, res, next) => {
  */
 router.post("/register", async (req, res, next) => {
     try{
-        const { userName, email, passwordInput } = req.body;
-        const user = await usersService.registerUser(userName, email, passwordInput);
-        
-        const template = pug.compileFile("src/views/general/lobby.pug");
-        const markup = template({ userName: user.userName });
-
-        res.status(200).send(markup);
-
+        await usersService.registerUser(req);
+        res.redirect("/users/show");
     }catch(err){
         res.redirect(`/auth/register?errMessage=${err.message}`);
     }

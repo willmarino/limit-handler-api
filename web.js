@@ -43,15 +43,13 @@ webApp.use(
 if (process.env.NODE_ENV !== "test") webApp.use(morganLog);
 
 // Custom middelware - add in request logger and unique request id
-// TODO do I really need request context with server side rendering?
 webApp.use(customMiddleware.addRequestContext);
 
 // Unauthenticated routes
 webApp.use("/auth", authRouter);
 webApp.use("/server_health", serverHealthRouter);
 
-// JWT verification
-// webApp.use(customMiddleware.validateJWT);
+// Session cookie validation
 webApp.use(customMiddleware.validateSessionCookie);
 
 // Authenticated routes
@@ -61,12 +59,6 @@ webApp.use("/organizations", organizationsRouter);
 webApp.use("/subscription_tiers", subTiersRouter);
 webApp.use("/subscriptions", subscriptionsRouter);
 webApp.use("/memberships", membershipsRouter);
-
-
-
-
-
-
 
 // Custom middelware - catch-all error handler
 webApp.use(customMiddleware.errorHandler);
