@@ -13,52 +13,6 @@ const RED = require("../util/redis_connection_wrapper");
  */
 const getUser = async (userId) => {
 
-    // Set boilerplate data if orgName or projectName are missing
-    // if(!orgName){ // inferred that if no orgName was passed, no projectName can be passed
-    //     primaryMembership = await models.Memberships.findOne({
-    //         where: { userId, primary: true },
-    //         includes: [{ model: models.Organizations, as: "organization" }]
-    //     });
-    //     if(!primaryMembership)
-
-    //     recentProject = await models.Projects.findOne({
-    //         where: { organizationId: primaryMembership.organization.id, primary: true }, order: [ ['id', 'DESC'] ]
-    //     })
-    // }
-
-    // // Get data
-    // const user = await models.Users.findOne({ where: { id: userId } });
-    // if(!user) throw new SimpleErrorWrapper("Unable to locate user", 400);
-
-    // const org = await models.Organizations.findOne(
-    //     {
-    //         where: { name: orgName },
-    //         includes: [
-    //             {
-    //                 model: models.Subscriptions, as: "subscription",
-    //                 includes: [ { model: models.SubscriptionTiers, as: "subscriptionTier" } ]
-    //             }
-    //         ]
-    //     }
-    // );
-    // if(!org) throw new SimpleErrorWrapper("Unable to locate org", 400);
-    
-    // const project = await models.Projects.findOne({ where: { name: projectName } });
-    // if(!project) throw new SimpleErrorWrapper("Unable to locate project", 400);
-    
-    // const teammates = await models.Memberships.findAll({
-    //     where: { organizationId: org.id },
-    //     includes: [ { model: models.Users, as: "user" } ]
-    // });
-
-    // Format data
-
-
-
-
-    /** border :) */
-
-
     // Fetch user, memberships, and user roles within those memberships
     const userWithMemberships = await models.Users.findOne({
         where: { id: userId },
