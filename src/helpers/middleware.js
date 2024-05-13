@@ -2,10 +2,31 @@ const { v4: uuidv4 } = require('uuid');
 const { models } = require("../db/connection");
 const jwtHelpers = require("./jwt");
 const RED = require("../util/redis_connection_wrapper");
-const bcryptHelpers = require("./bcrypt");
 const SimpleErrorWrapper = require("../util/error_wrapper");
 const responseTemplates = require("../util/response_templates");
 const { logger } = require("../util/logger");
+
+
+/**
+ * @description Add information to req.context which will help debugging and logging.
+ * !Adding session info in sessionCookieValidation middleware instead
+ */
+// const addWebRequestContext = async (req, res, next) => {
+//     const userId = req.session.userId;
+//     const user = await usersService.getUserSimple(userId);
+//     req.context.set("user", user);
+    
+//     const requestId = uuidv4();
+//     req.context.set("reqId", requestId);
+
+//     Object.defineProperty(req, "logger", {
+//         value: logger.child({ requestId }),
+//         writable: false,
+//         enumerable: false
+//     });
+
+//     next("route");
+// };
 
 
 /**
@@ -29,6 +50,7 @@ const addRequestContext = (req, res, next) => {
 
 /**
  * @description Check JWT's on incoming requests IF the user is using the website (not the actual rate limiting service).
+ * ! No longer using this to validate requests coming into the web API, now using cookie-session based auth, validated in the handler below
  */
 const validateJWT = async (req, res, next) => {
     try{
@@ -57,11 +79,41 @@ const validateJWT = async (req, res, next) => {
         }
 
         // Storing user info twice here, we can store sensitive info in context that we wouldn't want to put into session
-        req.session.user = user; // NEW
+        // req.session.user = user; // NEW
         req.context.set("user", user);
         next();
     }catch(err){
         next(err);
+    }
+}
+
+/**
+ * @description Validate requests coming into the web API based off of the info included in request session.
+ * If information present is request session is insufficient or invalid, wipe session data and redirect user to the login page.
+ * * Requires that user id, email, and hashed password are stored in session cookie, the insertion of which occurs during login
+ */
+const validateSessionCookie = async (req, res, next) => {
+    try{
+        if(!req.session.user.userId){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (3100)");
+        }
+
+        const user = await models.Users.findOne({ id: req.session.user.userId });
+        if(!user){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (3101)");
+        }
+
+        if(user.email !== req.session.user.email){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (3102)");
+        }
+
+        if(user.password !== req.session.user.password){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (3103)");
+        }
+
+    }catch(err){
+        req.session = null;
+        res.redirect(`/auth/login?errMessage=${err.message}`);
     }
 }
 
@@ -122,6 +174,7 @@ const errorHandler = (err, req, res, next) => {
 module.exports = {
     addRequestContext,
     validateJWT,
+    validateSessionCookie,
     validateAuthToken,
     errorHandler
 }

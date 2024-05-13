@@ -1,0 +1,21 @@
+extends ../layouts/main.pug
+
+block content
+
+    div(class="page-content")
+        div(class="centered-column")
+            div(class="auth-container")
+                div(class="auth-header")
+                    p Login
+                form(class="auth-form" hx-post="/auth/register" hx-target=".page")
+                    div(class="input-container")
+                        p(class="auth-form-label") Email
+                        input.edit(type="text" name="email" placeholder="Email")
+                    div(class="input-container")
+                        p(class="auth-form-label") Password
+                        input.edit(type="password" name="passwordInput" placeholder="Password")
+                    button(class="slate-400")
+                        p Submit
+                    p(class="auth-form-error-message") #{errMessage}
+
+

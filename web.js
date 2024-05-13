@@ -24,10 +24,12 @@ require("./src/helpers/array_extensions");
 const webApp = express();
 
 // 3rd party middleware
+webApp.use(cors());
+webApp.use(context());
+webApp.set("etag", false);
 webApp.set("view engine", "pug");
 webApp.set("views", path.join(__dirname, "src/views"));
-webApp.set("etag", false);
-webApp.use(cors());
+webApp.use(express.static(path.join(__dirname, "src/assets")));
 webApp.use(express.json({ limit: Infinity }));
 webApp.use(express.urlencoded({ extended: false }));
 webApp.use(
@@ -38,25 +40,27 @@ webApp.use(
     })
 );
 
-webApp.use(express.static(path.join(__dirname, "src/assets")));
-
-webApp.use(context());
 if (process.env.NODE_ENV !== "test") webApp.use(morganLog);
 
-// Custom middelware - add in request logger and unique tag
+// Custom middelware - add in request logger and unique request id
+// TODO do I really need request context with server side rendering?
 webApp.use(customMiddleware.addRequestContext);
 
-
+// Unauthenticated routes
 webApp.use("/auth", authRouter);
-webApp.use(customMiddleware.validateJWT);
+webApp.use("/server_health", serverHealthRouter);
 
+// JWT verification
+// webApp.use(customMiddleware.validateJWT);
+webApp.use(customMiddleware.validateSessionCookie);
+
+// Authenticated routes
 webApp.use("/users", usersRouter)
 webApp.use("/projects", projectsRouter);
 webApp.use("/organizations", organizationsRouter);
 webApp.use("/subscription_tiers", subTiersRouter);
 webApp.use("/subscriptions", subscriptionsRouter);
 webApp.use("/memberships", membershipsRouter);
-webApp.use("/server_health", serverHealthRouter);
 
 
 

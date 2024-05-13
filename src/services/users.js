@@ -8,9 +8,10 @@ const SimpleErrorWrapper = require("../util/error_wrapper");
 const RED = require("../util/redis_connection_wrapper");
 
 /**
- * @description Fetch a user, along with their memberships, organizations, and teammates
+ * @description Fetch a user, along with their memberships, organizations, and teammates.
  * @param id - A user id from request parameters
  */
+// TODO make this function take in a 'primary' membership (if any exist) and only return info relevant to that org, this actually models what will be displayed on the site lobby
 const getUser = async (id) => {
 
     // Fetch user, memberships, and user roles within those memberships
@@ -26,6 +27,9 @@ const getUser = async (id) => {
             }
         }
     });
+    if(!userWithMemberships){
+        throw new SimpleErrorWrapper("Unable to locate user", 400);
+    }
 
     // Fetch organizations and other members which are teammates with the user
     const organizationsAndTeammates = await models.Organizations.findAll({
@@ -102,6 +106,20 @@ const getUser = async (id) => {
     };
 
     return userInfo;
+}
+
+
+/**
+ * @description Get a user object with no associated data, used for request context.
+ */
+const getUserSimple = async (id) => {
+    const user = await models.Users.findOne({ id });
+    
+    if(!user){
+        throw new SimpleErrorWrapper("Unable to locate user")
+    }else{
+        return user;
+    }
 }
 
 
@@ -186,5 +204,6 @@ const registerUser = async (userName, email, passwordInput) => {
 
 module.exports = {
     getUser,
+    getUserSimple,
     registerUser
 };

@@ -5,15 +5,39 @@ const sessionsService = require("../services/sessions");
 const responseTemplates = require("../util/response_templates");
 
 
-// router.use("/", (req, res, next) => {
+/**
+ * @description This handler runs for all /auth* routes,
+ * ensures that users who are logged in can't navigate to a login or registration page.
+ */
+router.use("/", (req, res, next) => {
 
-//     const reqIsAuthenticated = Boolean(req.session.user);
+    const reqIsAuthenticated = Boolean(req.session.user);
 
-//     if(reqIsAuthenticated){
-//         res.redirect("/main/lobby");
-//     }
+    if(reqIsAuthenticated){
+        res.redirect("/main/lobby");
+    }else{
+        next();
+    }
 
-// })
+})
+
+
+/**
+ * @description Login GET FORM route
+ */
+router.get("/login", async(req, res, next) => {
+    try{
+        const errMessage = req.query.errMessage || "";
+        if(errMessage) res.set("User-Error", true); // Using this in place of 400 response, html won't render if I attach a 400 status
+
+        const template = pug.compileFile("src/views/auth/login.pug");
+        const markup = template({ errMessage });
+        
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+})
 
 
 /**
@@ -21,11 +45,15 @@ const responseTemplates = require("../util/response_templates");
  */
 router.post("/login", async (req, res, next) => {
     try{
-        const { email, passwordInput } = req.body;
-        const loginResponse = await sessionsService.login(email, passwordInput);
-        res.status(200).send(
-            responseTemplates.success(loginResponse, "Login successful")
-        )
+        // const { email, passwordInput } = req.body;
+        // const loginResponse = await sessionsService.login(email, passwordInput);
+        await sessionsService.login(req);
+
+        // const template = pug.compileFile("src/views/general/lobby.pug");
+        // const markup = template({ user });
+        // res.status(200).send(markup);
+
+        res.redirect("/main/lobby");
     }catch(err){
         next(err);
     }
@@ -43,13 +71,12 @@ router.post("/login", async (req, res, next) => {
 router.get("/register", async (req, res, next) => {
     try{
         const errMessage = req.query.errMessage || "";
-        if(errMessage) res.set("User-Error", true); // Using this in place of 400 response, html won't render if I attach a 400 status
+        if(errMessage) res.set("User-Error", true);
 
         const template = pug.compileFile("src/views/auth/register.pug");
         const markup = template({ errMessage });
         
         res.status(200).send(markup);
-        
     }catch(err){
         next(err);
     }

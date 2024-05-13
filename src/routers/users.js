@@ -1,6 +1,6 @@
+const pug = require("pug");
 const router = require("express").Router();
 const usersService = require("../services/users");
-const responseTemplates = require("../util/response_templates");
 
 
 /**
@@ -9,12 +9,14 @@ const responseTemplates = require("../util/response_templates");
 router.get("/show", async (req, res, next) => {
     try{
         const id = req.context.get("user").id;
-        const usersResponse = await usersService.getUser(id);
-        res.status(200).send(
-            responseTemplates.success(usersResponse, "Successfully fetched user information")
-        );
+        const user = await usersService.getUser(id);
+
+        const template = pug.compileFile("src/views/users/lobby");
+        const markup = template({ user });
+
+        res.status(200).send(markup);
+
     }catch(err){
-        console.log(err);
         next(err);
     }
 });
