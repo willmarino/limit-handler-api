@@ -249,6 +249,38 @@ describe("POST /auth/register", () => {
         )
     });
 
+    it("should fail to create a new user with an email which is already in use", async () => {
+        const registrationResponse = await chai.request(webApp)
+            .post("/auth/register")
+            .send({
+                userName: "aValidUsername",
+                email: "testemail1@mail.com",
+                passwordInput: "abcccc123!",
+            });
+
+        registrationResponse.header["user-error"].should.eq('true');
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Email already in use" }
+        )
+    });
+
+    it("should fail to create a new user with a username which is already in use", async () => {
+        const registrationResponse = await chai.request(webApp)
+            .post("/auth/register")
+            .send({
+                userName: "usernamebob",
+                email: "anemail@gmail.com",
+                passwordInput: "abcccc123!",
+            });
+
+        registrationResponse.header["user-error"].should.eq('true');
+        registrationResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Username is not available" }
+        )
+    });
+
     it("should create a new user with a valid inputs", async () => {
         const registrationResponse = await chai.request(webApp)
             .post("/auth/register")

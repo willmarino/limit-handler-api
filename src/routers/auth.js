@@ -1,3 +1,4 @@
+const qs = require("node:querystring");
 const pug = require("pug");
 const router = require("express").Router();
 const usersService = require("../services/users");
@@ -47,7 +48,15 @@ router.post("/login", async (req, res, next) => {
         await sessionsService.login(req);
         res.redirect("/users/show");
     }catch(err){
-        res.redirect(`/auth/login?errMessage=${err.message}`);
+
+        const queryStringData = { errMessage: err.message };
+        if(req.body.userName) queryStringData.userName = userName;
+        if(req.body.email) queryStringData.email = email;
+        if(req.body.passwordInput) queryStringData.passwordInput = passwordInput;
+
+        const queryString = qs.encode(queryStringData);
+        res.redirect(`/auth/login?${queryString}`);
+
     }
 });
 
@@ -79,10 +88,20 @@ router.get("/register", async (req, res, next) => {
  */
 router.post("/register", async (req, res, next) => {
     try{
+    
         await usersService.registerUser(req);
         res.redirect("/users/show");
+
     }catch(err){
-        res.redirect(`/auth/register?errMessage=${err.message}`);
+
+        const queryStringData = { errMessage: err.message };
+        if(req.body.userName) queryStringData.userName = userName;
+        if(req.body.email) queryStringData.email = email;
+        if(req.body.passwordInput) queryStringData.passwordInput = passwordInput;
+
+        const queryString = qs.encode(queryStringData);
+        res.redirect(`/auth/register?${queryString}`);
+
     }
 });
 

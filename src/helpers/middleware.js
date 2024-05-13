@@ -34,7 +34,7 @@ const validateSessionCookie = async (req, res, next) => {
             throw new SimpleErrorWrapper("Unable to authenticate user info (3100)");
         }
 
-        const user = await models.Users.findOne({ id: req.session.user.userId });
+        const user = await models.Users.findOne({ where: { id: req.session.user.userId } });
         if(!user){
             throw new SimpleErrorWrapper("Unable to authenticate user info (3101)");
         }
@@ -111,7 +111,6 @@ const errorHandler = (err, req, res, next) => {
 
 module.exports = {
     addRequestContext,
-    validateJWT,
     validateSessionCookie,
     validateAuthToken,
     errorHandler

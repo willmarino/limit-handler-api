@@ -113,7 +113,7 @@ const getUser = async (id) => {
  * @description Get a user object with no associated data, used for request context.
  */
 const getUserSimple = async (id) => {
-    const user = await models.Users.findOne({ id });
+    const user = await models.Users.findOne({ where: { id } });
     
     if(!user){
         throw new SimpleErrorWrapper("Unable to locate user")
@@ -186,6 +186,16 @@ const registerUser = async (req) => {
 
     if(badWordsFilter.isProfane(passwordInput)){
         throw new SimpleErrorWrapper("Password cannot include profanity", 400);
+    }
+
+    const emailInUse = await models.Users.findOne({ where: { email } });
+    if(emailInUse){
+        throw new SimpleErrorWrapper("Email already in use", 400);
+    }
+
+    const userNameTaken = await models.Users.findOne({ where: { userName } });
+    if(userNameTaken){
+        throw new SimpleErrorWrapper("Username is not available", 400);
     }
     
     // All validations have passed, created new user
