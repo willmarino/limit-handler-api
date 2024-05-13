@@ -8,12 +8,12 @@ const usersService = require("../services/users");
  */
 router.get("/show", async (req, res, next) => {
     try{
-        
+        // const { orgName, projectName } = req.query;
         const userId = req.session.user.userId;
-        const user = await usersService.getUser(userId);
+        const userInfo = await usersService.getUser(userId);
 
         const template = pug.compileFile("src/views/users/lobby.pug");
-        const markup = template({ user });
+        const markup = template({ userInfo });
 
         res.status(200).send(markup);
 

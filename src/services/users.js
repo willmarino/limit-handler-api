@@ -11,16 +11,62 @@ const RED = require("../util/redis_connection_wrapper");
  * @description Fetch a user, along with their memberships, organizations, and teammates.
  * @param id - A user id from request parameters
  */
-// TODO make this function take in a 'primary' membership (if any exist) and only return info relevant to that org, this actually models what will be displayed on the site lobby
-const getUser = async (id) => {
+const getUser = async (userId) => {
+
+    // Set boilerplate data if orgName or projectName are missing
+    // if(!orgName){ // inferred that if no orgName was passed, no projectName can be passed
+    //     primaryMembership = await models.Memberships.findOne({
+    //         where: { userId, primary: true },
+    //         includes: [{ model: models.Organizations, as: "organization" }]
+    //     });
+    //     if(!primaryMembership)
+
+    //     recentProject = await models.Projects.findOne({
+    //         where: { organizationId: primaryMembership.organization.id, primary: true }, order: [ ['id', 'DESC'] ]
+    //     })
+    // }
+
+    // // Get data
+    // const user = await models.Users.findOne({ where: { id: userId } });
+    // if(!user) throw new SimpleErrorWrapper("Unable to locate user", 400);
+
+    // const org = await models.Organizations.findOne(
+    //     {
+    //         where: { name: orgName },
+    //         includes: [
+    //             {
+    //                 model: models.Subscriptions, as: "subscription",
+    //                 includes: [ { model: models.SubscriptionTiers, as: "subscriptionTier" } ]
+    //             }
+    //         ]
+    //     }
+    // );
+    // if(!org) throw new SimpleErrorWrapper("Unable to locate org", 400);
+    
+    // const project = await models.Projects.findOne({ where: { name: projectName } });
+    // if(!project) throw new SimpleErrorWrapper("Unable to locate project", 400);
+    
+    // const teammates = await models.Memberships.findAll({
+    //     where: { organizationId: org.id },
+    //     includes: [ { model: models.Users, as: "user" } ]
+    // });
+
+    // Format data
+
+
+
+
+    /** border :) */
+
 
     // Fetch user, memberships, and user roles within those memberships
     const userWithMemberships = await models.Users.findOne({
-        where: { id },
+        where: { id: userId },
         include: {
             model: models.Memberships,
             as: "memberships",
-            where: { userId: id },
+            where: { userId },
+            order: [[ "primary", "DESC" ]],
             required: false,
             include: {
                 model: models.UserRoles,
@@ -54,7 +100,7 @@ const getUser = async (id) => {
                 model: models.Projects,
                 as: "projects",
                 include: [
-                    {
+                    { // TODO add user roles here, I want to display teammates and their permissions level, like on github
                         model: models.Users,
                         as: "creator"
                     },
