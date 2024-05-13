@@ -21,12 +21,15 @@ const getUser = async (id) => {
             model: models.Memberships,
             as: "memberships",
             where: { userId: id },
+            required: false,
             include: {
                 model: models.UserRoles,
-                as: "userRole"
+                as: "userRole",
+                required: false,
             }
         }
     });
+
     if(!userWithMemberships){
         throw new SimpleErrorWrapper("Unable to locate user", 400);
     }
@@ -131,7 +134,7 @@ const getUserSimple = async (id) => {
  * @param passwordInput - Unhashed password selected by user
  */
 const registerUser = async (req) => {
-    const { userName, email, passwordInput } = req;
+    const { userName, email, passwordInput } = req.body;
 
     const specialChars = [
         '!', '@', '#', '$',
@@ -208,6 +211,8 @@ const registerUser = async (req) => {
     });
 
     await user.reload();
+
+    req.session.userkey = "abc";
 
     req.session.user = {
         userId: user.id,

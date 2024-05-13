@@ -10,13 +10,13 @@ block content
                 form(class="auth-form" hx-post="/auth/register" hx-target=".page")
                     div(class="input-container")
                         p(class="auth-form-label") Email
-                        input.edit(type="text" name="email" placeholder="Email")
+                        input.edit(type="text" name="email" placeholder="Email" value=email)
                     div(class="input-container")
                         p(class="auth-form-label") Username
-                        input.edit(type="text" name="userName" placeholder="Username")
+                        input.edit(type="text" name="userName" placeholder="Username" value=userName)
                     div(class="input-container")
                         p(class="auth-form-label") Password
-                        input.edit(type="password" name="passwordInput" placeholder="Password")
+                        input.edit(type="password" name="passwordInput" placeholder="Password" value=passwordInput)
                     button(class="slate-400")
                         p Submit
                     p(class="auth-form-error-message") #{errMessage}

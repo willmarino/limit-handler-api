@@ -14,7 +14,7 @@ router.use("/", (req, res, next) => {
     const reqIsAuthenticated = Boolean(req.session.user);
 
     if(reqIsAuthenticated){
-        res.redirect("/main/lobby");
+        res.redirect("/users/show");
     }else{
         next();
     }
@@ -27,11 +27,10 @@ router.use("/", (req, res, next) => {
  */
 router.get("/login", async(req, res, next) => {
     try{
-        const errMessage = req.query.errMessage || "";
-        if(errMessage) res.set("User-Error", true); // Using this in place of 400 response, html won't render if I attach a 400 status
+        if(req.query.errMessage) res.set("User-Error", true); // Using this in place of 400 response, html won't render if I attach a 400 status
 
         const template = pug.compileFile("src/views/auth/login.pug");
-        const markup = template({ errMessage });
+        const markup = template({ ...req.query });
         
         res.status(200).send(markup);
     }catch(err){
@@ -45,14 +44,17 @@ router.get("/login", async(req, res, next) => {
  */
 router.post("/login", async (req, res, next) => {
     try{
+
         await sessionsService.login(req);
         res.redirect("/users/show");
+    
     }catch(err){
 
+        req.logger.error(err);
+
         const queryStringData = { errMessage: err.message };
-        if(req.body.userName) queryStringData.userName = userName;
-        if(req.body.email) queryStringData.email = email;
-        if(req.body.passwordInput) queryStringData.passwordInput = passwordInput;
+        if(req.body.email) queryStringData.email = req.body.email;
+        if(req.body.passwordInput) queryStringData.passwordInput = req.body.passwordInput;
 
         const queryString = qs.encode(queryStringData);
         res.redirect(`/auth/login?${queryString}`);
@@ -71,11 +73,11 @@ router.post("/login", async (req, res, next) => {
  */
 router.get("/register", async (req, res, next) => {
     try{
-        const errMessage = req.query.errMessage || "";
-        if(errMessage) res.set("User-Error", true);
+        // const errMessage = req.query.errMessage || "";
+        if(req.query.errMessage) res.set("User-Error", true);
 
         const template = pug.compileFile("src/views/auth/register.pug");
-        const markup = template({ errMessage });
+        const markup = template({ ...req.query });
         
         res.status(200).send(markup);
     }catch(err){
@@ -93,11 +95,13 @@ router.post("/register", async (req, res, next) => {
         res.redirect("/users/show");
 
     }catch(err){
+        
+        req.logger.error(err);
 
         const queryStringData = { errMessage: err.message };
-        if(req.body.userName) queryStringData.userName = userName;
-        if(req.body.email) queryStringData.email = email;
-        if(req.body.passwordInput) queryStringData.passwordInput = passwordInput;
+        if(req.body.userName) queryStringData.userName = req.body.userName;
+        if(req.body.email) queryStringData.email = req.body.email;
+        if(req.body.passwordInput) queryStringData.passwordInput = req.body.passwordInput;
 
         const queryString = qs.encode(queryStringData);
         res.redirect(`/auth/register?${queryString}`);

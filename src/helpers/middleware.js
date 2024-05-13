@@ -10,17 +10,14 @@ const { logger } = require("../util/logger");
  * @description Add information to req.context which will help debugging and logging.
  */
 const addRequestContext = (req, res, next) => {
-    const requestId = uuidv4();
-    
-    req.context.set("reqId", requestId);
 
     Object.defineProperty(req, "logger", {
-        value: logger.child({ requestId }),
+        value: logger.child({ requestId: uuidv4() }),
         writable: false,
         enumerable: false
     });
 
-    next("route");
+    next();
 };
 
 /**
@@ -30,6 +27,11 @@ const addRequestContext = (req, res, next) => {
  */
 const validateSessionCookie = async (req, res, next) => {
     try{
+
+        if(!req.session.user){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (2998)");
+        }
+
         if(!req.session.user.userId){
             throw new SimpleErrorWrapper("Unable to authenticate user info (3100)");
         }
@@ -46,6 +48,8 @@ const validateSessionCookie = async (req, res, next) => {
         if(user.password !== req.session.user.password){
             throw new SimpleErrorWrapper("Unable to authenticate user info (3103)");
         }
+
+        next();
 
     }catch(err){
         req.session = null;

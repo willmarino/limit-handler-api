@@ -34,7 +34,7 @@ webApp.use(express.json({ limit: Infinity }));
 webApp.use(express.urlencoded({ extended: false }));
 webApp.use(
     cookieSession({
-        name: "limit-handler",
+        name: "limit_handler",
         keys: [ process.env.COOKIE_SESSION_KEY ],
         maxAge: 1000 * 60 * 60 * 24
     })
@@ -59,6 +59,11 @@ webApp.use("/organizations", organizationsRouter);
 webApp.use("/subscription_tiers", subTiersRouter);
 webApp.use("/subscriptions", subscriptionsRouter);
 webApp.use("/memberships", membershipsRouter);
+
+// Redirect to login page if the requested path can't be matched to a route handler
+webApp.use("/", (req, res, next) => {
+    res.redirect("/auth/login");
+})
 
 // Custom middelware - catch-all error handler
 webApp.use(customMiddleware.errorHandler);
