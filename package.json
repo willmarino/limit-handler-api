@@ -39,7 +39,7 @@
     "pretest": "if [ $NODE_ENV = \"test\" ]; then echo \"Environment validated :)\"; else exit ; fi",
     "pretest:setup": "if [ $NODE_ENV = \"test\" ]; then echo \"Environment validated :)\"; else exit ; fi",
     "test": "mocha test --async-only --recursive --timeout 5000",
-    "test:setup": " npm run db:migrate:undo && npm run db:migrate && npm run db:seed && npm run gen-models"
+    "test:setup": " npm run db:migrate:undo && npm run db:migrate && npm run db:seed && npm run gen:models"
   },
   "repository": {
     "type": "git",
