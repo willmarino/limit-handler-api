@@ -14,6 +14,7 @@ router.get("/show", async (req, res, next) => {
         const template = pug.compileFile("src/views/users/lobby.pug");
         const markup = template({ userInfo });
 
+        res.set("HX-Push-Url", "/users/show")
         res.status(200).send(markup);
 
     }catch(err){

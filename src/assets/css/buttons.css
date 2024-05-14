@@ -1,4 +1,7 @@
 .clickable:hover{
-    cursor: pointer;
-    
+    cursor: pointer;    
+}
+
+.secondary-color.clickable:hover{
+    background: #94a3b8;
 }

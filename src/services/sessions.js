@@ -22,7 +22,6 @@ const login = async (req) => {
         userId: user.id
     });
 
-    // TODO I should encrypt this information, decrypt it during request validation (sessionCookieValidation middleware), and cache the successful decryption
     req.session.user = {
         userId: user.id,
         email: user.email,

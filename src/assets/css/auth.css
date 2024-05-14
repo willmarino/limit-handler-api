@@ -1,5 +1,4 @@
 .auth-container{
-    height: 380px;
     width: 300px;
 
     display: flex;
@@ -9,19 +8,35 @@
     margin: 0 0 120px 0;
 }
 
+.register-container{
+    height: 380px;
+}
+
+.login-container{
+    height: 300px;
+}
+
 .auth-header{
     width: 300px;
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
 }
 
-.auth-header p{
-    font-size: 24px;
+.auth-header-label{
+    font-size: 22px;
 }
 
-.auth-header img{
-    width: 28px;
+.auth-header-nav{
+    font-size: 14px;
+
+    text-decoration: underline;
 }
+
+.auth-header-nav:hover{
+    cursor: pointer;
+}
+
 
 .auth-form{
     display: flex;
@@ -48,6 +63,15 @@
     padding: 0px 10px;
 
     border-radius: 3px;
+    /* border: 1px solid #3f3f46; */
+    border: 1px solid #a1a1aa;
+}
+
+.auth-form .input-container input:hover{
+    border: 1px solid #3f3f46;
+}
+
+.auth-form .input-container input:focus{
     border: 1px solid #3f3f46;
 }
 
@@ -58,11 +82,10 @@
     margin: 30px 0px 0px 0px;
 
     border-radius: 5px;
-    border: 1px solid #3f3f46;
 }
 
 .auth-form button p{
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .auth-form .auth-form-error-message{
@@ -70,7 +93,9 @@
     height: 15px;
     font-size: 12px;
 
-    margin-top: 5px;
+    text-align: center;
+
+    margin-top: 10px;
     margin-left: 5px;
     color: #ef4444;
 }
