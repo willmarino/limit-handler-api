@@ -6,10 +6,16 @@ block content
         div(class="scroll")
             div(class="lobby")
                 div(class="lobby-left primary-color primary-shadow")
-                    div(class="lobby-left-user-name secondary-color secondary-shadow")
-                        p #{userInfo.user.name}
+                    div(class="lobby-left-top")
+                        div(class="lobby-button secondary-color secondary-shadow")
+                            p #{userInfo.user.name}
+                    div(class="lobby-left-bottom")
                     if userInfo.organizations.length > 0
-                        div(class="lobby-left-org-name")
+                        div(class="lobby-button secondary-color secondary-shadow")
                             p #{userInfo.organizations[0].name}
+                    if userInfo.organizations.length === 0
+                        p(id="no-org-warning") You are not a member of any organizations...
+                        div(class="lobby-button secondary-color secondary-shadow clickable")
+                                p Create Org
                 div(class="lobby-right primary-color primary-shadow")
-                    p right side
+                    p projects info space
