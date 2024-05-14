@@ -43,6 +43,7 @@ router.get("/login", async(req, res, next) => {
         const template = pug.compileFile("src/views/auth/login.pug");
         const markup = template({ ...req.query });
         
+        res.set("HX-Push-Url", "/auth/login");
         res.status(200).send(markup);
     }catch(err){
         next(err);
@@ -82,6 +83,7 @@ router.get("/register", async (req, res, next) => {
         const template = pug.compileFile("src/views/auth/register.pug");
         const markup = template({ ...req.query });
         
+        res.set("HX-Push-Url", "/auth/register");
         res.status(200).send(markup);
     }catch(err){
         next(err);

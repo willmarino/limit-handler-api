@@ -1,3 +1,4 @@
+// TODO learn how to cache assets on browser. Shouldn't need to re-fetch fonts every time I reload
 const path = require("node:path");
 const cors = require("cors");
 const express = require("express");

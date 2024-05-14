@@ -7,7 +7,7 @@ block content
             div(class="auth-container register-container")
                 div(class="auth-header")
                     p(class="auth-header-label") Sign up
-                    p(class="auth-header-nav" hx-get="/auth/login" hx-target=".page") Login Instead
+                    a(class="auth-header-nav" href="/auth/login") Login Instead
                 form(class="auth-form" hx-post="/auth/register" hx-target=".page")
                     div(class="input-container")
                         p(class="auth-form-label") Email
@@ -18,7 +18,7 @@ block content
                     div(class="input-container")
                         p(class="auth-form-label") Password
                         input.edit(class="secondary-shadow" type="password" name="passwordInput" placeholder="Password" value=passwordInput)
-                    button(class="secondary-color secondary-shadow")
+                    button(class="secondary-color secondary-shadow clickable")
                         p Submit
                     p(class="auth-form-error-message") #{errMessage}
 
