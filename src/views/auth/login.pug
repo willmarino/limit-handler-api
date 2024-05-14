@@ -4,17 +4,18 @@ block content
 
     div(class="page-content")
         div(class="centered-column")
-            div(class="auth-container")
+            div(class="auth-container login-container")
                 div(class="auth-header")
-                    p Login
-                form(class="auth-form" hx-post="/auth/register" hx-target=".page")
+                    p(class="auth-header-label") Login
+                    p(class="auth-header-nav" hx-get="/auth/register" hx-target=".page") Sign Up Instead
+                form(class="auth-form" hx-post="/auth/login" hx-target=".page")
                     div(class="input-container")
                         p(class="auth-form-label") Email
-                        input.edit(type="text" name="email" placeholder="Email")
+                        input.edit(class="secondary-shadow" type="text" name="email" placeholder="Email")
                     div(class="input-container")
                         p(class="auth-form-label") Password
-                        input.edit(type="password" name="passwordInput" placeholder="Password")
-                    button(class="slate-400")
+                        input.edit(class="secondary-shadow" type="password" name="passwordInput" placeholder="Password")
+                    button(class="secondary-color secondary-shadow")
                         p Submit
                     p(class="auth-form-error-message") #{errMessage}
 
