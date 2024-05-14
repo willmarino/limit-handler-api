@@ -8,24 +8,31 @@ const SimpleErrorWrapper = require("../util/error_wrapper");
 const RED = require("../util/redis_connection_wrapper");
 
 /**
- * @description Fetch a user, along with their memberships, organizations, and teammates
+ * @description Fetch a user, along with their memberships, organizations, and teammates.
  * @param id - A user id from request parameters
  */
-const getUser = async (id) => {
+const getUser = async (userId) => {
 
     // Fetch user, memberships, and user roles within those memberships
     const userWithMemberships = await models.Users.findOne({
-        where: { id },
+        where: { id: userId },
         include: {
             model: models.Memberships,
             as: "memberships",
-            where: { userId: id },
+            where: { userId },
+            order: [[ "primary", "DESC" ]],
+            required: false,
             include: {
                 model: models.UserRoles,
-                as: "userRole"
+                as: "userRole",
+                required: false,
             }
         }
     });
+
+    if(!userWithMemberships){
+        throw new SimpleErrorWrapper("Unable to locate user", 400);
+    }
 
     // Fetch organizations and other members which are teammates with the user
     const organizationsAndTeammates = await models.Organizations.findAll({
@@ -47,7 +54,7 @@ const getUser = async (id) => {
                 model: models.Projects,
                 as: "projects",
                 include: [
-                    {
+                    { // TODO add user roles here, I want to display teammates and their permissions level, like on github
                         model: models.Users,
                         as: "creator"
                     },
@@ -105,6 +112,20 @@ const getUser = async (id) => {
 }
 
 
+/**
+ * @description Get a user object with no associated data, used for request context.
+ */
+const getUserSimple = async (id) => {
+    const user = await models.Users.findOne({ where: { id } });
+    
+    if(!user){
+        throw new SimpleErrorWrapper("Unable to locate user")
+    }else{
+        return user;
+    }
+}
+
+
 
 /**
  * @description Take in registration input and create a new user if info is valid.
@@ -112,7 +133,8 @@ const getUser = async (id) => {
  * @param email - Email of new user
  * @param passwordInput - Unhashed password selected by user
  */
-const registerUser = async (userName, email, passwordInput) => {
+const registerUser = async (req) => {
+    const { userName, email, passwordInput } = req.body;
 
     const specialChars = [
         '!', '@', '#', '$',
@@ -168,6 +190,16 @@ const registerUser = async (userName, email, passwordInput) => {
     if(badWordsFilter.isProfane(passwordInput)){
         throw new SimpleErrorWrapper("Password cannot include profanity", 400);
     }
+
+    const emailInUse = await models.Users.findOne({ where: { email } });
+    if(emailInUse){
+        throw new SimpleErrorWrapper("Email already in use", 400);
+    }
+
+    const userNameTaken = await models.Users.findOne({ where: { userName } });
+    if(userNameTaken){
+        throw new SimpleErrorWrapper("Username is not available", 400);
+    }
     
     // All validations have passed, created new user
     const hashedPassword = await createHash(passwordInput);
@@ -180,11 +212,20 @@ const registerUser = async (userName, email, passwordInput) => {
 
     await user.reload();
 
+    req.session.userkey = "abc";
+
+    req.session.user = {
+        userId: user.id,
+        email: user.email,
+        password: user.password
+    }
+
     return user;
 };
 
 
 module.exports = {
     getUser,
+    getUserSimple,
     registerUser
 };

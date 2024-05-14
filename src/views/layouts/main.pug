@@ -4,8 +4,11 @@ html(lang="en")
         link(rel="stylesheet" type="text/css" href="/css/reset.css")
         link(rel="stylesheet" type="text/css" href="/css/base.css")
         link(rel="stylesheet" type="text/css" href="/css/page.css")
+        link(rel="stylesheet" type="text/css" href="/css/buttons.css")
         link(rel="stylesheet" type="text/css" href="/css/auth.css")
+        link(rel="stylesheet" type="text/css" href="/css/lobby.css")
         link(rel="stylesheet" type="text/css" href="/css/colors.css")
+        link(rel="stylesheet" type="text/css" href="/css/shadows.css")
         link(rel="stylesheet" type="text/css" href="/css/fonts.css")
     body
         
@@ -13,20 +16,18 @@ html(lang="en")
         div(class="page background-color")
 
             //- footer
-            div(class="site-header")
+            div(class="site-header secondary-shadow")
                 div(class="site-header-left")
                     p Limit Handler
                     img(src="/img/logo.svg" alt="Hourglass...")
                 div(class="site-header-right")
                     img(src="/img/question-mark.svg" alt="Question...")
+                    img(src="/img/gear.svg" alt="gear" hx-post="/auth/logout" hx-target=".page")
 
             //- actual page content
             block content
 
-            //- footer
-            div(class="site-footer")
-                div(class="site-footer-left")
-                div(class="site-footer-right")
-                    a(href="https://github.com/willmarino/limit-handler-api") Check out the code here :)
+            //- footer elements
+            a(href="https://github.com/willmarino/limit-handler-api" class="site-footer-github secondary-color primary-shadow") Check out the code here :)
 
         script(src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous")

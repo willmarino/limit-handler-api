@@ -1,8 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const { models } = require("../db/connection");
-const jwtHelpers = require("./jwt");
 const RED = require("../util/redis_connection_wrapper");
-const bcryptHelpers = require("./bcrypt");
 const SimpleErrorWrapper = require("../util/error_wrapper");
 const responseTemplates = require("../util/response_templates");
 const { logger } = require("../util/logger");
@@ -12,64 +10,50 @@ const { logger } = require("../util/logger");
  * @description Add information to req.context which will help debugging and logging.
  */
 const addRequestContext = (req, res, next) => {
-    const requestId = uuidv4();
-    
-    req.context.set("reqId", requestId);
-    req.context.set("User-Agent", req.get("User-Agent"));
 
     Object.defineProperty(req, "logger", {
-        value: logger.child({ requestId }),
+        value: logger.child({ requestId: uuidv4() }),
         writable: false,
         enumerable: false
     });
 
-    next("route");
+    next();
 };
 
-
 /**
- * @description Check JWT's on incoming requests IF the user is using the website (not the actual rate limiting service).
+ * @description Validate requests coming into the web API based off of the info included in request session.
+ * If information present is request session is insufficient or invalid, wipe session data and redirect user to the login page.
+ * * Requires that user id, email, and hashed password are stored in session cookie, the insertion of which occurs during login
  */
-const validateJWT = async (req, res, next) => {
+const validateSessionCookie = async (req, res, next) => {
     try{
-        const authRoutes = [
-            "/projects",
-            "/organizations",
-            "/subscription_tiers",
-            "/subscriptions",
-            "/memberships",
-            "/users/show"
-        ]
 
-        const routeRequiresJWTAuth = authRoutes.some((p) => req.path.includes(p));
-
-        if(!routeRequiresJWTAuth){
-            next();
-
-        }else{
-            console.log(req.method, req.path);
-            const token = req.headers.token;
-            if(!token){
-                throw new SimpleErrorWrapper("Missing user authentication", 400);
-            }
-
-            let jwtEmail;
-            try{
-                const verifiedTokenData = jwtHelpers.verify(token);
-                jwtEmail = verifiedTokenData.sub;
-            }catch(err){
-                throw new SimpleErrorWrapper("Unable to authenticate user", 500);
-            }
-
-            const user = await models.Users.findOne({ where: { email: jwtEmail } });
-            if(!user)
-                throw new SimpleErrorWrapper("Invalid user authentication", 400);
-
-            req.context.set("user", user);
-            next();
+        if(!req.session.user){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (2998)");
         }
+
+        if(!req.session.user.userId){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (3100)");
+        }
+
+        const user = await models.Users.findOne({ where: { id: req.session.user.userId } });
+        if(!user){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (3101)");
+        }
+
+        if(user.email !== req.session.user.email){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (3102)");
+        }
+
+        if(user.password !== req.session.user.password){
+            throw new SimpleErrorWrapper("Unable to authenticate user info (3103)");
+        }
+
+        next();
+
     }catch(err){
-        next(err);
+        req.session = null;
+        res.redirect(`/auth/login?errMessage=${err.message}`);
     }
 }
 
@@ -107,6 +91,8 @@ const validateAuthToken = async (req, res, next) => {
  * @description Catch errors thrown in previous middlewares,
  * send responses with appropriate information.
  */
+// TODO Change this error handler so that it sends the user an html doc.
+// TODO what should be on it? It would be great to be able to send a user back to their previous page along with an error message, is this possible?
 const errorHandler = (err, req, res, next) => {
 
     req.logger.error({
@@ -129,7 +115,7 @@ const errorHandler = (err, req, res, next) => {
 
 module.exports = {
     addRequestContext,
-    validateJWT,
+    validateSessionCookie,
     validateAuthToken,
     errorHandler
 }

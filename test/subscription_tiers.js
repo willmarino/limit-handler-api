@@ -1,12 +1,12 @@
-const { chai, it, should, jwtHelpers } = require("./setup");
+const { chai, it, should, getWebAgent } = require("./setup");
 const { webApp } = require("../web");
 
 
 describe("GET /subscription_tiers", () => {
     it("fetches subscription tiers", async () => {
-        const subTiersResponse = await chai.request(webApp)
+        const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
+        const subTiersResponse = await agent
             .get("/subscription_tiers")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send();
 
         subTiersResponse.status.should.eq(200);
@@ -14,5 +14,7 @@ describe("GET /subscription_tiers", () => {
         subTiersResponse.body.data[0].name.should.eq("Basic");
         subTiersResponse.body.data[1].name.should.eq("Advanced");
         subTiersResponse.body.data[2].name.should.eq("Premium");
+
+        agent.close();
     })
 });

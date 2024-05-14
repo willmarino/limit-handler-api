@@ -2,11 +2,14 @@ const jwt = require("jsonwebtoken");
 
 /**
  * @description Create a new JWT, return it.
- * @param userEmail - A user's email
+ * @param email - A user's email
  */
-const create = (userEmail) => {
+const create = (email, passwordHash) => {
     const token = jwt.sign(
-        { sub: userEmail },
+        {
+            sub: email,
+            pw: passwordHash
+        },
         process.env.JWT_SECRET,
         {
             expiresIn: "6h"

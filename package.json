@@ -2,6 +2,7 @@
   "dependencies": {
     "bad-words": "^3.0.4",
     "bcrypt": "^5.1.1",
+    "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
     "email-validator": "^2.0.4",
     "express": "^4.18.2",
@@ -31,13 +32,14 @@
     "dev:web": "nodemon web.js",
     "dev:reqUtil": "nodemon req_util.js",
     "db:seed": "npx sequelize-cli db:seed:all",
+    "db:seed:undo": "npx sequelize-cli db:seed:undo:all",
     "db:migrate": "npx sequelize-cli db:migrate",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo:all",
-    "gen-models": "node src/util/model_generation",
+    "gen:models": "node src/util/model_generation",
     "pretest": "if [ $NODE_ENV = \"test\" ]; then echo \"Environment validated :)\"; else exit ; fi",
     "pretest:setup": "if [ $NODE_ENV = \"test\" ]; then echo \"Environment validated :)\"; else exit ; fi",
     "test": "mocha test --async-only --recursive --timeout 5000",
-    "test:setup": " npm run db:migrate:undo && npm run db:migrate && npm run db:seed && npm run gen-models"
+    "test:setup": " npm run db:migrate:undo && npm run db:migrate && npm run db:seed && npm run gen:models"
   },
   "repository": {
     "type": "git",

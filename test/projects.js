@@ -1,14 +1,13 @@
-const { chai, it, should, jwtHelpers } = require("./setup");
+const { it, getWebAgent } = require("./setup");
 const { webApp } = require("../web");
 
 
 describe("POST /projects", () => {
 
     it("throws an error if the creating user is not a member of the marked organization", async () => {
-
-        const projectResponse = await chai.request(webApp)
+        const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
+        const projectResponse = await agent
             .post("/projects")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send({
                 projectConfig: {
                     organizationId: 1,
@@ -21,13 +20,13 @@ describe("POST /projects", () => {
         projectResponse.status.should.eq(400);
         projectResponse.body.message.should.eq("Cannot create project, you are not a member of that organization");
 
+        agent.close();
     });
 
     it("throws an error if the creating user does not have a significant enough role in the organization", async () => {
-
-        const projectResponse = await chai.request(webApp)
+        const agent = await getWebAgent(webApp, "testemail3@mail.com", "password3#");
+        const projectResponse = await agent
             .post("/projects")
-            .set('token', jwtHelpers.create("testemail3@mail.com"))
             .send({
                 projectConfig: {
                     organizationId: 1,
@@ -40,13 +39,13 @@ describe("POST /projects", () => {
         projectResponse.status.should.eq(400);
         projectResponse.body.message.should.eq("Insufficiet permissions, you need to be an owner or admin to create projects");
 
+        agent.close();
     });
 
     it("successfully creates a project with valid input", async () => {
-
-        const projectResponse = await chai.request(webApp)
+        const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
+        const projectResponse = await agent
             .post("/projects")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send({
                 projectConfig: {
                     organizationId: 2,
@@ -63,5 +62,6 @@ describe("POST /projects", () => {
         projectResponse.body.data.callLimit.should.eq(20);
         projectResponse.body.data.timeFrameId.should.eq(1);
 
+        agent.close();
     });
 })

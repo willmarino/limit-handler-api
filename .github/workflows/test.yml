@@ -31,6 +31,7 @@ jobs:
       REDIS_URL: 127.0.0.1:6389
       DB_URL: mysql://root:password@127.0.0.1:7306/lh_test
       JWT_SECRET: secret
+      COOKIE_SESSION_KEY: secret
       
 
     steps:

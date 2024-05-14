@@ -85,6 +85,9 @@ class RedisWrapper {
         }
     }
 
+    /**
+     * @description Clear all data in cache
+     */
     async clear(){
         const keys = await this.client.keys("*");
         await Promise.all(

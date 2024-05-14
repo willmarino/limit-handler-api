@@ -1,22 +1,20 @@
-const { chai, it, should, jwtHelpers } = require("./setup");
+const { chai, it, should, getWebAgent } = require("./setup");
 const { webApp } = require("../web");
 
 describe("GET /organizations/:id", () => {
     it("should return an error message if a user is not a member of the organization", async () => {
-        const organizationsResponse = await chai.request(webApp)
-            .get("/organizations/1")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
-            .send();
+        const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
+        const organizationsResponse = await agent.get("/organizations/1")
 
         organizationsResponse.status.should.eq(400);
         organizationsResponse.body.message.should.eq("Not a member of this organization");
+
+        agent.close();
     })
 
     it("should return an organization object if the user is a member of the organization", async () => {
-        const organizationsResponse = await chai.request(webApp)
-            .get("/organizations/1")
-            .set('token', jwtHelpers.create("testemail4@mail.com"))
-            .send();
+        const agent = await getWebAgent(webApp, "testemail4@mail.com", "password4$");
+        const organizationsResponse = await agent.get("/organizations/1")
 
         organizationsResponse.status.should.eq(200);
         
@@ -35,19 +33,23 @@ describe("GET /organizations/:id", () => {
         org.projects[0].creator.should.eq("usernamebill");
         org.projects[0].callLimit.should.eq(5);
         org.projects[0].timeFrame.should.eq("minute");
+        
+        agent.close();
     })
 
 });
 
 describe("POST /organizations", () => {
     it("should create a new organization object", async () => {
-        const creationResponse = await chai.request(webApp)
+        const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
+        const creationResponse = await agent
             .post("/organizations")
-            .set('token', jwtHelpers.create("testemail1@mail.com"))
             .send({ name: "new test org" });
 
         creationResponse.status.should.eq(200);
         creationResponse.body.data.name.should.eq("new test org");
+
+        agent.close();
     })
 });
 
