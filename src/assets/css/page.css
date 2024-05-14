@@ -11,9 +11,7 @@
     min-width: 600px;
     height: 100%;
 
-    padding: 70px 0px;
-
-    /* flex-grow: 1; */
+    padding: 70px 0px 0px 0px;
 }
 
 .site-header{
@@ -29,7 +27,7 @@
     flex-grow: 0;
 
     padding: 0px 25px;
-    border-bottom: 1px solid #94a3b8;
+    /* border-bottom: 1px solid #94a3b8; */
 }
 
 .site-header-left{
@@ -40,7 +38,7 @@
 }
 
 .site-header-left p{
-    font-size: 26px;
+    font-size: 24px;
     padding-right: 10px;
 }
 
@@ -63,11 +61,25 @@
     flex-grow: 0;
 
     padding: 0px 25px;
-    /* border-top: 1px solid #94a3b8; */
 }
 
 .site-footer-right{
     margin-right: 50px;
+}
+
+.site-footer-github{
+    width: 200px;
+    height: 50px;
+    
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    border-radius: 5px;
 }
 
 /* page type styling */
@@ -86,7 +98,7 @@
     max-height: 100%;
     min-height: 100%;
 
-    padding: 40px 40px 0px 40px;
+    padding: 40px 40px 40px 40px;
 
     overflow-y: scroll;
 }

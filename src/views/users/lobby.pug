@@ -4,4 +4,12 @@ block content
 
     div(class="page-content")
         div(class="scroll")
-            p Hello #{userInfo.user.name}, you are successfully authenticated :)
+            div(class="lobby")
+                div(class="lobby-left primary-color primary-shadow")
+                    div(class="lobby-left-user-name secondary-color secondary-shadow")
+                        p #{userInfo.user.name}
+                    if userInfo.organizations.length > 0
+                        div(class="lobby-left-org-name")
+                            p #{userInfo.organizations[0].name}
+                div(class="lobby-right primary-color primary-shadow")
+                    p right side

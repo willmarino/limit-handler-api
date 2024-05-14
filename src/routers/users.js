@@ -8,7 +8,6 @@ const usersService = require("../services/users");
  */
 router.get("/show", async (req, res, next) => {
     try{
-        // const { orgName, projectName } = req.query;
         const userId = req.session.user.userId;
         const userInfo = await usersService.getUser(userId);
 
