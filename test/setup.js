@@ -90,11 +90,23 @@ chai.Assertion.addMethod("selector", function(queryString, options){
 })
 
 
+const getWebAgent = async (webApp, email, password) => {
+
+    const agent = chai.request.agent(webApp);
+
+    await agent
+        .post("/auth/login")
+        .send({ email, passwordInput: password });
+
+    return agent;
+}
+
 
 module.exports = {
     chai,
     it,
     should: chai.should(),
     jwtHelpers,
-    RED
+    RED,
+    getWebAgent
 };

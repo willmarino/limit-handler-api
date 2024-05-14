@@ -1,12 +1,12 @@
-const { chai, it, should, jwtHelpers } = require("./setup");
+const { chai, it, should, getWebAgent } = require("./setup");
 const { webApp } = require("../web");
 
 
 describe("GET /subscriptions", () => {
     it("fetches subscriptions", async () => {
-        const subscriptionsResponse = await chai.request(webApp)
+        const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
+        const subscriptionsResponse = await agent
             .get("/subscriptions")
-            .set('token', jwtHelpers.create("testemail1@mail.com", "$2b$10$P6Xs.d4j5njknHU.TQd97OF7pbYdSwuZmW7.DgkMXdsWbUpZhOFka"))
             .send();
         
         subscriptionsResponse.status.should.eq(200);
@@ -18,5 +18,6 @@ describe("GET /subscriptions", () => {
         subscriptionsResponse.body.data[1].subscriptionTierId.should.eq(2);
         subscriptionsResponse.body.data[1].organizationId.should.eq(1);
 
+        agent.close()
     });
 });

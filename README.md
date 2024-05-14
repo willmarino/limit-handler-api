@@ -25,3 +25,7 @@ The web API handles request/response flows for the Limit Handler website, servin
 * If a request from an already authenticated user is sent to a path managed by the auth router, that request is redirected to the main lobby page.
 * If a request from an unauthenticated user is sent to a path managed by the main router, that request is redirected to the login page.
 * User session information is stored in a cookie using the `cookie-session` npm library. Picked this over `express-session` to avoid maintaining a redis or mysql based session store, which is unnecessary due to the very small amount of session data I need to store.
+
+
+### Icons Attribution
+[Gear Icon](https://freeicons.io/free-setting-and-configuration-icons/gear-settings-setting-wheel-icon-9576)

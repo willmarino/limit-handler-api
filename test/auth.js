@@ -13,8 +13,11 @@ describe("POST /auth/login", () => {
                 passwordInput: "unimportantPassword"
             });
 
-        loginResponse.status.should.eq(400);
-        loginResponse.body.message.should.eq("Unable to validate credentials");
+        loginResponse.header["user-error"].should.eq('true');
+        loginResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Unable to validate credentials" }
+        )
     });
 
     it("should fail to login user with an incorrect password", async () => {
@@ -25,8 +28,11 @@ describe("POST /auth/login", () => {
                 passwordInput: "incorrectPassword"
             });
 
-        loginResponse.status.should.eq(400);
-        loginResponse.body.message.should.eq("Unable to validate credentials");
+        loginResponse.header["user-error"].should.eq('true');
+        loginResponse.should.have.html.selector(
+            ".auth-form-error-message",
+            { textContent: "Unable to validate credentials" }
+        )
     });
 
     // it("should return a valid jwt when correct information is passed", async () => {

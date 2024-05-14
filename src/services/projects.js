@@ -7,7 +7,7 @@ const cryptoHelpers = require("../helpers/crypto");
  * @description Create a project, return it.
  * Make sure creating user is an admin or owner, not just a random member.
  */
-const create = async (creator, projectConfig) => {
+const create = async (creatorId, projectConfig) => {
     const {
         organizationId,
         name,
@@ -16,7 +16,7 @@ const create = async (creator, projectConfig) => {
     } = projectConfig;
 
     const membership = await models.Memberships.findOne({
-        where: { userId: creator.id, organizationId },
+        where: { userId: creatorId, organizationId },
         include: { model: models.UserRoles, as: "userRole" }
     });
 
@@ -28,7 +28,7 @@ const create = async (creator, projectConfig) => {
 
     const identifier = await cryptoHelpers.generateRandomString(8);
     const project = await models.Projects.create({
-        creatorId: creator.id,
+        creatorId: creatorId,
         organizationId,
         name,
         identifier,

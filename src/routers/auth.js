@@ -4,6 +4,17 @@ const router = require("express").Router();
 const usersService = require("../services/users");
 const sessionsService = require("../services/sessions");
 
+/**
+ * @description Logout
+ */
+router.post("/logout", async (req, res, next) => {
+    try{
+        req.session = null;
+        res.redirect("/auth/login");
+    }catch(err){
+        next(err);
+    }
+})
 
 /**
  * @description This handler runs for all /auth* routes,
@@ -50,8 +61,6 @@ router.post("/login", async (req, res, next) => {
     
     }catch(err){
 
-        req.logger.error(err);
-
         const queryStringData = { errMessage: err.message };
         if(req.body.email) queryStringData.email = req.body.email;
         if(req.body.passwordInput) queryStringData.passwordInput = req.body.passwordInput;
@@ -64,16 +73,10 @@ router.post("/login", async (req, res, next) => {
 
 
 /**
- * @description Logout
- */
-
-
-/**
  * @description User registration GET FORM route.
  */
 router.get("/register", async (req, res, next) => {
     try{
-        // const errMessage = req.query.errMessage || "";
         if(req.query.errMessage) res.set("User-Error", true);
 
         const template = pug.compileFile("src/views/auth/register.pug");
@@ -95,8 +98,6 @@ router.post("/register", async (req, res, next) => {
         res.redirect("/users/show");
 
     }catch(err){
-        
-        req.logger.error(err);
 
         const queryStringData = { errMessage: err.message };
         if(req.body.userName) queryStringData.userName = req.body.userName;
