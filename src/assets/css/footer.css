@@ -1,0 +1,37 @@
+.site-footer{
+    width: 100%;
+    height: 70px;
+
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: top;
+    
+    flex-grow: 0;
+
+    padding: 0px 25px;
+}
+
+.site-footer-right{
+    margin-right: 50px;
+}
+
+.site-footer-github{
+    width: 150px;
+    height: 35px;
+    
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    border-radius: 5px;
+
+    font-size: 12px;
+}

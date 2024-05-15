@@ -82,7 +82,8 @@ const getOrganization = async (orgId, userId) => {
  * @description - Create a new organization given a name and generate a refresh token.
  * @param name - Name of the new organization
  */
-const createOrganization = async (name, reqLogger) => {
+const createOrganization = async () => {
+    const { name } = req.body;
     
     // Generate new api key
     const identifier = await cryptoHelpers.generateRandomString(8);

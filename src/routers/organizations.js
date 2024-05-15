@@ -1,3 +1,4 @@
+const qs = require("node:querystring");
 const pug = require("pug");
 const router = require("express").Router();
 const organizationsService = require("../services/organizations");
@@ -30,12 +31,16 @@ router.get("/create", async (req, res, next) => {
         const subTiers = await subscriptionTiersService.getSubscriptionTiers();
 
         const template = pug.compileFile("src/views/organizations/create.pug");
-        const markup = template({ subTiers });
+        const markup = template({
+            subTiers,
+            name: req.query.name || "",
+            selectedSubTier: req.query.selectedSubTier || "Basic" // Basic is default, it is the free plan
+        });
 
-        res.set("HX-Push-Url", "/organizations/create");
+        res.set("HX-Push-Url", `/organizations/create?${qs.stringify(req.query)}`);
         res.status(200).send(markup);
     }catch(err){
-        next(err);
+        next();
     }
 });
 
@@ -45,13 +50,19 @@ router.get("/create", async (req, res, next) => {
  */
 router.post("/", async (req, res, next) => {
     try{
-        const { name } = req.body;
-
-        const org = await organizationsService.createOrganization(name, req.logger);
+        const org = await organizationsService.createOrganization(req);
         res.status(200).send(
             responseTemplates.success( org, "Success creating organization" )
         );
     }catch(err){
+
+        const queryStringData = { errMessage: err.message };
+        if(req.body.name) queryStringData.name = req.body.name;
+        if(req.body.selectedSubTier) queryStringData.selectedSubTier = req.body.selectedSubTier;
+
+        const queryString = qs.encode(queryStringData);
+        res.redirect(`/organizations/create?${queryString}`);
+
         next(err);
     }
 });

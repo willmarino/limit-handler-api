@@ -7,14 +7,18 @@ block content
             div(class="create-org-form-container")
                 div(class="form-container-header")
                     p(class="form-container-header-label") Create a new organization
-                form(class="create-org-form")
+                form(class="create-org-form" hx-post="/organizations/create" hx-target=".page")
                     div(class="input-container")
                         p(class="form-label") Org Name
                         input.edit(class="secondary-shadow" type="text" name="name" placeholder="Organization Name")
                     div(class="choice-selector")
+                        
                         - for(let i = 0; i < subTiers.length; i++)
+                            - let buttonClass = "choice-button secondary-shadow";
+                            - if(selectedSubTier && selectedSubTier === subTiers[i].name) buttonClass += " secondary-color";
+
                             div(class="choice")
-                                button(class="choice-button secondary-color secondary-shadow")
+                                button(class=buttonClass hx-get=`/organizations/create?selectedSubTier=${subTiers[i].name}` hx-target=".page")
                                     p #{subTiers[i].name}
                                     p #{subTiers[i].cost} Dollars / Month
                                 div(class="choice-description")
