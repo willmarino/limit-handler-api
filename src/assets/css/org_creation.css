@@ -1,17 +1,11 @@
-.auth-container{
+
+.create-org-form-container{
     width: 300px;
+    height: 300px;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     margin: 0 0 120px 0;
-}
-
-.register-container{
-    height: 380px;
-}
-
-.login-container{
-    height: 300px;
 }

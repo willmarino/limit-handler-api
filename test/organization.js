@@ -1,10 +1,10 @@
 const { chai, it, should, getWebAgent } = require("./setup");
 const { webApp } = require("../web");
 
-describe("GET /organizations/:id", () => {
+describe("GET /organizations/show/:id", () => {
     it("should return an error message if a user is not a member of the organization", async () => {
         const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
-        const organizationsResponse = await agent.get("/organizations/1")
+        const organizationsResponse = await agent.get("/organizations/show/1")
 
         organizationsResponse.status.should.eq(400);
         organizationsResponse.body.message.should.eq("Not a member of this organization");
@@ -14,7 +14,7 @@ describe("GET /organizations/:id", () => {
 
     it("should return an organization object if the user is a member of the organization", async () => {
         const agent = await getWebAgent(webApp, "testemail4@mail.com", "password4$");
-        const organizationsResponse = await agent.get("/organizations/1")
+        const organizationsResponse = await agent.get("/organizations/show/1")
 
         organizationsResponse.status.should.eq(200);
         

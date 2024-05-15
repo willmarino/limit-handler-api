@@ -15,7 +15,7 @@ describe("POST /auth/login", () => {
 
         loginResponse.header["user-error"].should.eq('true');
         loginResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Unable to validate credentials" }
         )
     });
@@ -30,7 +30,7 @@ describe("POST /auth/login", () => {
 
         loginResponse.header["user-error"].should.eq('true');
         loginResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Unable to validate credentials" }
         )
     });
@@ -74,7 +74,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Unable to process request" }
         )
     });
@@ -90,7 +90,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Username must be between 6 and 24 characters" }
         )
     });
@@ -106,7 +106,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Username must be between 6 and 24 characters" }
         )
     });
@@ -122,7 +122,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Username cannot include special characters" }
         )
     });
@@ -138,7 +138,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Username cannot include profanity" }
         )
     });
@@ -154,7 +154,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Invalid email address" }
         )
     });
@@ -170,7 +170,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Invalid email address" }
         )
     });
@@ -186,7 +186,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Password must be between 8 and 24 characters" }
         )
     });
@@ -202,7 +202,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Password must be between 8 and 24 characters" }
         )
     });
@@ -218,7 +218,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Password must include at least one special character" }
         )
     });
@@ -234,7 +234,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Password must include at least one number" }
         )
     });
@@ -250,7 +250,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Password cannot include profanity" }
         )
     });
@@ -266,7 +266,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Email already in use" }
         )
     });
@@ -282,7 +282,7 @@ describe("POST /auth/register", () => {
 
         registrationResponse.header["user-error"].should.eq('true');
         registrationResponse.should.have.html.selector(
-            ".auth-form-error-message",
+            ".form-error-message",
             { textContent: "Username is not available" }
         )
     });

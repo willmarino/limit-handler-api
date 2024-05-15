@@ -79,7 +79,7 @@ const getOrganization = async (orgId, userId) => {
 
 
 /**
- * @description - Create a new organization given a name and a randomly generate api key.
+ * @description - Create a new organization given a name and generate a refresh token.
  * @param name - Name of the new organization
  */
 const createOrganization = async (name, reqLogger) => {

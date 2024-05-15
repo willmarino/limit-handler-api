@@ -1,0 +1,21 @@
+extends ../layouts/main.pug
+
+block content
+
+    div(class="page-content")
+        div(class="centered-column")
+            div(class="create-org-form-container")
+                div(class="form-container-header")
+                    p(class="form-container-header-label") Create a new organization
+                form(class="create-org-form")
+                    div(class="input-container")
+                        p(class="form-label") Org Name
+                        input.edit(class="secondary-shadow" type="text" name="name" placeholder="Organization Name")
+                    div(class="input-container")
+                        p(class="form-label") Subscription Tier
+                        select(class="secondary-shadow" name="subscription-type")
+                            option a
+                            option b
+                            option c
+                    button(class="submit-button secondary-color secondary-shadow clickable")
+                        p Submit

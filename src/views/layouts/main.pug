@@ -5,8 +5,10 @@ html(lang="en")
         link(rel="stylesheet" type="text/css" href="/css/base.css")
         link(rel="stylesheet" type="text/css" href="/css/page.css")
         link(rel="stylesheet" type="text/css" href="/css/buttons.css")
+        link(rel="stylesheet" type="text/css" href="/css/forms.css")
         link(rel="stylesheet" type="text/css" href="/css/auth.css")
         link(rel="stylesheet" type="text/css" href="/css/lobby.css")
+        link(rel="stylesheet" type="text/css" href="/css/org_creation.css")
         link(rel="stylesheet" type="text/css" href="/css/colors.css")
         link(rel="stylesheet" type="text/css" href="/css/shadows.css")
         link(rel="stylesheet" type="text/css" href="/css/fonts.css")
@@ -15,9 +17,9 @@ html(lang="en")
         //- wrapper parent
         div(class="page background-color")
 
-            //- footer
+            //- header
             div(class="site-header secondary-shadow")
-                div(class="site-header-left")
+                button(class="site-header-left clickable" hx-get="/auth/login" hx-target=".page")
                     p Limit Handler
                     img(src="/img/logo.svg" alt="Hourglass...")
                 div(class="site-header-right")

@@ -1,12 +1,14 @@
+const pug = require("pug");
 const router = require("express").Router();
 const organizationsService = require("../services/organizations");
+const subscriptionTiersService = require("../services/subscription_tiers");
 const responseTemplates = require("../util/response_templates");
 
 
 /**
  * @description Show route for organizations.
  */
-router.get("/:id", async (req, res, next) => {
+router.get("/show/:id", async (req, res, next) => {
     try{
         const { id: orgId } = req.params;
         const userId = req.session.user.userId;
@@ -14,6 +16,24 @@ router.get("/:id", async (req, res, next) => {
         res.status(200).send(
             responseTemplates.success( organization, "Success fetching single organization" )
         );
+    }catch(err){
+        next(err);
+    }
+});
+
+
+/**
+ * @description Create org GET form route
+ */
+router.get("/create", async (req, res, next) => {
+    try{
+        const subTiers = await subscriptionTiersService.getSubscriptionTiers();
+
+        const template = pug.compileFile("src/views/organizations/create.pug");
+        const markup = template({ subTiers });
+
+        res.set("HX-Push-Url", "/organizations/create");
+        res.status(200).send(markup);
     }catch(err){
         next(err);
     }
