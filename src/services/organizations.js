@@ -83,7 +83,10 @@ const getOrganization = async (orgId, userId) => {
  * @param name - Name of the new organization
  */
 const createOrganization = async () => {
-    const { name } = req.body;
+    const { name, selectedSubTier } = req.body;
+
+    // validate name input
+    
     
     // Generate new api key
     const identifier = await cryptoHelpers.generateRandomString(8);
@@ -99,10 +102,18 @@ const createOrganization = async () => {
 
     await organization.reload();
 
-    return {
-        name: organization.name,
-        refreshToken: refreshToken
-    };
+    // Make new subscription for organization
+    const subscriptionTier = await models.SubscriptionTiers.findOne({ where: { name: selectedSubTier } });
+    if(!subscriptionTier) throw new SimpleErrorWrapper("Invalid subscription tier");
+
+    const subscription = await models.Subscriptions.create({
+        subscriptionTierId: subscriptionTier.id,
+        organizationId: organization.id,
+        isActive: true
+    });
+
+    await subscription.reload();
+
 };
 
 

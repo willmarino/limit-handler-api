@@ -48,19 +48,19 @@ router.get("/create", async (req, res, next) => {
 /**
  * @description Create route for making new organizations.
  */
-router.post("/", async (req, res, next) => {
+router.post("/create", async (req, res, next) => {
     try{
-        const org = await organizationsService.createOrganization(req);
-        res.status(200).send(
-            responseTemplates.success( org, "Success creating organization" )
-        );
+        
+        await organizationsService.createOrganization(req);
+        res.redirect("/users/show");
+
     }catch(err){
 
         const queryStringData = { errMessage: err.message };
         if(req.body.name) queryStringData.name = req.body.name;
         if(req.body.selectedSubTier) queryStringData.selectedSubTier = req.body.selectedSubTier;
 
-        const queryString = qs.encode(queryStringData);
+        const queryString = qs.stringify(queryStringData);
         res.redirect(`/organizations/create?${queryString}`);
 
         next(err);

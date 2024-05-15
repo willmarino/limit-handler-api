@@ -6,10 +6,14 @@ const responseTemplates = require("../util/response_templates");
  * @description 
  */
 router.get("/", async (req, res, next) => {
-    const subTiers = await subTiersService.getSubscriptionTiers();
-    res.status(200).send(
-        responseTemplates.success( subTiers, "Success fetching subscription tiers" )
-    );
+    try{
+        const subTiers = await subTiersService.getSubscriptionTiers();
+        res.status(200).send(
+            responseTemplates.success( subTiers, "Success fetching subscription tiers" )
+        );
+    }catch(err){
+        next(err);
+    }
 });
 
 

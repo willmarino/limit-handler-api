@@ -22,7 +22,7 @@ block content
                                     p #{subTiers[i].name}
                                     p #{subTiers[i].cost} Dollars / Month
                                 div(class="choice-description")
-                                    p(class="soft-text") Allows #{subTiers[i].callLimit} api calls per day
+                                    p(class="soft-text") Allows #{subTiers[i].readableCallLimit.toLowerCase()} API calls per day
                                     p(class="soft-text") Number of members capped at #{subTiers[i].userLimitCount}
 
                     button(class="submit-button secondary-color secondary-shadow clickable")
