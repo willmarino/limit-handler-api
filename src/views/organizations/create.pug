@@ -11,11 +11,15 @@ block content
                     div(class="input-container")
                         p(class="form-label") Org Name
                         input.edit(class="secondary-shadow" type="text" name="name" placeholder="Organization Name")
-                    div(class="input-container")
-                        p(class="form-label") Subscription Tier
-                        select(class="secondary-shadow" name="subscription-type")
-                            option a
-                            option b
-                            option c
+                    div(class="choice-selector")
+                        - for(let i = 0; i < subTiers.length; i++)
+                            div(class="choice")
+                                button(class="choice-button secondary-color secondary-shadow")
+                                    p #{subTiers[i].name}
+                                    p #{subTiers[i].cost} Dollars / Month
+                                div(class="choice-description")
+                                    p(class="soft-text") Allows #{subTiers[i].callLimit} api calls per day
+                                    p(class="soft-text") Number of members capped at #{subTiers[i].userLimitCount}
+
                     button(class="submit-button secondary-color secondary-shadow clickable")
                         p Submit
