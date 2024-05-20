@@ -1,12 +1,18 @@
+block variables
+
 doctype html
 html(lang="en")
     head
         link(rel="stylesheet" type="text/css" href="/css/reset.css")
         link(rel="stylesheet" type="text/css" href="/css/base.css")
         link(rel="stylesheet" type="text/css" href="/css/page.css")
+        link(rel="stylesheet" type="text/css" href="/css/footer.css")
+        link(rel="stylesheet" type="text/css" href="/css/header.css")
         link(rel="stylesheet" type="text/css" href="/css/buttons.css")
+        link(rel="stylesheet" type="text/css" href="/css/forms.css")
         link(rel="stylesheet" type="text/css" href="/css/auth.css")
         link(rel="stylesheet" type="text/css" href="/css/lobby.css")
+        link(rel="stylesheet" type="text/css" href="/css/org_creation.css")
         link(rel="stylesheet" type="text/css" href="/css/colors.css")
         link(rel="stylesheet" type="text/css" href="/css/shadows.css")
         link(rel="stylesheet" type="text/css" href="/css/fonts.css")
@@ -15,14 +21,15 @@ html(lang="en")
         //- wrapper parent
         div(class="page background-color")
 
-            //- footer
-            div(class="site-header secondary-shadow")
-                div(class="site-header-left")
+            //- header
+            div(class="site-header soft-shadow")
+                button(class="site-header-left clickable" hx-get="/auth/login" hx-target=".page")
                     p Limit Handler
-                    img(src="/img/logo.svg" alt="Hourglass...")
+                    img(src="/img/logo/clock_24.png")
                 div(class="site-header-right")
-                    img(src="/img/question-mark.svg" alt="Question...")
-                    img(src="/img/gear.svg" alt="gear" hx-post="/auth/logout" hx-target=".page")
+                    button(class="secondary-color secondary-shadow") Questions
+                    - if(loggedOut !== true)
+                        button(id="logout-button" class="secondary-color secondary-shadow" hx-post="/auth/logout" hx-target=".page") Logout
 
             //- actual page content
             block content
@@ -31,3 +38,4 @@ html(lang="en")
             a(href="https://github.com/willmarino/limit-handler-api" class="site-footer-github secondary-color primary-shadow") Check out the code here :)
 
         script(src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous")
+

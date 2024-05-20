@@ -1,12 +1,15 @@
+const qs = require("node:querystring");
+const pug = require("pug");
 const router = require("express").Router();
 const organizationsService = require("../services/organizations");
+const subscriptionTiersService = require("../services/subscription_tiers");
 const responseTemplates = require("../util/response_templates");
 
 
 /**
  * @description Show route for organizations.
  */
-router.get("/:id", async (req, res, next) => {
+router.get("/show/:id", async (req, res, next) => {
     try{
         const { id: orgId } = req.params;
         const userId = req.session.user.userId;
@@ -21,18 +24,49 @@ router.get("/:id", async (req, res, next) => {
 
 
 /**
+ * @description Create org GET form route
+ */
+router.get("/create", async (req, res, next) => {
+    try{
+        const subTiers = await subscriptionTiersService.getSubscriptionTiers();
+
+        const template = pug.compileFile("src/views/organizations/create.pug");
+        const markup = template({
+            subTiers,
+            name: req.query.name,
+            selectedSubTier: req.query.selectedSubTier,
+            errMessage: req.query.errMessage
+        });
+
+        const hxPushUrl = (Object.keys(req.query).length > 0)
+            ? `/organizations/create?${qs.stringify(req.query)}`
+            : "/organizations/create";
+
+        res.set("HX-Push-Url", hxPushUrl);
+        res.status(200).send(markup);
+    }catch(err){
+        next();
+    }
+});
+
+
+/**
  * @description Create route for making new organizations.
  */
-router.post("/", async (req, res, next) => {
+router.post("/create", async (req, res, next) => {
     try{
-        const { name } = req.body;
+        
+        await organizationsService.createOrganization(req);
+        res.redirect("/users/show");
 
-        const org = await organizationsService.createOrganization(name, req.logger);
-        res.status(200).send(
-            responseTemplates.success( org, "Success creating organization" )
-        );
     }catch(err){
-        next(err);
+
+        const queryStringData = { errMessage: err.message };
+        if(req.body.name) queryStringData.name = req.body.name;
+        if(req.body.selectedSubTier) queryStringData.selectedSubTier = req.body.selectedSubTier;
+
+        const queryString = qs.stringify(queryStringData);
+        res.redirect(`/organizations/create?${queryString}`);
     }
 });
 

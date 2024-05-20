@@ -1,0 +1,52 @@
+extends ../layouts/main.pug
+
+block content
+
+    div(class="page-content")
+        div(class="centered-column")
+            div(class="create-org-form-container")
+                div(class="form-container-header")
+                    p(class="form-container-header-label") Create a new organization
+                form(class="create-org-form" hx-post="/organizations/create" hx-target=".page")
+                    div(class="input-container")
+                        p(class="form-label") Org Name
+                        input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Organization Name")
+                    div(class="choice-selector")
+
+                        - for(let i = 0; i < subTiers.length; i++)
+                            - let buttonClass = "choice-button secondary-shadow";
+                            - if(i === 0) buttonClass += " secondary-color";
+
+                            div(class="choice")
+                                button(class=buttonClass type="button")
+                                    p #{subTiers[i].name}
+                                    p #{subTiers[i].cost} Dollars / Month
+                                div(class="choice-description")
+                                    p(class="soft-text") Allows #{subTiers[i].readableCallLimit.toLowerCase()} API calls per day
+                                    p(class="soft-text") Number of members capped at #{subTiers[i].userLimitCount}
+                        
+                        input.edit(id="selectedSubTierInput" type="hidden" name="selectedSubTier" value="Basic")
+
+                    button(class="submit-button secondary-color secondary-shadow clickable")
+                        p Submit
+                    
+                    p(class="form-error-message") #{errMessage}
+
+    script.
+        const choiceButtons = document.getElementsByClassName("choice-button");
+
+        for(let i = 0; i < choiceButtons.length; i++){
+            const cb = choiceButtons[i];
+            cb.addEventListener("click", () => {
+                const hiddenInput = document.getElementById("selectedSubTierInput");
+                const buttonValue = cb.children[0].textContent
+                hiddenInput.value = buttonValue;
+
+                for(let j = 0; j < choiceButtons.length; j++){
+                    const b = choiceButtons[j];
+                    b.classList.remove("secondary-color")
+                }
+
+                cb.classList.add("secondary-color");
+            })
+        };

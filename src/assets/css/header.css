@@ -1,0 +1,42 @@
+.site-header{
+    width: 100%;
+    height: 70px;
+
+    position: absolute;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    flex-grow: 0;
+
+    padding: 0px 25px;
+}
+
+.site-header-left{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 35px;
+}
+
+.site-header-left p{
+    font-size: 22px;
+    padding-right: 10px;
+}
+
+.site-header-right button{
+    width: 150px;
+    height: 35px;
+    
+    border-radius: 5px;
+
+    font-size: 14px;
+
+    margin-left: 15px;
+}
+
+.site-header-right button:hover{
+    cursor: pointer;
+}

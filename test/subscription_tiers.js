@@ -1,13 +1,11 @@
-const { chai, it, should, getWebAgent } = require("./setup");
+const { it, getWebAgent } = require("./setup");
 const { webApp } = require("../web");
 
 
 describe("GET /subscription_tiers", () => {
     it("fetches subscription tiers", async () => {
         const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
-        const subTiersResponse = await agent
-            .get("/subscription_tiers")
-            .send();
+        const subTiersResponse = await agent.get("/subscription_tiers");
 
         subTiersResponse.status.should.eq(200);
         subTiersResponse.body.data.length.should.eq(3);

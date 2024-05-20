@@ -2,6 +2,7 @@
 const path = require("node:path");
 const cors = require("cors");
 const express = require("express");
+const favicon = require("serve-favicon");
 const context = require("express-context-store");
 const cookieSession = require("cookie-session");
 
@@ -30,6 +31,7 @@ webApp.use(context());
 webApp.set("etag", false);
 webApp.set("view engine", "pug");
 webApp.set("views", path.join(__dirname, "src/views"));
+webApp.use(favicon(path.join(__dirname, "src/assets/img/logo", "clock_16.png")))
 webApp.use(express.static(path.join(__dirname, "src/assets")));
 webApp.use(express.json({ limit: Infinity }));
 webApp.use(express.urlencoded({ extended: false }));
@@ -63,7 +65,7 @@ webApp.use("/memberships", membershipsRouter);
 
 // Redirect to login page if the requested path can't be matched to a route handler
 webApp.use("/", (req, res, next) => {
-    res.redirect("/auth/login");
+    res.redirect("/users/show");
 })
 
 // Custom middelware - catch-all error handler

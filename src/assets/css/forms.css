@@ -1,0 +1,107 @@
+/* forms and form containers */
+.form-container-header{
+    width: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.form-container-header-label{
+    font-size: 22px;
+}
+
+.form-container-header-nav{
+    font-size: 14px;
+
+    text-decoration: underline;
+}
+
+.form-container-header-nav:hover{
+    cursor: pointer;
+}
+
+
+form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-error-message{
+    width: 100%;
+    height: 15px;
+    font-size: 12px;
+
+    text-align: center;
+
+    margin-top: 10px;
+    margin-left: 5px;
+    color: #ef4444;
+}
+
+/* inputs */
+.input-container{
+    width: 100%;
+    height: 70px;
+    margin: 10px 0px 0px 0px;
+}
+
+.input-container .form-label{
+    width: 100%;
+    margin: 5px 0px;
+}
+
+.input-container input, .input-container select{
+    width: 100%;
+    height: 35px;
+
+    padding: 0px 10px;
+
+    border-radius: 3px;
+    border: 1px solid #a1a1aa;
+}
+
+.input-container input:hover{
+    border: 1px solid #3f3f46;
+}
+
+.input-container input:focus{
+    border: 1px solid #3f3f46;
+}
+
+/* choices */
+.choice{
+    margin-bottom: 10px;
+}
+
+.choice-selector{
+    width: 100%;
+    margin: 15px 0px;
+}
+
+.choice-button{
+    width: 100%;
+    height: 35px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 5px 0px;
+    padding: 0px 10px;
+
+    border-radius: 5px;
+}
+
+.choice-button:hover {
+    cursor: pointer;
+
+    background: #cbd5e1;
+}
+
+.choice-description{
+    padding: 0px 10px;
+    
+    font-size: 13px;
+}

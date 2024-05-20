@@ -36,6 +36,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP'),
       field: 'updated_at'
+    },
+    readableCallLimit: {
+      type: DataTypes.STRING(64),
+      allowNull: false,
+      field: 'readable_call_limit'
     }
   }, {
     sequelize,

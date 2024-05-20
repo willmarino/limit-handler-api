@@ -7,3 +7,7 @@
 .secondary-shadow{
     box-shadow: -2px 2px 3px 1px #9ca3af;
 }
+
+.soft-shadow{
+    box-shadow: -2px 2px 3px 1px #d1d5db;
+}
