@@ -1,3 +1,5 @@
+block variables
+
 doctype html
 html(lang="en")
     head
@@ -26,7 +28,8 @@ html(lang="en")
                     img(src="/img/logo/clock_24.png")
                 div(class="site-header-right")
                     button(class="secondary-color secondary-shadow") Questions
-                    button(class="secondary-color secondary-shadow" hx-post="/auth/logout" hx-target=".page") Logout
+                    - if(loggedOut !== true)
+                        button(id="logout-button" class="secondary-color secondary-shadow" hx-post="/auth/logout" hx-target=".page") Logout
 
             //- actual page content
             block content
@@ -35,3 +38,4 @@ html(lang="en")
             a(href="https://github.com/willmarino/limit-handler-api" class="site-footer-github secondary-color primary-shadow") Check out the code here :)
 
         script(src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous")
+
