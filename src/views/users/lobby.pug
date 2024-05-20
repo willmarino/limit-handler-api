@@ -10,12 +10,15 @@ block content
                         div(class="lobby-button secondary-color secondary-shadow")
                             p #{userInfo.user.name}
                     div(class="lobby-left-bottom")
+                    
                     if userInfo.organizations.length > 0
                         div(class="lobby-button secondary-color secondary-shadow")
                             p #{userInfo.organizations[0].name}
+                    
                     if userInfo.organizations.length === 0
                         p(id="no-org-warning") You are not a member of any organizations...
                         div(class="lobby-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
                                 p Create New Org
+
                 div(class="lobby-right primary-color primary-shadow")
                     p projects info space
