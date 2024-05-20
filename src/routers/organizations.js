@@ -61,8 +61,6 @@ router.post("/create", async (req, res, next) => {
 
     }catch(err){
 
-        console.log(err);
-
         const queryStringData = { errMessage: err.message };
         if(req.body.name) queryStringData.name = req.body.name;
         if(req.body.selectedSubTier) queryStringData.selectedSubTier = req.body.selectedSubTier;
