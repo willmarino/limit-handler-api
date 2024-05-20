@@ -1,5 +1,6 @@
-const { chai, it, should, getWebAgent } = require("./setup");
+const { it, should, getWebAgent } = require("./setup");
 const { webApp } = require("../web");
+const { models } =  require("../src/db/connection");
 
 describe("GET /organizations/show/:id", () => {
     it("should return an error message if a user is not a member of the organization", async () => {
@@ -47,7 +48,9 @@ describe("POST /organizations", () => {
             .send({ name: "new test org", selectedSubTier: "Basic" });
 
         creationResponse.status.should.eq(200);
-        // creationResponse.body.data.name.should.eq("new test org");
+
+        const orgs = await models.Organizations.findAll({ where: { name: "new test org" } });
+        orgs.length.should.eq(1);
 
         agent.close();
     })

@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const validators = require("../helpers/form_validation");
+const formValidators = require("../helpers/form_validation");
 const { createHash } = require("../helpers/bcrypt");
 const { models } = require("../db/connection");
 const SimpleErrorWrapper = require("../util/error_wrapper");
@@ -138,16 +138,16 @@ const registerUser = async (req) => {
     if(!userName || !email || !passwordInput)
         throw new SimpleErrorWrapper("Unable to process request", 400);
 
-    validators.validateLength(userName, 6, 24, "Username must be between 6 and 24 characters");
-    validators.validateProfanity(userName, "Username cannot include profanity");
-    validators.validateNoSymbols(userName, "Username cannot include special characters")
+    formValidators.validateLength(userName, 6, 24, "Username must be between 6 and 24 characters");
+    formValidators.validateProfanity(userName, "Username cannot include profanity");
+    formValidators.validateNoSymbols(userName, "Username cannot include special characters")
 
-    validators.validateEmail(email, "Invalid email address");
+    formValidators.validateEmail(email, "Invalid email address");
 
-    validators.validateLength(passwordInput, 8, 24, "Password must be between 8 and 24 characters");
-    validators.validateHasNumbers(passwordInput, "Password must include at least one number");
-    validators.validateHasSymbols(passwordInput, "Password must include at least one special character");
-    validators.validateProfanity(passwordInput, "Password cannot include profanity");
+    formValidators.validateLength(passwordInput, 8, 24, "Password must be between 8 and 24 characters");
+    formValidators.validateHasNumbers(passwordInput, "Password must include at least one number");
+    formValidators.validateHasSymbols(passwordInput, "Password must include at least one special character");
+    formValidators.validateProfanity(passwordInput, "Password cannot include profanity");
 
     // Data validations
     const emailInUse = await models.Users.findOne({ where: { email } });

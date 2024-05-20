@@ -3,6 +3,11 @@ const badWordsFilter = new BadWordsFilter();
 const emailValidator = require("email-validator");
 const SimpleErrorWrapper = require("../util/error_wrapper");
 
+/**
+ * Validations for input from various forms (user creation, org creation)
+ * Validation functions can be combined if they can emit the same error message to a user
+ */
+
 const specialChars = [
     '!', '@', '#', '$',
     '%', '^', '&', '*',
@@ -16,8 +21,6 @@ const numbers = [
     '9', '0'
 ];
 
-
-
 const validateLength = (str, min, max, errMessage) => {
     
     if(str.length < min || str.length > max){
@@ -25,7 +28,6 @@ const validateLength = (str, min, max, errMessage) => {
     }
 
 }
-
 
 const validateEmail = (str, errMessage) => {
     
@@ -39,7 +41,6 @@ const validateEmail = (str, errMessage) => {
     }
 
 }
-
 
 const validateProfanity = (str, errMessage) => {
     if(badWordsFilter.isProfane(str)){

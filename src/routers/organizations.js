@@ -33,11 +33,16 @@ router.get("/create", async (req, res, next) => {
         const template = pug.compileFile("src/views/organizations/create.pug");
         const markup = template({
             subTiers,
-            name: req.query.name || "",
-            selectedSubTier: req.query.selectedSubTier || "Basic" // Basic is default, it is the free plan
+            name: req.query.name,
+            selectedSubTier: req.query.selectedSubTier,
+            errMessage: req.query.errMessage
         });
 
-        res.set("HX-Push-Url", `/organizations/create?${qs.stringify(req.query)}`);
+        const hxPushUrl = (Object.keys(req.query).length > 0)
+            ? `/organizations/create?${qs.stringify(req.query)}`
+            : "/organizations/create";
+
+        res.set("HX-Push-Url", hxPushUrl);
         res.status(200).send(markup);
     }catch(err){
         next();
@@ -56,14 +61,14 @@ router.post("/create", async (req, res, next) => {
 
     }catch(err){
 
+        console.log(err);
+
         const queryStringData = { errMessage: err.message };
         if(req.body.name) queryStringData.name = req.body.name;
         if(req.body.selectedSubTier) queryStringData.selectedSubTier = req.body.selectedSubTier;
 
         const queryString = qs.stringify(queryStringData);
         res.redirect(`/organizations/create?${queryString}`);
-
-        next(err);
     }
 });
 

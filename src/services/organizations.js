@@ -1,4 +1,5 @@
 const { models } = require("../db/connection");
+const formValidators = require("../helpers/form_validation");
 const cryptoHelpers = require("../helpers/crypto");
 const bcrypyHelpers = require("../helpers/bcrypt");
 const SimpleErrorWrapper = require("../util/error_wrapper");
@@ -82,11 +83,21 @@ const getOrganization = async (orgId, userId) => {
  * @description - Create a new organization given a name and generate a refresh token.
  * @param name - Name of the new organization
  */
-const createOrganization = async () => {
+const createOrganization = async (req) => {
     const { name, selectedSubTier } = req.body;
 
-    // validate name input
-    
+    if(!name) throw new SimpleErrorWrapper("Please enter an organization name");
+    if(!selectedSubTier) throw new SimpleErrorWrapper("Please select a subscription tier");
+
+    // Input validation
+    formValidators.validateProfanity(name, "Org name cannot include profanity");
+    formValidators.validateLength(name, 6, 24, "Org name must be in between 6 and 24 characters");
+    formValidators.validateNoSymbols(name, "Org name cannot contain special characters");
+
+    const orgWithSameName = await models.Organizations.findOne({ where: { name } });
+    if(orgWithSameName){
+        throw new SimpleErrorWrapper("That name is already taken");
+    }
     
     // Generate new api key
     const identifier = await cryptoHelpers.generateRandomString(8);
@@ -113,6 +124,17 @@ const createOrganization = async () => {
     });
 
     await subscription.reload();
+
+    const otherMemberships = await models.Memberships.findAll({ where: { userId: req.session.user.userId } });
+    const isNewMembershipPrimary = otherMemberships.length > 0;
+
+    const userRole = await models.UserRoles.findOne({ where: { role: "owner" } });
+    const membership = await models.Memberships.create({
+        organizationId: organization.id,
+        userId: req.session.user.userId,
+        userRoleId: userRole.id,
+        primary: isNewMembershipPrimary
+    });
 
 };
 
