@@ -78,6 +78,14 @@ const getOrganization = async (orgId, userId) => {
     return orgResponse;
 }
 
+/**
+ * @description - Condensed version of getOrg, just get info needed to display basic org attributes.
+ */
+const getOrgSimple = async (orgId) => {
+    const org = await models.Organizations.findOne({ where: { identifier: orgId } });
+    return org;
+}
+
 
 /**
  * @description - Create a new organization given a name and generate a refresh token.
@@ -144,5 +152,6 @@ const createOrganization = async (req) => {
 
 module.exports = {
     getOrganization,
-    createOrganization
+    createOrganization,
+    getOrgSimple
 }

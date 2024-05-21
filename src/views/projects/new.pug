@@ -1,0 +1,19 @@
+extends ../layouts/main.pug
+
+block content
+
+    div(class="page-content")
+        div(class="centered-column")
+            div(class="create-project-form-container")
+                div(class="form-container-header")
+                    p(class="form-container-header-label") Create a new project
+                form(class="create-project-form" hx-post="/projects/create" hx-target=".page")
+                    div(class="input-container")
+                        p(class="form-label") Project Name
+                        input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Project Name")
+                        
+
+                    button(class="submit-button secondary-color secondary-shadow clickable")
+                        p Submit
+                    
+                    p(class="form-error-message") #{errMessage}
