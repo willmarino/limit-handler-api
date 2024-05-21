@@ -5,20 +5,41 @@ block content
     div(class="page-content")
         div(class="scroll")
             div(class="lobby")
-                div(class="lobby-left primary-color primary-shadow")
-                    div(class="lobby-left-top")
-                        div(class="lobby-button secondary-color secondary-shadow")
-                            p #{userInfo.user.name}
-                    div(class="lobby-left-bottom")
+                div(class="lobby-sidebar primary-color primary-shadow")
+                    div(class="lobby-sidebar-user-info")
+                        div(class="lobby-sidebar-user-info-pp")
+                        p #{userInfo.user.name}
+                    div(class="lobby-sidebar-bottom")
+                        p(class="lobby-sidebar-subheader") Organizations
                     
-                    if userInfo.organizations.length > 0
-                        div(class="lobby-button secondary-color secondary-shadow")
-                            p #{userInfo.organizations[0].name}
-                    
-                    if userInfo.organizations.length === 0
-                        p(id="no-org-warning") You are not a member of any organizations...
-                        div(class="lobby-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
-                                p Create New Org
+                        if userInfo.organizations.length > 0
+                            div(class="org-bar")
+                                select(class="org-dropdown lobby-button secondary-color secondary-shadow clickable")
+                                    option #{userInfo.organizations[0].name}
+                                div(class="lobby-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
+                                    p(class="fs-12") Create New Org
+                            
+                            p(class="lobby-sidebar-subheader") Members
+                            ul(class="members-list")
+                                - const curOrg = userInfo.organizations[0];
+                                - for(const member of curOrg.members)
+                                    li(class="member")
+                                        p #{member.name}
+                                        p #{member.role}
+                        
+                        if userInfo.organizations.length === 0
+                            p(id="no-org-warning") You are not a member of any organizations...
+                            div(class="lobby-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
+                                    p(class="fs-12") Create New Org
 
                 div(class="lobby-right primary-color primary-shadow")
-                    p projects info space
+                    - const curOrg = userInfo.organizations[0];
+                    
+                    - if(curOrg.projects.length < 1)
+                        div(class="new-project-prompt")
+                            p Looks like you don't have any projects!
+                            div(class="lobby-button secondary-color secondary-shadow clickable")
+                                p(class="fs-14") New Project
+                    
+                    - if(curOrg.projects.length > 0)
+                        p wowee
