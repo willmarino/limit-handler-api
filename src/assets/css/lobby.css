@@ -4,7 +4,7 @@
     justify-content: space-between;
 }
 
-.lobby-left{
+.lobby-sidebar{
     min-width: 400px;
     min-height: 800px;
     
@@ -15,12 +15,60 @@
     border-radius: 5px;
 }
 
-.lobby-left-top{
-    
+.lobby-sidebar-user-info{
+    height: 140px;
 }
 
-.lobby-left-bottom{
+.lobby-sidebar-user-info div{
+    margin-bottom: 20px;
+}
+
+.lobby-sidebar-user-info-pp{
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    background: black;
+}
+
+.lobby-sidebar-bottom{
     padding-top: 20px;
+}
+
+.lobby-sidebar-subheader{
+    font-size: 14px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+
+.org-bar{
+    height: 50px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.org-bar p{
+    font-size: 12px;
+    line-height: 50px;
+    margin-bottom: 20px;
+}
+
+.lobby .members-list{
+    /* background: red; */
+
+}
+
+.lobby .members-list .member{
+    height: 30px;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 14px;
 }
 
 #no-org-warning{
@@ -31,7 +79,7 @@
 .lobby-button p{
     text-align: center;
     line-height: 30px;
-    font-size: 14px;
+    /* font-size: 14px; */
 }
 
 .lobby-right{
@@ -41,8 +89,26 @@
     padding: 20px;
     margin-left: 100px;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     border-radius: 5px;
 }
+
+.new-project-prompt{
+    width: 400px;
+    height: 80px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    /* background: red; */
+}
+
+
 
 .lobby-button{
     width: 150px;
