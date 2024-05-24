@@ -6,14 +6,51 @@ block content
         div(class="centered-column")
             div(class="create-project-form-container")
                 div(class="form-container-header")
-                    p(class="form-container-header-label") Create a new project
+                    p(class="form-container-header-label") New project
                 form(class="create-project-form" hx-post="/projects/create" hx-target=".page")
+                    select(class="org-dropdown lobby-button secondary-color secondary-shadow clickable" name="orgName")
+                        option(selected) #{org.name}
                     div(class="input-container")
-                        p(class="form-label") Project Name
+                        p(class="form-label") Name
                         input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Project Name")
+                    div(class="input-container")
+                        p(class="form-label") Call Limit
+                        input.edit(class="secondary-shadow" type="text" name="callLimit" value=name placeholder="10, 100, ...")
+                    p(class="choice-selector-label") Timeframe
+                    div(class="choice-selector")
+                        - for(let i = 0; i < timeframes.length; i++)
+                            - let buttonClass = "choice-button secondary-shadow";
+                            - if(i === 0) buttonClass += " secondary-color";
+
+                            div(class="choice")
+                                button(class=buttonClass type="button")
+                                    p #{timeframes[i].name}
+                                div(class="choice-description")
+                                    p(class="soft-text") Limit your program to a certain number of API calls per #{timeframes[i].name.toLowerCase()}
+                        
+                        input.edit(id="hidden-timeframe-input" type="hidden" name="timeFrameName" value="Second")
                         
 
                     button(class="submit-button secondary-color secondary-shadow clickable")
                         p Submit
                     
                     p(class="form-error-message") #{errMessage}
+
+    script.
+        const choiceButtons = document.getElementsByClassName("choice-button");
+
+        for(let i = 0; i < choiceButtons.length; i++){
+            const cb = choiceButtons[i];
+            cb.addEventListener("click", () => {
+                const hiddenInput = document.getElementById("hidden-timeframe-input");
+                const buttonValue = cb.children[0].textContent;
+                hiddenInput.value = buttonValue;
+
+                for(let j = 0; j < choiceButtons.length; j++){
+                    const b = choiceButtons[j];
+                    b.classList.remove("secondary-color")
+                }
+
+                cb.classList.add("secondary-color");
+            })
+        };

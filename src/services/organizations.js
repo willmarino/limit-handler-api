@@ -55,6 +55,7 @@ const getOrganization = async (orgId, userId) => {
 
     const orgResponse = {
         name: organization.name,
+        identifier: organization.identifier,
         createdAt: organization.createdAt,
         members: organization.memberships
             .sort((a, b) => a.userRoleId - b.userRoleId)

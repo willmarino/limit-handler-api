@@ -11,8 +11,8 @@ block content
                     div(class="input-container")
                         p(class="form-label") Org Name
                         input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Organization Name")
+                    
                     div(class="choice-selector")
-
                         - for(let i = 0; i < subTiers.length; i++)
                             - let buttonClass = "choice-button secondary-shadow";
                             - if(i === 0) buttonClass += " secondary-color";
