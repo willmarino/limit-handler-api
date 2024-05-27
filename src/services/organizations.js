@@ -55,6 +55,7 @@ const getOrganization = async (orgId, userId) => {
 
     const orgResponse = {
         name: organization.name,
+        identifier: organization.identifier,
         createdAt: organization.createdAt,
         members: organization.memberships
             .sort((a, b) => a.userRoleId - b.userRoleId)
@@ -76,6 +77,14 @@ const getOrganization = async (orgId, userId) => {
     };
 
     return orgResponse;
+}
+
+/**
+ * @description - Condensed version of getOrg, just get info needed to display basic org attributes.
+ */
+const getOrgSimple = async (orgId) => {
+    const org = await models.Organizations.findOne({ where: { identifier: orgId } });
+    return org;
 }
 
 
@@ -144,5 +153,6 @@ const createOrganization = async (req) => {
 
 module.exports = {
     getOrganization,
-    createOrganization
+    createOrganization,
+    getOrgSimple
 }

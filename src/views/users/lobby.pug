@@ -34,12 +34,19 @@ block content
 
                 div(class="lobby-right primary-color primary-shadow")
                     - const curOrg = userInfo.organizations[0];
+                    - if(!curOrg)
+                        div
+                            p Looks like you don't have any projects!
+                            p Create an organization to get started.
                     
-                    - if(curOrg.projects.length < 1)
+                    - if(curOrg && curOrg.projects.length < 1)
                         div(class="new-project-prompt")
                             p Looks like you don't have any projects!
-                            div(class="lobby-button secondary-color secondary-shadow clickable")
+                            - console.log(userInfo.organizations[0].identifier)
+                            div(class="lobby-button secondary-color secondary-shadow clickable" hx-get=`/projects/new?orgId=${userInfo.organizations[0].identifier}` hx-target=".page")
                                 p(class="fs-14") New Project
                     
-                    - if(curOrg.projects.length > 0)
-                        p wowee
+                    - if(curOrg && curOrg.projects.length > 0)
+                        - const curProject = curOrg.projects[0].name;
+                        div(class="lobby-main-header")
+                            p #{curProject}

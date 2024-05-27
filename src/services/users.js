@@ -83,6 +83,7 @@ const getUser = async (userId) => {
         organizations: organizationsAndTeammates.map((org) => {
             return {
                 name: org.name,
+                identifier: org.identifier,
                 createdAt: org.createdAt,
                 members: org.memberships
                     .sort((a, b) => a.userRoleId - b.userRoleId)
