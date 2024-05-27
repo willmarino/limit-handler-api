@@ -47,4 +47,6 @@ block content
                                 p(class="fs-14") New Project
                     
                     - if(curOrg && curOrg.projects.length > 0)
-                        p wowee
+                        - const curProject = curOrg.projects[0].name;
+                        div(class="lobby-main-header")
+                            p #{curProject}
