@@ -14,9 +14,9 @@ block content
                     
                         if userInfo.organizations.length > 0
                             div(class="org-bar")
-                                select(class="org-dropdown lobby-button secondary-color secondary-shadow clickable")
+                                select(class="primary-button secondary-color secondary-shadow clickable")
                                     option #{userInfo.organizations[0].name}
-                                div(class="lobby-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
+                                div(class="primary-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
                                     p(class="fs-12") Create New Org
                             
                             p(class="lobby-sidebar-subheader") Members
@@ -29,10 +29,10 @@ block content
                         
                         if userInfo.organizations.length === 0
                             p(id="no-org-warning") You are not a member of any organizations...
-                            div(class="lobby-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
+                            div(class="primary-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
                                     p(class="fs-12") Create New Org
 
-                div(class="lobby-right primary-color primary-shadow")
+                div(class="lobby-main primary-color primary-shadow")
                     - const curOrg = userInfo.organizations[0];
                     - if(!curOrg)
                         div
@@ -42,11 +42,55 @@ block content
                     - if(curOrg && curOrg.projects.length < 1)
                         div(class="new-project-prompt")
                             p Looks like you don't have any projects!
-                            - console.log(userInfo.organizations[0].identifier)
-                            div(class="lobby-button secondary-color secondary-shadow clickable" hx-get=`/projects/new?orgId=${userInfo.organizations[0].identifier}` hx-target=".page")
+                            div(class="primary-button secondary-color secondary-shadow clickable" hx-get=`/projects/new?orgId=${userInfo.organizations[0].identifier}` hx-target=".page")
                                 p(class="fs-14") New Project
                     
                     - if(curOrg && curOrg.projects.length > 0)
-                        - const curProject = curOrg.projects[0].name;
+                        - const curProject = curOrg.projects[0];
                         div(class="lobby-main-header")
-                            p #{curProject}
+                            div(class="lobby-main-header-left")
+                                div(class="lobby-main-header-left-section")
+                                    p Project:
+                                    select(class="project-dropdown primary-button secondary-color secondary-shadow clickable")
+                                        - for(const p of curOrg.projects)
+                                            option #{curProject.name}
+                            div(class="lobby-main-header-right")
+                                div(class="lobby-main-header-right-section")
+                                    p Last X: 123
+                                div(class="lobby-main-header-right-section")
+                                    p Avg X: 109
+                                div(class="lobby-main-header-right-section")
+                                    p Month: 487
+                        div(class="lobby-main-body")
+                            canvas(id="project-stats-chart")
+
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js")
+        script.
+            const xVals = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+            const yVals = [ 10, 4, 22, 3, 17, 11, 13, 17, 23, 29 ];
+
+            new Chart(
+                "project-stats-chart",
+                {
+                    type: "line",
+                    data: {
+                        labels: xVals,
+                        datasets: [
+                            {
+                                fill: false,
+                                lineTension: 0,
+                                backgroundColor: "rgba(0, 0, 255, 1.0)",
+                                borderColor: "rgba(0, 0, 255, 0.1)",
+                                data: yVals
+                            }
+                        ]
+                    },
+                    options: {
+                        legend: { display: false },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 40 } }]
+                        }
+                    }
+
+                }
+            )

@@ -47,13 +47,11 @@
 
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
 }
 
 .org-bar p{
     font-size: 12px;
-    line-height: 50px;
-    margin-bottom: 20px;
 }
 
 .lobby .members-list{
@@ -76,22 +74,12 @@
     margin-bottom: 10px;
 }
 
-.lobby-button p{
-    text-align: center;
-    line-height: 30px;
-    /* font-size: 14px; */
-}
-
-.lobby-right{
+.lobby-main{
     min-width: 600px;
     flex-grow: 1;
 
     padding: 20px;
     margin-left: 100px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
     border-radius: 5px;
 }
@@ -109,12 +97,80 @@
 }
 
 
+/* TODO clean up outdated class stylings, dont need to have 'lobby-button', this should be in buttons.css */
 
-.lobby-button{
-    width: 150px;
-    height: 30px;
 
-    margin-bottom: 20px;
 
-    border-radius: 5px;
+/*  */
+.lobby-main-header{
+    width: 100%;
+    height: 35px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* border: 1px solid black; */
+}
+
+.lobby-main-header-left{
+    height: 100%;
+}
+
+.lobby-main-header-left-section{
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 14px;
+    /* background: green; */
+}
+
+.lobby-main-header-right{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.lobby-main-header-right-section{
+    width: 120px;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0px 0px 0px 10px;
+    
+    font-size: 14px;
+    /* background: red; */
+}
+
+
+/*  */
+.lobby-main-body{
+    height: 580px;
+
+    margin-top: 20px;
+
+    /* background: blue; */
+}
+
+.project-dropdown{
+    margin-left: 10px;
+}
+
+.project-dropdown option{
+    font-size: 12px;
+}
+
+
+/*  */
+#project-stats-chart{
+    height: 100%;
+    width: 100%;
 }

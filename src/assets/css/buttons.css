@@ -1,3 +1,16 @@
+.primary-button{
+    width: 150px;
+    height: 30px;
+
+
+    border-radius: 5px;
+}
+
+.primary-button p{
+    text-align: center;
+    line-height: 30px;
+}
+
 .clickable:hover{
     cursor: pointer;
 }
