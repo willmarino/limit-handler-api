@@ -33,7 +33,7 @@ describe("GET /organizations/show/:id", () => {
         org.projects[0].name.should.eq("org 1 5 per min");
         org.projects[0].creator.should.eq("usernamebill");
         org.projects[0].callLimit.should.eq(5);
-        org.projects[0].timeFrame.should.eq("minute");
+        org.projects[0].timeFrame.should.eq("Minute");
         
         agent.close();
     })
