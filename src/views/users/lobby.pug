@@ -64,24 +64,21 @@ block content
                         div(class="lobby-main-body")
                             canvas(id="project-stats-chart")
 
-        script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js")
         script.
-            const xVals = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
-            const yVals = [ 10, 4, 22, 3, 17, 11, 13, 17, 23, 29 ];
 
             new Chart(
                 "project-stats-chart",
                 {
                     type: "line",
                     data: {
-                        labels: xVals,
+                        labels: !{JSON.stringify(xVals)},
                         datasets: [
                             {
                                 fill: false,
                                 lineTension: 0,
                                 backgroundColor: "rgba(0, 0, 255, 1.0)",
                                 borderColor: "rgba(0, 0, 255, 0.1)",
-                                data: yVals
+                                data: !{JSON.stringify(yVals)}
                             }
                         ]
                     },

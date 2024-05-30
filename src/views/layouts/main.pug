@@ -16,6 +16,7 @@ html(lang="en")
         link(rel="stylesheet" type="text/css" href="/css/colors.css")
         link(rel="stylesheet" type="text/css" href="/css/shadows.css")
         link(rel="stylesheet" type="text/css" href="/css/fonts.css")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js")
     body
         
         //- wrapper parent
@@ -23,6 +24,7 @@ html(lang="en")
 
             //- header
             div(class="site-header soft-shadow")
+                //- a(href="/auth/login") Limit Handler
                 button(class="site-header-left clickable" hx-get="/auth/login" hx-target=".page")
                     p Limit Handler
                     img(src="/img/logo/clock_24.png")
