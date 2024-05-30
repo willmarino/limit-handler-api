@@ -12,7 +12,12 @@ router.get("/show", async (req, res, next) => {
         const userInfo = await usersService.getUser(userId);
 
         const template = pug.compileFile("src/views/users/lobby.pug");
-        const markup = template({ userInfo, testVar: true });
+        const markup = template({
+            userInfo,
+            testVar: true,
+            xVals: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+            yVals: [ 10, 4, 22, 3, 17, 11, 13, 17, 23, 29 ]
+        });
 
         res.set("HX-Push-Url", "/users/show")
         res.status(200).send(markup);
