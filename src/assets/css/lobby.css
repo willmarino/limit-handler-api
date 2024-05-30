@@ -54,11 +54,6 @@
     font-size: 12px;
 }
 
-.lobby .members-list{
-    /* background: red; */
-
-}
-
 .lobby .members-list .member{
     height: 30px;
     
@@ -68,6 +63,8 @@
 
     font-size: 14px;
 }
+
+
 
 #no-org-warning{
     font-size: 14px;
