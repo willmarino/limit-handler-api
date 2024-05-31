@@ -18,5 +18,10 @@ router.get("/:id", async (req, res, next) => {
     }
 });
 
+/**
+ * @description Memberships - Creation of invites - sends email to user, creates invitation.
+ */
+
+
 
 module.exports = router;

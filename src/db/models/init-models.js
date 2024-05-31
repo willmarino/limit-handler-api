@@ -1,5 +1,6 @@
 var DataTypes = require("sequelize").DataTypes;
 var _SequelizeMeta = require("./SequelizeMeta");
+var _Invitations = require("./Invitations");
 var _Memberships = require("./Memberships");
 var _Organizations = require("./Organizations");
 var _Projects = require("./Projects");
@@ -12,6 +13,7 @@ var _Users = require("./Users");
 
 function initModels(sequelize) {
   var SequelizeMeta = _SequelizeMeta(sequelize, DataTypes);
+  var Invitations = _Invitations(sequelize, DataTypes);
   var Memberships = _Memberships(sequelize, DataTypes);
   var Organizations = _Organizations(sequelize, DataTypes);
   var Projects = _Projects(sequelize, DataTypes);
@@ -32,6 +34,8 @@ function initModels(sequelize) {
   SubscriptionTiers.hasMany(Subscriptions, { as: "subscriptions", foreignKey: "subscriptionTierId"});
   Projects.belongsTo(TimeFrames, { as: "timeFrame", foreignKey: "timeFrameId"});
   TimeFrames.hasMany(Projects, { as: "projects", foreignKey: "timeFrameId"});
+  Invitations.belongsTo(UserRoles, { as: "userRole", foreignKey: "userRoleId"});
+  UserRoles.hasMany(Invitations, { as: "invitations", foreignKey: "userRoleId"});
   Memberships.belongsTo(UserRoles, { as: "userRole", foreignKey: "userRoleId"});
   UserRoles.hasMany(Memberships, { as: "memberships", foreignKey: "userRoleId"});
   Memberships.belongsTo(Users, { as: "user", foreignKey: "userId"});
@@ -41,6 +45,7 @@ function initModels(sequelize) {
 
   return {
     SequelizeMeta,
+    Invitations,
     Memberships,
     Organizations,
     Projects,

@@ -9,6 +9,9 @@
     min-height: 800px;
     
     flex-grow: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     padding: 20px;
 
@@ -32,7 +35,7 @@
     background: black;
 }
 
-.lobby-sidebar-bottom{
+.lobby-sidebar-mid{
     padding-top: 20px;
 }
 
@@ -71,6 +74,42 @@
     margin-bottom: 10px;
 }
 
+
+.lobby-sidebar-section-two{
+    width: 100%;
+    height: 120px;
+}
+
+.lobby-sidebar-section-two form{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.lobby-sidebar-section-two .button-and-message{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    font-size: 14px;
+}
+
+.lobby-sidebar-section-two .submit-button-short{
+    width: 100px;
+}
+
+.lobby-sidebar-section-two .add-member-message{
+    width: 260px;
+    height: 45px;
+    line-height: 45px;
+
+    text-align: center;
+}
+
+
+
+/* lobby main */
 .lobby-main{
     min-width: 600px;
     flex-grow: 1;

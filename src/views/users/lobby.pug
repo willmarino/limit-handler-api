@@ -6,31 +6,49 @@ block content
         div(class="scroll")
             div(class="lobby")
                 div(class="lobby-sidebar primary-color primary-shadow")
-                    div(class="lobby-sidebar-user-info")
-                        div(class="lobby-sidebar-user-info-pp")
-                        p #{userInfo.user.name}
-                    div(class="lobby-sidebar-bottom")
-                        p(class="lobby-sidebar-subheader") Organizations
                     
-                        if userInfo.organizations.length > 0
-                            div(class="org-bar")
-                                select(class="primary-button secondary-color secondary-shadow clickable")
-                                    option #{userInfo.organizations[0].name}
-                                div(class="primary-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
-                                    p(class="fs-12") Create New Org
+                    div(class="lobby-sidebar-section-one")
+                        div(class="lobby-sidebar-user-info")
+                            div(class="lobby-sidebar-user-info-pp")
+                            p #{userInfo.user.name}
+                        div(class="lobby-sidebar-mid")
+                            p(class="lobby-sidebar-subheader") Organizations
+
+                            if userInfo.organizations.length > 0
+                                div(class="org-bar")
+                                    select(class="primary-button secondary-color secondary-shadow clickable")
+                                        option #{userInfo.organizations[0].name}
+                                    div(class="primary-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
+                                        p(class="fs-12") Create New Org
+                                
+                                p(class="lobby-sidebar-subheader") Members
+                                ul(class="members-list")
+                                    - const curOrg = userInfo.organizations[0];
+                                    - for(const member of curOrg.members)
+                                        li(class="member")
+                                            p #{member.name}
+                                            p #{member.role}
+                                
                             
-                            p(class="lobby-sidebar-subheader") Members
-                            ul(class="members-list")
-                                - const curOrg = userInfo.organizations[0];
-                                - for(const member of curOrg.members)
-                                    li(class="member")
-                                        p #{member.name}
-                                        p #{member.role}
-                        
-                        if userInfo.organizations.length === 0
-                            p(id="no-org-warning") You are not a member of any organizations...
-                            div(class="primary-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
-                                    p(class="fs-12") Create New Org
+                            if userInfo.organizations.length === 0
+                                p(id="no-org-warning") You are not a member of any organizations...
+                                div(class="primary-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
+                                        p(class="fs-12") Create New Org
+                    
+                    div(class="lobby-sidebar-section-two")
+                        if userInfo.organizations.length > 0
+                            form(hx-post="/memberships/invite")
+                                div(class="input-container")
+                                    p(class="form-label") Invite Member
+                                    div(class="dual-input")
+                                        input.edit(class="secondary-shadow" placeholder="Email or username...")
+                                        select(class="primary-button secondary-color secondary-shadow clickable")
+                                            - for(const userRoleName of userInfo.userRoles)
+                                                option #{userRoleName}
+                                div(class="button-and-message")
+                                    button(class="submit-button-short secondary-color secondary-shadow clickable")
+                                        p Submit
+                                    p(class="add-member-message") ABC
 
 
                 div(class="lobby-main primary-color primary-shadow")
@@ -66,7 +84,6 @@ block content
                             canvas(id="project-stats-chart")
 
         script.
-
             new Chart(
                 "project-stats-chart",
                 {
