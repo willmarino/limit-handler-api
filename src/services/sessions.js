@@ -25,7 +25,8 @@ const login = async (req) => {
     req.session.user = {
         userId: user.id,
         email: user.email,
-        password: user.password
+        password: user.password,
+        userName: user.userName
     }
 
 };

@@ -37,7 +37,7 @@ block content
                     
                     div(class="lobby-sidebar-section-two")
                         if userInfo.organizations.length > 0
-                            form(hx-post="/memberships/invite")
+                            form(hx-post="/invitations/create")
                                 div(class="input-container")
                                     p(class="form-label") Invite Member
                                     div(class="dual-input")
