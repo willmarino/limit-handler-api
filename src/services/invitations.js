@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { models } = require("../db/connection");
 const emailService = require("./emails");
 
@@ -9,15 +10,20 @@ const createInvitation = async (req) => {
     const senderId = req.session.user.userId;
 
     console.log({ ...req.body, senderId });
-    
-    const { receiverEmail, userRoleName, orgName } = req.body;
+
+    const { receiverInfo, userRoleName, orgName } = req.body;
 
     const receiver = await models.Users.findOne({
-        where: { email: receiverEmail }
+        where: {
+            [Op.or]: [
+                { email: receiverInfo },
+                { userName: receiverInfo }
+            ]
+        }
     });
 
     if(!receiver){
-        throw new Error("a");
+        throw new Error("Unable to find user by email or username");
     }
 
     const org = await models.Organizations.findOne({
@@ -25,7 +31,7 @@ const createInvitation = async (req) => {
     })
 
     if(!org){
-        throw new Error("b");
+        throw new Error("Oops! Please reach out to limithandler@gmail.com");
     }
 
     const userRole = await models.UserRoles.findOne({
@@ -33,7 +39,7 @@ const createInvitation = async (req) => {
     });
 
     if(!userRole){
-        throw new Error("c");
+        throw new Error("Invalid user role selection");
     }
 
     const invitation = await models.Invitations.create({
@@ -49,7 +55,7 @@ const createInvitation = async (req) => {
         userRoleName
     );
 
-    return invitation;
+    return { invitation, receiverInfo };
 }
 
 

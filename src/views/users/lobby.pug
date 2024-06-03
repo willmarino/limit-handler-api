@@ -1,5 +1,5 @@
 extends ../layouts/main.pug
-
+//- TODO set up true iteration through organizations and projects, took a shortcut to work on UI (always show first)
 block content
 
     div(class="page-content")
@@ -37,18 +37,19 @@ block content
                     
                     div(class="lobby-sidebar-section-two")
                         if userInfo.organizations.length > 0
-                            form(hx-post="/invitations/create")
+                            form(hx-post="/invitations/create" hx-target=".add-member-message")
+                                input.edit(id="hidden-org-input" type="hidden" name="orgName" value=userInfo.organizations[0].name)
                                 div(class="input-container")
                                     p(class="form-label") Invite Member
                                     div(class="dual-input")
-                                        input.edit(class="secondary-shadow" placeholder="Email or username...")
+                                        input.edit(class="secondary-shadow" name="receiverInfo" placeholder="Email or username...")
                                         select(class="primary-button secondary-color secondary-shadow clickable")
                                             - for(const userRoleName of userInfo.userRoles)
                                                 option #{userRoleName}
                                 div(class="button-and-message")
                                     button(class="submit-button-short secondary-color secondary-shadow clickable")
                                         p Submit
-                                    p(class="add-member-message") ABC
+                                    p(class="add-member-message")
 
 
                 div(class="lobby-main primary-color primary-shadow")
