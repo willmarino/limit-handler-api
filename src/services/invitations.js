@@ -9,8 +9,6 @@ const emailService = require("./emails");
 const createInvitation = async (req) => {
     const senderId = req.session.user.userId;
 
-    console.log({ ...req.body, senderId });
-
     const { receiverInfo, userRoleName, orgName } = req.body;
 
     const receiver = await models.Users.findOne({
@@ -42,15 +40,29 @@ const createInvitation = async (req) => {
         throw new Error("Invalid user role selection");
     }
 
+    const matchingInvitation = await models.Invitations.findOne({
+        where: {
+            senderId,
+            organizationId: org.id,
+            receiverId: receiver.id,
+            userRoleId: userRole.id
+        }
+    })
+
+    if(matchingInvitation){
+        throw new Error("You have already invited this user");
+    }
+
     const invitation = await models.Invitations.create({
         senderId,
+        organizationId: org.id,
         receiverId: receiver.id,
         userRoleId: userRole.id
     });
 
-    await sendOrgInvitationEmail(
+    await emailService.sendOrgInvitationEmail(
         req.session.user.userName,
-        receiver.name,
+        receiver.userName,
         orgName,
         userRoleName
     );

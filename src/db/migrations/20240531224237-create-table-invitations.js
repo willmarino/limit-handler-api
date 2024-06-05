@@ -13,6 +13,15 @@ module.exports = {
                         allowNull: false,
                         field: "id"
                     },
+                    organizationId: {
+                        type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+                        allowNull: false,
+                        references: {
+                            model: "organizations",
+                            key: "id"
+                        },
+                        field: "organization_id"
+                    },
                     senderId: {
                         type: Sequelize.DataTypes.INTEGER.UNSIGNED,
                         allowNull: false,

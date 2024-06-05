@@ -24,6 +24,8 @@ function initModels(sequelize) {
   var UserRoles = _UserRoles(sequelize, DataTypes);
   var Users = _Users(sequelize, DataTypes);
 
+  Invitations.belongsTo(Organizations, { as: "organization", foreignKey: "organizationId"});
+  Organizations.hasMany(Invitations, { as: "invitations", foreignKey: "organizationId"});
   Memberships.belongsTo(Organizations, { as: "organization", foreignKey: "organizationId"});
   Organizations.hasMany(Memberships, { as: "memberships", foreignKey: "organizationId"});
   Projects.belongsTo(Organizations, { as: "organization", foreignKey: "organizationId"});

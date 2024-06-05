@@ -7,6 +7,15 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
+    organizationId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+      references: {
+        model: 'organizations',
+        key: 'id'
+      },
+      field: 'organization_id'
+    },
     senderId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
@@ -49,6 +58,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "organization_id",
+        using: "BTREE",
+        fields: [
+          { name: "organization_id" },
         ]
       },
       {

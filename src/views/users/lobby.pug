@@ -43,7 +43,7 @@ block content
                                     p(class="form-label") Invite Member
                                     div(class="dual-input")
                                         input.edit(class="secondary-shadow" name="receiverInfo" placeholder="Email or username...")
-                                        select(class="primary-button secondary-color secondary-shadow clickable")
+                                        select(class="primary-button secondary-color secondary-shadow clickable" name="userRoleName")
                                             - for(const userRoleName of userInfo.userRoles)
                                                 option #{userRoleName}
                                 div(class="button-and-message")
