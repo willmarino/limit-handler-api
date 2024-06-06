@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const { models } = require("../db/connection");
 const emailService = require("./emails");
+const bcryptHelpers = require("../helpers/bcrypt");
 
 
 /**
@@ -45,7 +46,10 @@ const createInvitation = async (req) => {
             senderId,
             organizationId: org.id,
             receiverId: receiver.id,
-            userRoleId: userRole.id
+            userRoleId: userRole.id,
+            expirationDate: {
+                [Op.gt]: new Date()
+            }
         }
     })
 
@@ -57,10 +61,13 @@ const createInvitation = async (req) => {
         senderId,
         organizationId: org.id,
         receiverId: receiver.id,
-        userRoleId: userRole.id
+        userRoleId: userRole.id,
+        accepted: false,
+        expirationDate: new Date().getTime() + (1000 * 60 * 60 * 24)
     });
 
     await emailService.sendOrgInvitationEmail(
+        invitation.id,
         req.session.user.userName,
         receiver.userName,
         orgName,
@@ -71,6 +78,49 @@ const createInvitation = async (req) => {
 }
 
 
+/**
+ * @description Validate invitation and acceptance info, mark invitation as accepted.
+ */
+const acceptInvitation = async (req) => {
+    const { invd } = req.query;
+
+    if(!invd) throw new Error("Unable to validate invitation");
+
+    // invitations which have been open for more than 24 hours are considered expired
+    const openInvitations = await models.Invitations.findAll({
+        where: {
+            accepted: false,
+            expirationDate: {
+                [Op.gte]: new Date().getTime() - (1000 - 60 * 60 * 24)
+            }
+        }
+    });
+
+    // Should optimize this
+    let match = false;
+    for(const openInvitation of openInvitations){
+        const isMatch = await bcryptHelpers.compare(openInvitation.id.toString(), invd);
+        if(isMatch) match = openInvitation;
+    }
+
+    if(!match){
+        return false;
+    }else{
+        await match.update({ accepted: true });
+        return true;
+    }
+
+
+}
+
+
+
+
+
+
+
+
 module.exports = {
-    createInvitation
+    createInvitation,
+    acceptInvitation
 }

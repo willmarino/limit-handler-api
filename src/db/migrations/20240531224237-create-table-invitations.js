@@ -49,6 +49,17 @@ module.exports = {
                         },
                         field: "user_role_id"
                     },
+                    accepted: {
+                        type: Sequelize.DataTypes.BOOLEAN,
+                        allowNull: false,
+                        defaultValue: false,
+                        field: "accepted"
+                    },
+                    expirationDate: {
+                        type: Sequelize.DataTypes.DATE,
+                        allowNull: false,
+                        field: "expirationDate"
+                    },
                     createdAt: {
                         type: Sequelize.DataTypes.DATE,
                         allowNull: false,

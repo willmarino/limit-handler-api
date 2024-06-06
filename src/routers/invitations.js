@@ -23,5 +23,29 @@ router.post("/create", async (req, res, next) => {
 });
 
 
+/**
+ * @description When a user accepts an invitation via clicking a link in an email,
+ * they will get sent to this route with some clarifying information in the request query.
+ * Verify that the acceptance of the invitation is valid,
+ * give the user a message indicating their success while rerouting them to /users/show.
+ */
+router.get("/accept", async (req, res, next) => {
+    try{
+        const acceptanceSuccessful = await invitationsService.acceptInvitation(req);
+
+        let message = "";
+        if(acceptanceSuccessful){
+            message = "Successfully accepted invitation";
+        }else{
+            message = "Failed to accept invitation";
+        }
+        res.redirect(`/users/show?message=${message}`);
+    }catch(err){
+        console.log(err);
+        next(err);
+    }
+})
+
+
 
 module.exports = router;

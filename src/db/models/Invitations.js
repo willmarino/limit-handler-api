@@ -35,6 +35,15 @@ module.exports = function(sequelize, DataTypes) {
       },
       field: 'user_role_id'
     },
+    accepted: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },
+    expirationDate: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
