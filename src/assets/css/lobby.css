@@ -99,7 +99,7 @@
     width: 100px;
 }
 
-.lobby-sidebar-section-two .add-member-message{
+.lobby-sidebar-section-two .add-member-message-error{
     width: 260px;
     height: 45px;
     line-height: 45px;
@@ -107,6 +107,16 @@
     text-align: center;
     font-size: 13px;
     color: #ef4444;
+}
+
+.lobby-sidebar-section-two .add-member-message-success{
+    width: 260px;
+    height: 45px;
+    line-height: 45px;
+
+    text-align: center;
+    font-size: 13px;
+    color: #006A4E;
 }
 
 

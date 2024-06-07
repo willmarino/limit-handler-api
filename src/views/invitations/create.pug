@@ -1,1 +1,4 @@
-p(class="add-member-message") #{message}
+- const success = message === "Sent an invitation to willmwaypoint";
+- const className = success ? "add-member-message-success" : "add-member-message-error";
+
+p(class=className) #{message}
