@@ -14,6 +14,7 @@ const subTiersRouter = require("./src/routers/subscription_tiers");
 const subscriptionsRouter = require("./src/routers/subscriptions");
 const membershipsRouter = require("./src/routers/memberships");
 const projectsRouter = require("./src/routers/projects");
+const invitationsRouter = require("./src/routers/invitations");
 
 const authRouter = require("./src/routers/auth");
 
@@ -62,6 +63,7 @@ webApp.use("/organizations", organizationsRouter);
 webApp.use("/subscription_tiers", subTiersRouter);
 webApp.use("/subscriptions", subscriptionsRouter);
 webApp.use("/memberships", membershipsRouter);
+webApp.use("/invitations", invitationsRouter);
 
 // Redirect to login page if the requested path can't be matched to a route handler
 webApp.use("/", (req, res, next) => {

@@ -73,6 +73,9 @@ const getUser = async (userId) => {
         }
     }
 
+    const userRoles = await models.UserRoles.findAll(); // Needed for member invite functionality in sidebar
+
+
     // Compile results from the two queries into an intuitive JSON
     const userInfo = {
         user: {
@@ -105,6 +108,7 @@ const getUser = async (userId) => {
                 })
             }
         }),
+        userRoles: userRoles.map((ur) => ur.role)
     };
 
     return userInfo;

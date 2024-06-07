@@ -16,7 +16,8 @@ router.get("/show", async (req, res, next) => {
             userInfo,
             testVar: true,
             xVals: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
-            yVals: [ 10, 4, 22, 3, 17, 11, 13, 17, 23, 29 ]
+            yVals: [ 10, 4, 22, 3, 17, 11, 13, 17, 23, 29 ],
+            message: req.query.message || ""
         });
 
         res.set("HX-Push-Url", "/users/show")
