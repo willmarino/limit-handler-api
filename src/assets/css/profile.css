@@ -1,0 +1,102 @@
+.profile{
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.profile-sidebar{
+    min-width: 200px;
+    min-height: 800px;
+    
+    flex-grow: 0;
+
+
+    padding: 20px;
+
+    border-radius: 5px;
+}
+
+.profile-sidebar .primary-button{
+    margin-bottom: 10px;
+}
+
+.profile-sidebar .primary-button p{
+    font-size: 14px;
+}
+
+.profile-user-info-pp{
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    background: black;
+}
+
+.profile-user-info{
+    margin-top: 10px;
+}
+
+.profile-user-info p{
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+
+.profile-main{
+    min-width: 600px;
+    flex-grow: 1;
+
+    padding: 20px;
+    margin-left: 100px;
+
+    border-radius: 5px;
+}
+
+
+
+.profile-main .header{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid black;
+}
+
+.profile-main .header p{
+    font-size: 18px;
+}
+
+
+.profile-main .list{
+    width: 600px;
+}
+
+.profile-main .list .invitation{
+    height: 90px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #64748b;
+}
+
+.profile-main .list form{
+    width: 200px;
+    margin: 5px;
+    display: flex;
+    align-items: start;
+}
+
+.profile-main .list .submit-button{
+    width: 100px;
+    margin-top: 0px;
+    /* TODO fix the default margin values association with the submit button class, shouldn't have to set it to 0 here */
+}
+
+.profile-main .list .invitation .description{
+    font-size: 14px;
+}
+
+.profile-main .list .invitation .expiration{
+    font-size: 14px;
+}
+
+.profile-main .empty-invitations{
+    margin-bottom: 40px;
+}

@@ -40,6 +40,10 @@ function initModels(sequelize) {
   UserRoles.hasMany(Invitations, { as: "invitations", foreignKey: "userRoleId"});
   Memberships.belongsTo(UserRoles, { as: "userRole", foreignKey: "userRoleId"});
   UserRoles.hasMany(Memberships, { as: "memberships", foreignKey: "userRoleId"});
+  Invitations.belongsTo(Users, { as: "sender", foreignKey: "senderId"});
+  Users.hasMany(Invitations, { as: "invitations", foreignKey: "senderId"});
+  Invitations.belongsTo(Users, { as: "receiver", foreignKey: "receiverId"});
+  Users.hasMany(Invitations, { as: "receiverInvitations", foreignKey: "receiverId"});
   Memberships.belongsTo(Users, { as: "user", foreignKey: "userId"});
   Users.hasMany(Memberships, { as: "memberships", foreignKey: "userId"});
   Projects.belongsTo(Users, { as: "creator", foreignKey: "creatorId"});

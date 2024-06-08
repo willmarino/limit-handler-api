@@ -29,19 +29,17 @@ router.post("/create", async (req, res, next) => {
  * Verify that the acceptance of the invitation is valid,
  * give the user a message indicating their success while rerouting them to /users/show.
  */
-router.get("/accept", async (req, res, next) => {
+router.post("/accept", async (req, res, next) => {
     try{
-        const acceptanceSuccessful = await invitationsService.acceptInvitation(req);
+        // const { success, message } = await invitationsService.acceptInvitation(req);
+        const r = await invitationsService.acceptInvitation(req);
+        const { success, message } = r;
+        
+        const template = pug.compileFile("src/views/invitations/accept.pug");
+        const markup = template({ success, message });
 
-        let message = "";
-        if(acceptanceSuccessful){
-            message = "Successfully accepted invitation";
-        }else{
-            message = "Failed to accept invitation";
-        }
-        res.redirect(`/users/show?message=${message}`);
+        res.status(200).send(markup);
     }catch(err){
-        console.log(err);
         next(err);
     }
 })

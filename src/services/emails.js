@@ -8,11 +8,8 @@ const { logger } = require("../util/logger");
 
 const sendOrgInvitationEmail = async (invitationId, senderName, receiverName, orgName, userRoleName) => {
 
-    const invitationIdHash = await bcryptHelpers.createHash(invitationId.toString());
-    const acceptURL = `${process.env.SERVER_URL}/invitations/accept?invd=${invitationIdHash}`;
+    const acceptURL = `${process.env.SERVER_URL}/users/profile/invitations`;
     const logoURL = `${process.env.SERVER_URL}/img/logo/clock_64.png`;
-
-    console.log(logoURL);
 
     await new Promise((resolve, reject) => {
         try{

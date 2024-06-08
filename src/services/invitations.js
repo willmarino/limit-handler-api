@@ -82,34 +82,29 @@ const createInvitation = async (req) => {
  * @description Validate invitation and acceptance info, mark invitation as accepted.
  */
 const acceptInvitation = async (req) => {
-    const { invd } = req.query;
+    const { invitationId } = req.body;
 
-    if(!invd) throw new Error("Unable to validate invitation");
-
-    // invitations which have been open for more than 24 hours are considered expired
-    const openInvitations = await models.Invitations.findAll({
-        where: {
-            accepted: false,
-            expirationDate: {
-                [Op.gte]: new Date().getTime() - (1000 - 60 * 60 * 24)
-            }
-        }
+    const invitation = await models.Invitations.findOne({
+        where: { id: invitationId }
     });
 
-    // Should optimize this
-    let match = false;
-    for(const openInvitation of openInvitations){
-        const isMatch = await bcryptHelpers.compare(openInvitation.id.toString(), invd);
-        if(isMatch) match = openInvitation;
+    if(!invitation){
+        return { success: false, message: "Invitation not found" };
     }
 
-    if(!match){
-        return false;
-    }else{
-        await match.update({ accepted: true });
-        return true;
+    if(invitation.expirationDate < new Date()){
+        return { success: false, message: "Invitation has expired" };
     }
+    
+    await invitation.update({ accepted: true });
 
+    await models.Memberships.create({
+        organizationId: invitation.organizationId,
+        userId: invitation.receiverId,
+        userRoleId: invitation.userRoleId
+    })
+    
+    return { success: true, message: "Invitation accepted" };
 
 }
 

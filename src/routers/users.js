@@ -28,5 +28,59 @@ router.get("/show", async (req, res, next) => {
     }
 });
 
+/**
+ * @description Users profile router. Slightly different info than show page.
+ */
+router.get("/profile", async (req, res, next) => {
+    try{
+        const profileData = await usersService.getProfile(req);
+
+        const template = pug.compileFile("src/views/users/profile_you.pug");
+        const markup = template({ profileData });
+
+
+        res.set("HX-Push-Url", "/users/profile")
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+});
+
+/**
+ * @description
+ */
+router.get("/profile/organizations", async (req, res, next) => {
+    try{
+        const profileData = await usersService.getProfile(req);
+
+        const template = pug.compileFile("src/views/users/profile_organizations.pug");
+        const markup = template({ profileData });
+
+
+        res.set("HX-Push-Url", "/users/profile/organizations")
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+});
+
+/**
+ * @description Invitations menu
+ */
+router.get("/profile/invitations", async (req, res, next) => {
+    try{
+        const profileData = await usersService.getProfile(req);
+
+        const template = pug.compileFile("src/views/users/profile_invitations.pug");
+        const markup = template({ profileData });
+
+
+        res.set("HX-Push-Url", "/users/profile/invitations")
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+});
+
 
 module.exports = router;

@@ -43,7 +43,9 @@ class RedisWrapper {
             )   
         }
         
-        logger.info("Successfully stored organizations in cache", { orgs });
+        if(process.env.NODE_ENV !== "development"){
+            logger.info("Successfully stored organizations in cache", { orgs });
+        }
     }
 
 
@@ -69,7 +71,9 @@ class RedisWrapper {
             );
         }
 
-        logger.info("Successfully stored projects in cache", { projects });
+        if(process.env.NODE_ENV !== "development"){
+            logger.info("Successfully stored projects in cache", { projects });
+        }
     }
 
     /**

@@ -19,11 +19,19 @@ module.exports = function(sequelize, DataTypes) {
     senderId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      },
       field: 'sender_id'
     },
     receiverId: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
+      references: {
+        model: 'users',
+        key: 'id'
+      },
       field: 'receiver_id'
     },
     userRoleId: {
@@ -74,6 +82,20 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "organization_id" },
+        ]
+      },
+      {
+        name: "sender_id",
+        using: "BTREE",
+        fields: [
+          { name: "sender_id" },
+        ]
+      },
+      {
+        name: "receiver_id",
+        using: "BTREE",
+        fields: [
+          { name: "receiver_id" },
         ]
       },
       {
