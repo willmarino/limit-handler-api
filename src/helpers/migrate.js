@@ -26,13 +26,19 @@ const migrationCheckup = async () => {
     });
 
     const executed = await umzugInst.executed();
-    logger.info("Executed migrations", { executed });
+    if(process.env.NODE_ENV !== "development"){
+        logger.info("Executed migrations", { executed });
+    }
 
     const pending = await umzugInst.pending();
-    logger.info("Pending migrations", { pending });
+    if(process.env.NODE_ENV !== "development"){
+        logger.info("Pending migrations", { pending });
+    }
 
     const running = await umzugInst.up();
-    logger.info("Running migrations", { running });
+    if(process.env.NODE_ENV !== "development"){
+        logger.info("Running migrations", { running });
+    }
 
 };
 

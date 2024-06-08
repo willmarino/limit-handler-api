@@ -1,0 +1,17 @@
+extends ./profile.pug
+
+block profile_main
+
+    - const user = profileData.user;
+    - const organizations = profileData.organizations;
+    div(class="profile-main primary-color primary-shadow")
+        div(class="profile-user-info-pp")
+        div(class="profile-user-info")
+            p #{profileData.user.name} - #{profileData.user.email}
+
+            - if(organizations.length === 1)
+                p Member of #{organizations.length} organization
+            - if(organizations.length !== 1)
+                p Member of #{organizations.length} organizations
+
+            p Joined on #{profileData.user.createdAt}

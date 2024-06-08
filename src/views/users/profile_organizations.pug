@@ -1,0 +1,12 @@
+extends ./profile.pug
+
+block profile_main
+
+    - const user = profileData.user;
+    - const organizations = profileData.organizations;
+    - const invitations = profileData.invitations;
+    div(class="profile-main primary-color primary-shadow")
+        div(class="header")
+            p(class="bold") Organizations
+        - for(org of organizations)
+            p #{org.name} - #{org.}

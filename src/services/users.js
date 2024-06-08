@@ -1,9 +1,11 @@
 const { Op } = require("sequelize");
-const formValidators = require("../helpers/form_validation");
-const { createHash } = require("../helpers/bcrypt");
 const { models } = require("../db/connection");
-const SimpleErrorWrapper = require("../util/error_wrapper");
 const RED = require("../util/redis_connection_wrapper");
+const { createHash } = require("../helpers/bcrypt");
+const formValidators = require("../helpers/form_validation");
+const dateHelpers = require("../helpers/dates")
+
+const SimpleErrorWrapper = require("../util/error_wrapper");
 
 /**
  * @description Fetch a user, along with their memberships, organizations, and teammates.
@@ -129,6 +131,63 @@ const getUserSimple = async (id) => {
 }
 
 
+/**
+ * @description Get managerial data for a user - thinking profile photo editing, orgs, invitations, maybe keys
+ */
+const getProfile = async (req) => {
+    const userId = req.session.user.userId;
+    const user = await models.Users.findOne({ where: { id: userId } });
+
+    const organizations = await models.Organizations.findAll({
+        include: {
+            model: models.Memberships,
+            as: "memberships",
+            where: { userId }
+        }
+    });
+    organizations.sort((a, b) => a.membership.userRoleId - b.membership.userRoleId);
+
+    const openInvitations = await models.Invitations.findAll({
+        where: {
+            receiverId: userId,
+            accepted: false,
+            expirationDate: {
+                [Op.gt]: new Date()
+            }
+        },
+        include: [
+            { model: models.Users, as: "sender" },
+            { model: models.UserRoles, as: "userRole" },
+            { model: models.Organizations, as: "organization" }
+        ]
+    })
+
+    const resultObj = {
+        user: {
+            name: user.userName,
+            email: user.email,
+            createdAt: dateHelpers.simpleDateString(user.createdAt)
+        },
+        organizations: organizations.map((org) => {
+            return {
+                name: org.name
+            }
+        }),
+        invitations: openInvitations.map((inv) => {
+            return {
+                id: inv.id,
+                expirationDate: dateHelpers.simpleDateString(inv.expirationDate),
+                sender: inv.sender.userName,
+                org: inv.organization.name,
+                role: inv.userRole.role,
+            }
+        })
+    }
+
+    return resultObj;
+}
+
+
 
 /**
  * @description Take in registration input and create a new user if info is valid.
@@ -189,5 +248,6 @@ const registerUser = async (req) => {
 module.exports = {
     getUser,
     getUserSimple,
+    getProfile,
     registerUser
 };

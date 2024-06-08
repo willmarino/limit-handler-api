@@ -1,0 +1,28 @@
+extends ./profile.pug
+
+block profile_main
+
+    - const user = profileData.user;
+    - const organizations = profileData.organizations;
+    - const invitations = profileData.invitations;
+    div(class="profile-main primary-color primary-shadow")
+        div(class="header")
+            p(class="bold") Invitations
+        - if(invitations.length === 0)
+            div(class="centered-column")
+                div(class="empty-invitations")
+                    p No Invitations
+        - if(invitations.length > 0)
+            div(class="list")
+                - for(const inv of invitations)
+                    div(class="invitation")
+                        - if(inv.role.toLowerCase() === "member")
+                            p(class="description") You were invited to join #{inv.org} as a #{inv.role} by #{inv.sender}
+                            p(class="expiration") Expiration: #{inv.expirationDate}
+                        - if(inv.role.toLowerCase() !== "member")
+                            p(class="description") You were invited to join #{inv.org} as an #{inv.role} by #{inv.sender}
+                            p(class="expiration") Expiration: #{inv.expirationDate}
+                        form(id="accept-inv-form" hx-post="/invitations/accept")
+                            input.edit(type="hidden" name="invitationId" value=inv.id)
+                            button(class="submit-button secondary-color secondary-shadow clickable")
+                                p Accept

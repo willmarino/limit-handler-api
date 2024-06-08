@@ -114,3 +114,15 @@ form{
     
     font-size: 13px;
 }
+
+.error{
+    width: 200px;
+    font-size: 13px;
+    color: #ef4444;
+}
+
+.success{
+    width: 200px;
+    font-size: 13px;
+    color: #006A4E;
+}

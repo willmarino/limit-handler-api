@@ -25,7 +25,7 @@ module.exports = {
                     senderId: {
                         type: Sequelize.DataTypes.INTEGER.UNSIGNED,
                         allowNull: false,
-                        refernces: {
+                        references: {
                             model: "users",
                             key: "id"
                         },
@@ -34,7 +34,7 @@ module.exports = {
                     receiverId: {
                         type: Sequelize.DataTypes.INTEGER.UNSIGNED,
                         allowNull: false,
-                        refernces: {
+                        references: {
                             model: "users",
                             key: "id"
                         },
