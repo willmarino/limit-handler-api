@@ -31,7 +31,6 @@ router.post("/create", async (req, res, next) => {
  */
 router.post("/accept", async (req, res, next) => {
     try{
-        // const { success, message } = await invitationsService.acceptInvitation(req);
         const r = await invitationsService.acceptInvitation(req);
         const { success, message } = r;
         

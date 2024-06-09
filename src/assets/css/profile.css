@@ -71,9 +71,13 @@
 }
 
 .profile-main .list .invitation{
-    height: 90px;
+    min-height: 50px;
     padding-bottom: 5px;
     border-bottom: 1px solid #64748b;
+}
+
+.profile-main .list .invitation > p{
+    margin-top: 5px;
 }
 
 .profile-main .list form{
@@ -85,6 +89,7 @@
 
 .profile-main .list .submit-button{
     width: 100px;
+    height: 35px;
     margin-top: 0px;
     /* TODO fix the default margin values association with the submit button class, shouldn't have to set it to 0 here */
 }

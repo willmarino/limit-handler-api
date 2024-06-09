@@ -150,10 +150,6 @@ const getProfile = async (req) => {
     const openInvitations = await models.Invitations.findAll({
         where: {
             receiverId: userId,
-            accepted: false,
-            expirationDate: {
-                [Op.gt]: new Date()
-            }
         },
         include: [
             { model: models.Users, as: "sender" },
@@ -177,6 +173,8 @@ const getProfile = async (req) => {
             return {
                 id: inv.id,
                 expirationDate: dateHelpers.simpleDateString(inv.expirationDate),
+                expired: inv.expirationDate < new Date(),
+                accepted: inv.accepted,
                 sender: inv.sender.userName,
                 org: inv.organization.name,
                 role: inv.userRole.role,

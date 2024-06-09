@@ -16,13 +16,16 @@ block profile_main
             div(class="list")
                 - for(const inv of invitations)
                     div(class="invitation")
-                        - if(inv.role.toLowerCase() === "member")
-                            p(class="description") You were invited to join #{inv.org} as a #{inv.role} by #{inv.sender}
-                            p(class="expiration") Expiration: #{inv.expirationDate}
-                        - if(inv.role.toLowerCase() !== "member")
-                            p(class="description") You were invited to join #{inv.org} as an #{inv.role} by #{inv.sender}
-                            p(class="expiration") Expiration: #{inv.expirationDate}
-                        form(id="accept-inv-form" hx-post="/invitations/accept")
-                            input.edit(type="hidden" name="invitationId" value=inv.id)
-                            button(class="submit-button secondary-color secondary-shadow clickable")
-                                p Accept
+                        p(class="description") You were invited to join #{inv.org} by #{inv.sender} - Expires #{inv.expirationDate}
+                        
+                        - if(inv.accepted)
+                            p(class="success") Accepted
+
+                        - if(inv.expired && !inv.accepted)
+                            p(class="error") Expired
+
+                        - if(!inv.accepted && !inv.expired)
+                            form(id="accept-inv-form" hx-post="/invitations/accept")
+                                input.edit(type="hidden" name="invitationId" value=inv.id)
+                                button(class="submit-button secondary-color secondary-shadow clickable")
+                                    p Accept
