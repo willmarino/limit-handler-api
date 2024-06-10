@@ -25,8 +25,8 @@
 }
 
 .profile-user-info-pp{
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
 
     border-radius: 50%;
 
@@ -53,6 +53,30 @@
     border-radius: 5px;
 }
 
+
+.profile-main .profile-user-info-pp-container{
+    width: 500px;
+    height: 180px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.profile-main .profile-user-info-pp-container form{
+    align-items: start;
+}
+
+.profile-main .profile-user-info-pp-container .input-and-label{
+    display: flex;
+    align-items: center;
+}
+
+.profile-main .profile-user-info-pp-container .input-and-label p{
+    margin-right: 5px;
+    font-size: 14px;
+    line-height: 14px;
+}
 
 
 .profile-main .header{

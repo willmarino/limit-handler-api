@@ -1,6 +1,7 @@
 const pug = require("pug");
 const router = require("express").Router();
 const usersService = require("../services/users");
+const imageService = require("../services/image");
 
 
 /**
@@ -81,6 +82,17 @@ router.get("/profile/invitations", async (req, res, next) => {
         next(err);
     }
 });
+
+/**
+ * @description Upload profile picture
+ */
+router.post("/photo", async (req, res, next) => {
+    try{
+        await imageService.uploadProfilePicture(req);
+    }catch(err){
+        next(err);
+    }
+})
 
 
 module.exports = router;
