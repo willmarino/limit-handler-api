@@ -5,13 +5,21 @@ block profile_main
     - const user = profileData.user;
     - const organizations = profileData.organizations;
     div(class="profile-main primary-color primary-shadow")
-        div(class="profile-user-info-pp")
+        div(class="profile-user-info-pp-container")
+            div(class="profile-user-info-pp")
+            form()
+                div(class="input-and-label")
+                    p Edit Profile Picture - 
+                    input.edit(id="pp-input" type="file" name="profilePicture" accept=".png,.jpg,.jpeg")
+
         div(class="profile-user-info")
             p #{profileData.user.name} - #{profileData.user.email}
 
+            p Joined on #{profileData.user.createdAt}
+
+            br
+            
             - if(organizations.length === 1)
                 p Member of #{organizations.length} organization
             - if(organizations.length !== 1)
                 p Member of #{organizations.length} organizations
-
-            p Joined on #{profileData.user.createdAt}

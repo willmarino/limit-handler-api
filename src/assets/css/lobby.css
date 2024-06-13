@@ -35,6 +35,15 @@
     background: black;
 }
 
+.lobby-sidebar-user-info-top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.lobby-sidebar-user-info-top #pp-input{
+    width: 200px;
+}
+
 .lobby-sidebar-mid{
     padding-top: 20px;
 }
