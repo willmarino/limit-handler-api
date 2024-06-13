@@ -6,6 +6,35 @@ const timeFramesService = require("../services/time_frames");
 const organizationsService = require("../services/organizations");
 const responseTemplates = require("../util/response_templates");
 
+
+// /**
+//  * @description Get user's projects
+//  */
+// router.get("/", async (req, res, next) => {
+
+// });
+
+/**
+ * @description Get user's most recently created project
+ */
+router.get("/recent", async (req, res, next) => {
+    try{
+        const r = await projectsService.getRecent(req);
+
+        const t = pug.compileFile("src/views/users/lobby.pug");
+        const markup = t({ ...r });
+
+        res.set("HX-Push-Url", "/projects/recent");
+        res.status(200).send(markup);
+
+    }catch(err){
+        console.log(err);
+        next(err);
+    }
+});
+
+
+
 router.get("/new", async(req, res, next) => {
     try{
         const { orgId } = req.query;

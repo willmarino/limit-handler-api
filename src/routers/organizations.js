@@ -57,7 +57,8 @@ router.post("/create", async (req, res, next) => {
     try{
         
         await organizationsService.createOrganization(req);
-        res.redirect("/users/show");
+        // res.redirect("/users/show");
+        res.redirect("/projects/recent");
 
     }catch(err){
 

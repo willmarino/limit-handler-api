@@ -67,7 +67,8 @@ webApp.use("/invitations", invitationsRouter);
 
 // Redirect to login page if the requested path can't be matched to a route handler
 webApp.use("/", (req, res, next) => {
-    res.redirect("/users/show");
+    // res.redirect("/users/show");
+    res.redirect("/projects/recent");
 })
 
 // Custom middelware - catch-all error handler

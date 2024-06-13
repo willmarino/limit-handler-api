@@ -1,6 +1,47 @@
+const { Op } = require("sequelize");
 const { models } = require("../db/connection");
 const SimpleErrorWrapper = require("../util/error_wrapper");
 const cryptoHelpers = require("../helpers/crypto");
+
+
+/**
+ * @description Get most recently created project info
+ * TODO long term find a better way to select orgs/projects which are heavily used by that user or other users. Need to develop requtil lib before this can happen
+ */
+const getRecent = async (req) => {
+    const userId = req.session.user.userId;
+    
+    const user = await models.Users.findOne({
+        where: { id: userId },
+        include: [
+            { model: models.Memberships, as: "memberships" }
+        ]
+    });
+
+    const orgs = await models.Organizations.findAll({
+        where: {
+            id: {
+                [Op.in]: user.memberships.map((m) => m.organizationId)
+            }
+        },
+        order: [ ["createdAt", "ASC"] ],
+        include: [ { model: models.Projects, as: "projects" } ]
+    });
+    const org = orgs[0];
+
+    const project = await models.Projects.findOne({
+        where: {
+            id: {
+                [Op.in]: orgs[0].projects.map((p) => p.id)
+            }
+        },
+        order: [ ["createdAt", "DESC"] ],
+    });
+
+    return { user, org, project };
+
+
+}
 
 
 /**
@@ -49,4 +90,5 @@ const create = async (req) => {
 
 module.exports = {
     create,
+    getRecent,
 }
