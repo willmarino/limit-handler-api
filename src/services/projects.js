@@ -5,6 +5,29 @@ const cryptoHelpers = require("../helpers/crypto");
 
 
 /**
+ * @description Get all of a user's projects
+ */
+const getProjects = async (req) => {
+    const userId = req.session.user.userId;
+    const user = await models.Users.findOne({ where: { id: userId } });
+
+    const memberships = await models.Memberships.findAll({
+        where: { userId }
+    });
+
+    const organizations = await models.Organizations.findAll({
+        where: { id: { [Op.in]: memberships.map((m) => m.organizationId) } }
+    });
+
+    const projects = await models.Projects.findAll({
+        where: { organizationId: { [Op.in]: organizations.map((o) => o.id) } }
+    })
+
+    return { user, projects };
+}
+
+
+/**
  * @description Get most recently created project info
  * TODO long term find a better way to select orgs/projects which are heavily used by that user or other users. Need to develop requtil lib before this can happen
  */
@@ -39,8 +62,6 @@ const getRecent = async (req) => {
     });
 
     return { user, org, project };
-
-
 }
 
 
@@ -89,6 +110,7 @@ const create = async (req) => {
 
 
 module.exports = {
-    create,
+    getProjects,
     getRecent,
+    create
 }

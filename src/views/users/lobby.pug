@@ -1,126 +1,17 @@
 extends ../layouts/main.pug
-//- TODO set up true iteration through organizations and projects, took a shortcut to work on UI (always show first org)
+
 block content
 
     div(class="page-content")
         div(class="scroll")
             div(class="lobby")
-                //- div(class="lobby-sidebar primary-color primary-shadow")
                 div(class="lobby-sidebar primary-color outline")
-
                     ul
                         li
-                            p a
+                            p(class="clickable") Projects
                         li
-                            p b
+                            p(class="clickable") Organizations
                         li
-                            p c
-                    
-                    //- div(class="lobby-sidebar-section-one")
-                    //-     div(class="lobby-sidebar-user-info")
-                    //-         div(class="lobby-sidebar-user-info-pp")
-                    //-         p #{userInfo.user.name}
-                    //-     div(class="lobby-sidebar-mid")
-                    //-         p(class="lobby-sidebar-subheader") Organizations
+                            p(class="clickable") Invitations
 
-                    //-         if userInfo.organizations.length > 0
-                    //-             div(class="org-bar")
-                    //-                 select(class="primary-button secondary-color secondary-shadow clickable select-option")
-                    //-                     option #{userInfo.organizations[0].name}
-                    //-                 div(class="primary-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
-                    //-                     p(class="fs-12") Create New Org
-                                
-                    //-             p(class="lobby-sidebar-subheader") Members
-                    //-             ul(class="members-list")
-                    //-                 - const curOrg = userInfo.organizations[0];
-                    //-                 - for(const member of curOrg.members)
-                    //-                     li(class="member")
-                    //-                         p #{member.name}
-                    //-                         p #{member.role}
-                                
-                            
-                    //-         if userInfo.organizations.length === 0
-                    //-             p(id="no-org-warning") You are not a member of any organizations...
-                    //-             div(class="primary-button secondary-color secondary-shadow clickable" hx-get="/organizations/create" hx-target=".page")
-                    //-                     p(class="fs-12") Create New Org
-                    
-                    //- div(class="lobby-sidebar-section-two")
-                    //-     if userInfo.organizations.length > 0
-                    //-         form(hx-post="/invitations/create" hx-target=".add-member-message")
-                    //-             input.edit(id="hidden-org-input" type="hidden" name="orgName" value=userInfo.organizations[0].name)
-                    //-             div(class="input-container")
-                    //-                 p(class="form-label") Invite Member
-                    //-                 div(class="dual-input")
-                    //-                     input.edit(class="secondary-shadow" name="receiverInfo" placeholder="Email or username...")
-                    //-                     select(class="primary-button secondary-color secondary-shadow clickable select-option" name="userRoleName")
-                    //-                         - for(const userRoleName of userInfo.userRoles)
-                    //-                             option #{userRoleName}
-                    //-             div(class="button-and-message")
-                    //-                 button(class="submit-button-short secondary-color secondary-shadow clickable")
-                    //-                     p Submit
-                    //-                 p(class="add-member-message")
-
-
-                //- div(class="lobby-main primary-color primary-shadow")
-                div(class="lobby-main primary-color outline")
-                    div(class="header")
-                        p #{user.userName} -> Projects
-                    div(class="body")
-
-        //-             - const curOrg = userInfo.organizations[0];
-        //-             - if(!curOrg)
-        //-                 div
-        //-                     p Looks like you don't have any projects!
-        //-                     p Create an organization to get started.
-                    
-        //-             - if(curOrg && curOrg.projects.length < 1)
-        //-                 div(class="new-project-prompt")
-        //-                     p Looks like you don't have any projects!
-        //-                     div(class="primary-button secondary-color secondary-shadow clickable" hx-get=`/projects/new?orgId=${userInfo.organizations[0].identifier}` hx-target=".page")
-        //-                         p(class="fs-14") New Project
-                    
-        //-             - if(curOrg && curOrg.projects.length > 0)
-        //-                 - const curProject = curOrg.projects[0];
-        //-                 div(class="lobby-main-header")
-        //-                     div(class="lobby-main-header-left")
-        //-                         div(class="lobby-main-header-left-section")
-        //-                             p Project:
-        //-                             select(class="project-dropdown primary-button secondary-color secondary-shadow clickable select-option")
-        //-                                 - for(const p of curOrg.projects)
-        //-                                     option #{curProject.name}
-        //-                     div(class="lobby-main-header-right")
-        //-                         div(class="lobby-main-header-right-section")
-        //-                             p Last X: 123
-        //-                         div(class="lobby-main-header-right-section")
-        //-                             p Avg X: 109
-        //-                         div(class="lobby-main-header-right-section")
-        //-                             p Month: 487
-        //-                 div(class="lobby-main-body")
-        //-                     canvas(id="project-stats-chart")
-
-        //- script.
-        //-     new Chart(
-        //-         "project-stats-chart",
-        //-         {
-        //-             type: "line",
-        //-             data: {
-        //-                 labels: !{JSON.stringify(xVals)},
-        //-                 datasets: [
-        //-                     {
-        //-                         fill: false,
-        //-                         lineTension: 0,
-        //-                         backgroundColor: "rgba(0, 0, 255, 1.0)",
-        //-                         borderColor: "rgba(0, 0, 255, 0.1)",
-        //-                         data: !{JSON.stringify(yVals)}
-        //-                     }
-        //-                 ]
-        //-             },
-        //-             options: {
-        //-                 legend: { display: false },
-        //-                 scales: {
-        //-                     yAxes: [{ ticks: { min: 0, max: 40 } }]
-        //-                 }
-        //-             }
-
-        //-         }
-        //-     )
+                block mainContent

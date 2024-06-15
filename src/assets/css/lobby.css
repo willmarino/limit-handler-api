@@ -5,7 +5,7 @@
 }
 
 .lobby-sidebar{
-    min-width: 300px;
+    min-width: 260px;
     min-height: 800px;
     
     flex-grow: 0;
@@ -36,11 +36,23 @@
 .lobby-sidebar ul li{
     height: 20px;
     margin-bottom: 10px;
-    background: green;
+    /* background: green; */
+    /* border: 1px solid green; */
 }
 
+.lobby-sidebar ul li p{
+    width: max-content;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    font-family: "RubikBold";
 
+    text-decoration: underline;
+}
 
+.lobby-sidebar ul li p:hover{
+    color: #64748b;
+}
 
 
 
@@ -174,7 +186,8 @@
     flex-direction: column;
 
     padding: 20px;
-    margin-left: 100px;
+    /* margin-left: 100px; */
+    margin-left: 80px;
 
     border-radius: 5px;
 }
@@ -187,10 +200,12 @@
     height: 60px;
     flex-grow: 0;
 
-    background: green;
+    /* background: green; */
+    border: 1px solid green;
 }
 
 .lobby-main .header p{
+    font-family: "RubikBold";
     height: 60px;
     line-height: 60px;
     font-size: 14px;
@@ -202,7 +217,8 @@
 
     margin-top: 40px;
     
-    background: green;
+    /* background: green; */
+    border: 1px solid green;
 
 }
 

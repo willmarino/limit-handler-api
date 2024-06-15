@@ -10,9 +10,19 @@ const responseTemplates = require("../util/response_templates");
 // /**
 //  * @description Get user's projects
 //  */
-// router.get("/", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
+    try{
+        const r = await projectsService.getProjects(req);
 
-// });
+        const template = pug.compileFile("src/views/projects/index.pug")
+        const markup = template({ ...r })
+
+        res.set("HX-Push-Url", "/projects/")
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+});
 
 /**
  * @description Get user's most recently created project
@@ -28,7 +38,6 @@ router.get("/recent", async (req, res, next) => {
         res.status(200).send(markup);
 
     }catch(err){
-        console.log(err);
         next(err);
     }
 });

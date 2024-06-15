@@ -1,0 +1,20 @@
+extends ../users/lobby.pug
+
+block mainContent
+
+    div(class="lobby-main primary-color outline")
+        div(class="header")
+            p #{user.userName} -> Projects
+        div(class="body")
+            div(class="centered-column")
+                - if(projects.length === 0)
+                    div
+                        p Oops! It looks like you don't have any projects!
+                        p(id="create-project-link") Create one here
+
+                - else
+                    - for(const project of projects)
+                        div(class="project")
+                            p(class="project-name") #{project.name}
+                        div(class="project")
+                            p(class="project-name") #{project.name}
