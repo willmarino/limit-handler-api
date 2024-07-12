@@ -21,7 +21,7 @@
 }
 
 
-form{
+.standard-form{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,6 +50,7 @@ form{
 .input-container .form-label{
     width: 100%;
     margin: 5px 0px;
+    font-size: 14px;
 }
 
 .input-container input, .input-container select{

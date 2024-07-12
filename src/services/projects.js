@@ -28,6 +28,44 @@ const getProjects = async (req) => {
 
 
 /**
+ * @description Get all of a user's projects
+ */
+const searchProjects = async (req) => {
+    const userId = req.session.user.userId;
+    const user = await models.Users.findOne({ where: { id: userId } });
+    
+    const searchTerm = req.body.searchTerm;
+
+    const memberships = await models.Memberships.findAll({
+        where: { userId }
+    });
+    const organizations = await models.Organizations.findAll({
+        where: { id: { [Op.in]: memberships.map((m) => m.organizationId) } }
+    });
+
+    const projects = await models.Projects.findAll({
+        where: {
+            organizationId: { [Op.in]: organizations.map((o) => o.id) }
+        },
+        include: {
+            model: models.Organizations,
+            as: "organization"
+        }
+    });
+
+    // Actually use search term here
+    const filteredProjects = (searchTerm)
+        ?   projects.filter((p) => (
+                p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                p.organization.name.toLowerCase().includes(searchTerm.toLowerCase())
+            ))
+        : projects;
+
+    return { user, projects: filteredProjects };
+}
+
+
+/**
  * @description Get most recently created project info
  * TODO long term find a better way to select orgs/projects which are heavily used by that user or other users. Need to develop requtil lib before this can happen
  */
@@ -111,6 +149,7 @@ const create = async (req) => {
 
 module.exports = {
     getProjects,
+    searchProjects,
     getRecent,
     create
 }

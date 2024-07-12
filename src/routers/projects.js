@@ -7,9 +7,9 @@ const organizationsService = require("../services/organizations");
 const responseTemplates = require("../util/response_templates");
 
 
-// /**
-//  * @description Get user's projects
-//  */
+/**
+ * @description Get user's projects
+ */
 router.get("/", async (req, res, next) => {
     try{
         const r = await projectsService.getProjects(req);
@@ -18,6 +18,23 @@ router.get("/", async (req, res, next) => {
         const markup = template({ ...r })
 
         res.set("HX-Push-Url", "/projects/")
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+});
+
+/**
+ * @description Get user's projects with a project name search filter
+ */
+router.post("/search", async (req, res, next) => {
+    try{
+        const r = await projectsService.searchProjects(req);
+
+        const template = pug.compileFile("src/views/projects/search.pug")
+        const markup = template({ ...r })
+
+        res.set("HX-Push-Url", `/projects/search?searchTerm=${(req.body.searchTerm || "")}`)
         res.status(200).send(markup);
     }catch(err){
         next(err);

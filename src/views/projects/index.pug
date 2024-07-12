@@ -6,15 +6,19 @@ block mainContent
         div(class="header")
             p #{user.userName} -> Projects
         div(class="body")
-            div(class="centered-column")
-                - if(projects.length === 0)
-                    div
-                        p Oops! It looks like you don't have any projects!
-                        p(id="create-project-link") Create one here
+            form(hx-post="/projects/search" hx-target=".projects-list-container" hx-swap="outerHTML")
+                div(class="search-bar-container")
+                    div(class="input-container")
+                        p(class="form-label") Search
+                        input.edit(type="text" name="searchTerm" placeholder="Project or org name...")
 
-                - else
+            - if(projects.length === 0)
+                div(class="projects-list-container empty-projects-list")
+                    p Oops! It looks like you don't have any projects!
+                    p(id="create-project-link") Create one here
+
+            - else
+                div(class="projects-list-container projects-list")
                     - for(const project of projects)
-                        div(class="project")
-                            p(class="project-name") #{project.name}
                         div(class="project")
                             p(class="project-name") #{project.name}

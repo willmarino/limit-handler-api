@@ -1,0 +1,10 @@
+- if(projects.length === 0)
+    div(class="projects-list-container empty-projects-list")
+        p Couldn't find any projects!
+        p(id="create-project-link") Create one here
+
+- else
+    div(class="projects-list-container projects-list")
+        - for(const project of projects)
+            div(class="project")
+                p(class="project-name") #{project.name}

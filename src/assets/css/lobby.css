@@ -185,7 +185,7 @@
     display: flex;
     flex-direction: column;
 
-    padding: 20px;
+    padding: 20px 40px;
     /* margin-left: 100px; */
     margin-left: 80px;
 
@@ -200,25 +200,24 @@
     height: 60px;
     flex-grow: 0;
 
-    /* background: green; */
-    border: 1px solid green;
+    /* border: 1px solid green; */
 }
 
 .lobby-main .header p{
     font-family: "RubikBold";
     height: 60px;
     line-height: 60px;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .lobby-main .body{
     width: 100%;
     flex-grow: 1;
+    /* margin-top: 40px; */
 
-    margin-top: 40px;
+    /* margin-top: 15px; */
     
-    /* background: green; */
-    border: 1px solid green;
+    /* border: 1px solid green; */
 
 }
 

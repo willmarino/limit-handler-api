@@ -7,7 +7,7 @@ block content
             div(class="create-org-form-container")
                 div(class="form-container-header")
                     p(class="form-container-header-label") Create a new organization
-                form(class="create-org-form" hx-post="/organizations/create" hx-target=".page")
+                form(class="standard-form create-org-form" hx-post="/organizations/create" hx-target=".page")
                     div(class="input-container")
                         p(class="form-label") Org Name
                         input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Organization Name")

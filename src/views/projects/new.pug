@@ -7,7 +7,7 @@ block content
             div(class="create-project-form-container")
                 div(class="form-container-header")
                     p(class="form-container-header-label") New project
-                form(class="create-project-form" hx-post="/projects/create" hx-target=".page")
+                form(class="standard-form create-project-form" hx-post="/projects/create" hx-target=".page")
                     select(class="org-dropdown primary-button secondary-color secondary-shadow clickable" name="orgName")
                         option(selected) #{org.name}
                     div(class="input-container")

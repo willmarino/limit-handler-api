@@ -1,0 +1,20 @@
+.search-bar-container{
+    width: 200px;
+}
+
+.projects-list-container{
+    width: 300px;
+    margin-top: 15px;
+}
+
+.projects-list{
+    padding-left: 5px;
+}
+
+.project{
+    margin-bottom: 5px;
+}
+
+.project p{
+    font-size: 14px;
+}
