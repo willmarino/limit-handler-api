@@ -203,14 +203,29 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    margin-bottom: 30px;
 }
 
 .lobby-main .header p{
     font-family: "RubikBold";
 }
 
-.lobby-main .header .left p{
+.lobby-main .header .left{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.lobby-main .header .left .header-segment{
+    font-size: 14px;
+    margin-right: 10px;
+    text-decoration: underline;
+}
+
+.lobby-main .header .left .header-segment-separator{
     font-size: 16px;
+    margin-right: 10px;
 }
 
 .lobby-main .header .right p{

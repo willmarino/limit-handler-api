@@ -84,11 +84,10 @@ router.get("/new", async(req, res, next) => {
  */
 router.post("/create", async (req, res, next) => {
     try{
-        const project = await projectsService.create(req);
+        await projectsService.create(req);
+        
+        res.redirect("/projects")
 
-        res.status(200).send(
-            responseTemplates.success(project, "Success creating new project")
-        )
     }catch(err){
         next(err);
     }

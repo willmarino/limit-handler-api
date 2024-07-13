@@ -5,7 +5,9 @@ block mainContent
     div(class="lobby-main primary-color outline")
         div(class="header")
             div(class="left")
-                p #{user.userName} -> Projects
+                p(class="header-segment") #{user.userName}
+                p(class="header-segment-separator") ->
+                p(class="header-segment") Projects
             div(class="right")
                 p(class="clickable text-hover" hx-get="/projects/new" hx-target=".page") New Project
         div(class="body")
@@ -22,6 +24,12 @@ block mainContent
 
             - else
                 div(class="projects-list-container projects-list")
-                    - for(const project of projects)
+                    - for(let i = 0; i < projects.length; i++)
+                        - const project = projects[i];
+                        
                         div(class="project")
                             p(class="project-name") #{project.name}
+                            p(class="project-org") Org: #{project.organization.name}
+
+                        - if(i < projects.length - 1)
+                            div(class="vertical-list-divider")

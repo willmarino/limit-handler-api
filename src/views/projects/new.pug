@@ -5,7 +5,9 @@ block mainContent
     div(class="lobby-main primary-color outline")
         div(class="header")
             div(class="left")
-                p #{userInfo.user.name} -> New Project
+                p(class="header-segment") #{userInfo.user.name}
+                p(class="header-segment-separator") ->
+                p(class="header-segment") Projects
             div(class="right")
                 p(class="clickable text-hover" hx-get="/projects" hx-target=".page") Projects
 
