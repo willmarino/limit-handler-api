@@ -19,24 +19,45 @@ block mainContent
                         input.edit(class="secondary-shadow" type="text" name="searchTerm" placeholder="Project name...")
 
 
-            - if(projects.length === 0)
-                div(class="projects-list-container empty-projects-list")
-                    p Oops! It looks like you don't have any projects!
-                    p(id="create-project-link") Create one here
+            div(class="projects-list-container")
+                - if(projects.length === 0)
+                    div(class="empty-projects-list")
+                        p Oops! It looks like you don't have any projects!
+                        p(id="create-project-link") Create one here
 
-            - else
-                div(class="projects-list-container projects-list")
-                    - for(let i = 0; i < projects.length; i++)
-                        - const project = projects[i];
-                        
-                        div(class="project")
-                            div(class="project-top")
-                                p(class="project-name") #{project.name}
-                                p(class="project-org") #{project.organization.name}
+                - else
+                    div(class="projects-list")
+                        - for(let i = 0; i < projects.length; i++)
+                            - const project = projects[i];
                             
-                            p(class="project-description") Limiting to #{project.callLimit} calls every #{project.timeFrame.name.toLowerCase()}
+                            div(class="project")
+                                div(class="project-top")
+                                    p(class="project-name") #{project.name}
+                                    p(class="project-org") #{project.organization.name}
+                                
+                                p(class="project-description") Limiting to #{project.callLimit} calls every #{project.timeFrame.name.toLowerCase()}
 
-                        - if(i < projects.length - 1)
-                            div(class="vertical-list-divider")
+                            - if(i < projects.length - 1)
+                                div(class="vertical-list-divider")
 
-                    div(class="pagination-container")
+                    div(class="pagination")
+                        - const pageNums = [curPage];
+                        
+                        - if(curPage > 1)
+                            - pageNums.unshift(curPage - 1);
+                        - if(curPage < numPages)
+                            - pageNums.push(curPage + 1);
+
+                        div(class="pagination-left")
+                            p(class=className hx-get=`/projects?curPage=${Math.max(curPage - 1, 1)}` hx-target=".page") <
+
+                        div(class="pagination-center")
+                            - for(const pageNum of pageNums)
+                                - let className = "page-num clickable text-hover";
+                                - if(pageNum === curPage)
+                                    - className += " current-page-num";
+                                
+                                p(class=className hx-get=`/projects?curPage=${pageNum}` hx-target=".page") #{pageNum}
+
+                        div(class="pagination-left")
+                            p(class=className hx-get=`/projects?curPage=${Math.min(curPage + 1, numPages)}` hx-target=".page") >

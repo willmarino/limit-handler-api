@@ -30,7 +30,6 @@ router.get("/", async (req, res, next) => {
  */
 router.post("/search", async (req, res, next) => {
     try{
-        // const r = await projectsService.searchProjects(req);
         const r = await projectsService.getProjects(req);
 
         const template = pug.compileFile("src/views/projects/search.pug")
@@ -46,20 +45,20 @@ router.post("/search", async (req, res, next) => {
 /**
  * @description Get user's most recently created project
  */
-router.get("/recent", async (req, res, next) => {
-    try{
-        const r = await projectsService.getRecent(req);
+// router.get("/recent", async (req, res, next) => {
+//     try{
+//         const r = await projectsService.getRecent(req);
 
-        const t = pug.compileFile("src/views/users/lobby.pug");
-        const markup = t({ ...r });
+//         const t = pug.compileFile("src/views/users/lobby.pug");
+//         const markup = t({ ...r });
 
-        res.set("HX-Push-Url", "/projects/recent");
-        res.status(200).send(markup);
+//         res.set("HX-Push-Url", "/projects/recent");
+//         res.status(200).send(markup);
 
-    }catch(err){
-        next(err);
-    }
-});
+//     }catch(err){
+//         next(err);
+//     }
+// });
 
 
 
