@@ -19,6 +19,10 @@
     background: #94a3b8;
 }
 
+.text-hover:hover{
+    color: #64748b;
+}
+
 .submit-button{
     width: 100%;
     height: 40px;

@@ -1,3 +1,4 @@
+/* Projects Index Page */
 .search-bar-container{
     width: 200px;
 }
@@ -17,4 +18,14 @@
 
 .project p{
     font-size: 14px;
+}
+
+
+/* New Project Page */
+.create-project-form-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

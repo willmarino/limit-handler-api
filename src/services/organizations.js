@@ -149,8 +149,6 @@ const createOrganization = async (req) => {
 
 
 
-
-
 module.exports = {
     getOrganization,
     createOrganization,

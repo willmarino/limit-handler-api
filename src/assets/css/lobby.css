@@ -200,25 +200,28 @@
     height: 60px;
     flex-grow: 0;
 
-    /* border: 1px solid green; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .lobby-main .header p{
     font-family: "RubikBold";
-    height: 60px;
-    line-height: 60px;
+}
+
+.lobby-main .header .left p{
     font-size: 16px;
 }
+
+.lobby-main .header .right p{
+    font-size: 14px;
+    text-decoration: underline;
+}
+
 
 .lobby-main .body{
     width: 100%;
     flex-grow: 1;
-    /* margin-top: 40px; */
-
-    /* margin-top: 15px; */
-    
-    /* border: 1px solid green; */
-
 }
 
 

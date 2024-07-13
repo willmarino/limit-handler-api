@@ -1,22 +1,37 @@
-extends ../layouts/main.pug
+extends ../users/lobby.pug
 
-block content
+block mainContent
 
-    div(class="page-content")
-        div(class="centered-column")
-            div(class="create-project-form-container")
-                div(class="form-container-header")
-                    p(class="form-container-header-label") New project
-                form(class="standard-form create-project-form" hx-post="/projects/create" hx-target=".page")
+    div(class="lobby-main primary-color outline")
+        div(class="header")
+            div(class="left")
+                p #{userInfo.user.name} -> New Project
+            div(class="right")
+                p(class="clickable text-hover" hx-get="/projects" hx-target=".page") Projects
+
+        div(class="create-project-form-container")
+            form(class="standard-form create-project-form" hx-post="/projects/create" hx-target=".page")
+                
+                div(class="dropdown-input-container")
+                    p(class="form-label") Org
                     select(class="org-dropdown primary-button secondary-color secondary-shadow clickable" name="orgName")
-                        option(selected) #{org.name}
-                    div(class="input-container")
-                        p(class="form-label") Name
-                        input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Project Name")
-                    div(class="input-container")
-                        p(class="form-label") Call Limit
-                        input.edit(class="secondary-shadow" type="text" name="callLimit" value=name placeholder="10, 100, ...")
-                    p(class="choice-selector-label") Timeframe
+                        - for(let i = 0; i < userInfo.organizations.length; i++)
+                            - const org = userInfo.organizations[i];
+                            - if(i === 0)
+                                option(selected) #{org.name}
+                            - else
+                                option() #{org.name}
+
+                div(class="input-container")
+                    p(class="form-label") Name
+                    input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Project Name")
+
+                div(class="input-container")
+                    p(class="form-label") Call Limit
+                    input.edit(class="secondary-shadow" type="text" name="callLimit" value=name placeholder="10, 100, ...")
+
+                div(class="choice-selector-input-container")
+                    p(class="form-label") Timeframe
                     div(class="choice-selector")
                         - for(let i = 0; i < timeframes.length; i++)
                             - let buttonClass = "choice-button secondary-shadow";
@@ -29,15 +44,15 @@ block content
                                     p(class="soft-text") Limit your program to a certain number of API calls per #{timeframes[i].name.toLowerCase()}
                         
                         input.edit(id="hidden-timeframe-input" type="hidden" name="timeFrameName" value="Second")
-                        
-
-                    button(class="submit-button secondary-color secondary-shadow clickable")
-                        p Submit
                     
-                    p(class="form-error-message") #{errMessage}
+
+                button(class="submit-button secondary-color secondary-shadow clickable")
+                    p Submit
+                
+                p(class="form-error-message") #{errMessage}
 
     script.
-        const choiceButtons = document.getElementsByClassName("choice-button");
+        var choiceButtons = document.getElementsByClassName("choice-button");
 
         for(let i = 0; i < choiceButtons.length; i++){
             const cb = choiceButtons[i];

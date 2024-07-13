@@ -43,11 +43,13 @@
 /* inputs */
 .input-container{
     width: 100%;
-    height: 70px;
-    margin: 10px 0px 0px 0px;
+    height: 60px;
+    margin: 0px 0px 10px 0px;
+    /* height: 70px; */
+    /* margin: 10px 0px 0px 0px; */
 }
 
-.input-container .form-label{
+.input-container .form-label, .dropdown-input-container .form-label, .choice-selector-input-container .form-label{
     width: 100%;
     margin: 5px 0px;
     font-size: 14px;
@@ -71,6 +73,19 @@
     border: 1px solid #3f3f46;
 }
 
+.dropdown-input-container{
+    width: 100%;
+    height: 60px;
+    margin: 0px 0px 10px 0px;
+}
+
+.dropdown-input-container select{
+    width: 100%;
+    height: 35px;
+    margin: 0px 0px 10px 0px;
+}
+
+
 .dual-input{
     display: flex;
 }
@@ -87,7 +102,7 @@
 
 .choice-selector{
     width: 100%;
-    margin: 15px 0px;
+    /* margin: 15px 0px; */
 }
 
 .choice-button{
@@ -98,7 +113,7 @@
     justify-content: space-between;
     align-items: center;
 
-    margin: 5px 0px;
+    margin: 0px 0px 5px 0px;
     padding: 0px 10px;
 
     border-radius: 5px;

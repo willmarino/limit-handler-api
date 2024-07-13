@@ -4,6 +4,7 @@ const router = require("express").Router();
 const projectsService = require("../services/projects");
 const timeFramesService = require("../services/time_frames");
 const organizationsService = require("../services/organizations");
+const usersService = require("../services/users");
 const responseTemplates = require("../util/response_templates");
 
 
@@ -63,15 +64,13 @@ router.get("/recent", async (req, res, next) => {
 
 router.get("/new", async(req, res, next) => {
     try{
-        const { orgId } = req.query;
-
-        const org = await organizationsService.getOrgSimple(orgId);
+        const userInfo = await usersService.getUser(req.session.user.userId);
         const timeframes = await timeFramesService.getTimeFrames();
 
         const template = pug.compileFile("src/views/projects/new.pug");
-        const markup = template({ org, timeframes });
+        const markup = template({ userInfo, timeframes });
 
-        res.set("HX-Push-Url", `/projects/new/?orgId=${orgId}`)
+        res.set("HX-Push-Url", `/projects/new`)
         res.status(200).send(markup);
 
     }catch(err){
