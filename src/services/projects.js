@@ -25,7 +25,8 @@ const getProjects = async (req) => {
         include: [
             { model: models.Organizations, as: "organization" },
             { model: models.TimeFrames, as: "timeFrame" }
-        ]
+        ],
+        order: [ ["name", "ASC"] ]
     })
 
     return { user, projects };
@@ -53,15 +54,16 @@ const searchProjects = async (req) => {
         include: [
             { model: models.Organizations, as: "organization" },
             { model: models.TimeFrames, as: "timeFrame" }
-        ]
+        ],
+        order: [ ["name", "ASC"] ]
 
     });
 
     // Actually use search term here
     const filteredProjects = (searchTerm)
         ?   projects.filter((p) => (
-                p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                p.organization.name.toLowerCase().includes(searchTerm.toLowerCase())
+                p.name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
+                p.organization.name.toLowerCase().startsWith(searchTerm.toLowerCase())
             ))
         : projects;
 
