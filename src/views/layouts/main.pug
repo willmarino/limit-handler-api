@@ -28,19 +28,22 @@ html(lang="en")
 
             //- header
             //- div(class="site-header soft-shadow")
-            div(class="site-header outline")
+            //- div(class="site-header outline")
+            div(class="site-header")
 
                 button(class="site-header-left clickable" hx-get="/auth/login" hx-target=".page")
-                    p Limit Handler
-                    img(src="/img/logo/clock_24.png")
+                    a(class="text-hover" href="/projects") Limit Handler
+                    //- img(src="/img/logo/clock_24.png")
 
                 div(class="site-header-right")
                     //- button(class="secondary-color secondary-shadow" hx-get="/users/show" hx-target=".page") Dashboard
-                    button(class="secondary-color secondary-shadow" hx-get="/projects" hx-target=".page") Dashboard
-                    button(class="secondary-color secondary-shadow" hx-get="/users/profile" hx-target=".page") Profile
-                    button(class="secondary-color secondary-shadow") Questions
+                    //- button(class="secondary-color secondary-shadow" hx-get="/projects" hx-target=".page") Dashboard
+                    //- button(class="secondary-color secondary-shadow" hx-get="/users/profile" hx-target=".page") Profile
+                    //- button(class="secondary-color secondary-shadow") Questions
+                    p(class="clickable text-hover") Questions
                     - if(loggedOut !== true)
-                        button(id="logout-button" class="secondary-color secondary-shadow" hx-post="/auth/logout" hx-target=".page") Logout
+                        //- button(id="logout-button" class="secondary-color secondary-shadow" hx-post="/auth/logout" hx-target=".page") Logout
+                        p(id="logout-button" class="clickable text-hover" hx-post="/auth/logout" hx-target=".page") Logout
 
             //- Display messages to users
             div(class="message-modal") #{message}

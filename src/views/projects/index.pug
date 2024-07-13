@@ -2,7 +2,8 @@ extends ../users/lobby.pug
 
 block mainContent
 
-    div(class="lobby-main primary-color outline")
+    //- div(class="lobby-main primary-color outline")
+    div(class="lobby-main primary-color")
         div(class="header")
             div(class="left")
                 p(class="header-segment") #{user.userName}
@@ -15,7 +16,8 @@ block mainContent
                 div(class="search-bar-container")
                     div(class="input-container")
                         p(class="form-label") Search
-                        input.edit(type="text" name="searchTerm" placeholder="Project or org name...")
+                        input.edit(class="secondary-shadow" type="text" name="searchTerm" placeholder="Project or org name...")
+
 
             - if(projects.length === 0)
                 div(class="projects-list-container empty-projects-list")
@@ -28,8 +30,11 @@ block mainContent
                         - const project = projects[i];
                         
                         div(class="project")
-                            p(class="project-name") #{project.name}
-                            p(class="project-org") Org: #{project.organization.name}
+                            div(class="project-top")
+                                p(class="project-name") #{project.name}
+                                p(class="project-org") #{project.organization.name}
+                            
+                            p(class="project-description") Limiting to #{project.callLimit} calls every #{project.timeFrame.name.toLowerCase()}
 
                         - if(i < projects.length - 1)
                             div(class="vertical-list-divider")

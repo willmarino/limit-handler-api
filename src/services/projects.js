@@ -22,7 +22,10 @@ const getProjects = async (req) => {
 
     const projects = await models.Projects.findAll({
         where: { organizationId: { [Op.in]: organizations.map((o) => o.id) } },
-        include: { model: models.Organizations, as: "organization" }
+        include: [
+            { model: models.Organizations, as: "organization" },
+            { model: models.TimeFrames, as: "timeFrame" }
+        ]
     })
 
     return { user, projects };
@@ -47,7 +50,11 @@ const searchProjects = async (req) => {
 
     const projects = await models.Projects.findAll({
         where: { organizationId: { [Op.in]: organizations.map((o) => o.id) } },
-        include: { model: models.Organizations, as: "organization" }
+        include: [
+            { model: models.Organizations, as: "organization" },
+            { model: models.TimeFrames, as: "timeFrame" }
+        ]
+
     });
 
     // Actually use search term here

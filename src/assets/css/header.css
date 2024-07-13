@@ -10,7 +10,7 @@
     
     flex-grow: 0;
 
-    padding: 0px 40px;
+    padding: 0px 60px 0px 60px;
 }
 
 .site-header-left{
@@ -21,12 +21,15 @@
     height: 35px;
 }
 
-.site-header-left p{
-    font-size: 22px;
+.site-header-left a{
+    font-family: "RubikBold";
+    font-size: 18px;
+    text-decoration: underline;
     padding-right: 10px;
 }
 
-.site-header-right button{
+/* Using p tags instead of buttons now */
+/* .site-header-right button{
     width: 150px;
     height: 35px;
     
@@ -35,6 +38,18 @@
     font-size: 14px;
 
     margin-left: 15px;
+} */
+
+.site-header-right{
+    display: flex;   
+}
+
+.site-header-right p{
+    font-size: 16px;
+    text-decoration: underline;
+    font-family: "RubikBold";
+
+    margin-left: 20px;
 }
 
 .site-header-right button:hover{

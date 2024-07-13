@@ -4,12 +4,12 @@
 }
 
 .projects-list-container{
-    width: 300px;
-    margin-top: 30px;
+    width: 600px;
+    margin-top: 50px;
 }
 
 .projects-list{
-    padding-left: 5px;
+    /* padding-left: 5px; */
 }
 
 .project{
@@ -26,13 +26,25 @@
     font-size: 14px;
 }
 
-.project .project-org{
+.project .project-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project .project-top .project-org{
+    font-family: "RubikBold";
+    text-decoration: underline;
     font-size: 14px;
+}
+
+.project-description{
+    font-size: 13px;
 }
 
 .vertical-list-divider{
     height: 1px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #a1a1aa;
     margin: 10px 0px;
 }
 
