@@ -60,20 +60,28 @@ class RedisWrapper {
             ]
         });
         for(const project of projects){
-            await this.client.set(
-                `projects:${project.identifier}`,
-                JSON.stringify({
-                    name: project.name,
-                    callLimit: project.callLimit,
-                    timeFrameMS: project.timeFrame.ms,
-                    requests: []
-                })
-            );
+            await this.storeProject(project);
         }
 
         if(process.env.NODE_ENV !== "development"){
             logger.info("Successfully stored projects in cache", { projects });
         }
+    }
+
+    /**
+     * @description When a new project is created, it must be added to cache.
+     * Also used as a helper for storeProjects.
+     */
+    async storeProject(project){
+        await this.client.set(
+            `projects:${project.identifier}`,
+            JSON.stringify({
+                name: project.name,
+                callLimit: project.callLimit,
+                timeFrameMS: project.timeFrame.ms,
+                requests: []
+            })
+        );
     }
 
     /**

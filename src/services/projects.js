@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const { models } = require("../db/connection");
+const RED = require("../util/redis_connection_wrapper");
 const SimpleErrorWrapper = require("../util/error_wrapper");
 const cryptoHelpers = require("../helpers/crypto");
 
@@ -142,6 +143,9 @@ const create = async (req) => {
     });
 
     await project.reload();
+
+    project.timeFrame = timeFrame; // this is awkward, storeProject needs the project obj to have timeFrame attached
+    await RED.storeProject(project);
 
     return project;
 };
