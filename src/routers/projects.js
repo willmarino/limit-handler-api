@@ -30,7 +30,8 @@ router.get("/", async (req, res, next) => {
  */
 router.post("/search", async (req, res, next) => {
     try{
-        const r = await projectsService.searchProjects(req);
+        // const r = await projectsService.searchProjects(req);
+        const r = await projectsService.getProjects(req);
 
         const template = pug.compileFile("src/views/projects/search.pug")
         const markup = template({ ...r })

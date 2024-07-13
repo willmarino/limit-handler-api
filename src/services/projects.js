@@ -3,40 +3,15 @@ const { models } = require("../db/connection");
 const RED = require("../util/redis_connection_wrapper");
 const SimpleErrorWrapper = require("../util/error_wrapper");
 const cryptoHelpers = require("../helpers/crypto");
+const pConf = require("../config/pagination");
 
 
 /**
- * @description Get all of a user's projects
+ * @description New getProjects func which can be run by index and search router functions
  */
 const getProjects = async (req) => {
-    const userId = req.session.user.userId;
-    const user = await models.Users.findOne({ where: { id: userId } });
+    const curPage = (req.query.curPage) ? parseInt(req.query.curPage) : 1;
 
-    const memberships = await models.Memberships.findAll({
-        where: { userId }
-    });
-
-    const organizations = await models.Organizations.findAll({
-        where: { id: { [Op.in]: memberships.map((m) => m.organizationId) } }
-    });
-
-    const projects = await models.Projects.findAll({
-        where: { organizationId: { [Op.in]: organizations.map((o) => o.id) } },
-        include: [
-            { model: models.Organizations, as: "organization" },
-            { model: models.TimeFrames, as: "timeFrame" }
-        ],
-        order: [ ["name", "ASC"] ]
-    })
-
-    return { user, projects };
-}
-
-
-/**
- * @description Get all of a user's projects
- */
-const searchProjects = async (req) => {
     const userId = req.session.user.userId;
     const user = await models.Users.findOne({ where: { id: userId } });
     
@@ -49,26 +24,113 @@ const searchProjects = async (req) => {
         where: { id: { [Op.in]: memberships.map((m) => m.organizationId) } }
     });
 
+    const projectsWhereClause = {
+        organizationId: { [Op.in]: organizations.map((o) => o.id) }
+    }
+    if(searchTerm){ projectsWhereClause.name = { [Op.like]: `%${searchTerm}%` } }
+
+    const projectsCount = await models.Projects.count({ where: projectsWhereClause });
+    const numPages = Math.ceil(projectsCount.length / pConf.itemsPerPage);
+
     const projects = await models.Projects.findAll({
-        where: { organizationId: { [Op.in]: organizations.map((o) => o.id) } },
+        where: projectsWhereClause,
         include: [
             { model: models.Organizations, as: "organization" },
             { model: models.TimeFrames, as: "timeFrame" }
         ],
-        order: [ ["name", "ASC"] ]
-
+        order: [ ["name", "ASC"] ],
+        limit: pConf.itemsPerPage,
+        offset: (curPage > 1) ? (curPage - 1) * pConf.itemsPerPage : 0
     });
 
-    // Actually use search term here
-    const filteredProjects = (searchTerm)
-        ?   projects.filter((p) => (
-                p.name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-                p.organization.name.toLowerCase().startsWith(searchTerm.toLowerCase())
-            ))
-        : projects;
-
-    return { user, projects: filteredProjects };
+    return { user, projects, curPage, numPages };
 }
+
+
+/**
+ * @description Get all of a user's projects
+ */
+// const getProjects = async (req) => {
+//     const curPage = (req.query.curPage) ? parseInt(req.query.curPage) : 1;
+
+//     const userId = req.session.user.userId;
+//     const user = await models.Users.findOne({ where: { id: userId } });
+
+//     const memberships = await models.Memberships.findAll({
+//         where: { userId }
+//     });
+
+//     const organizations = await models.Organizations.findAll({
+//         where: { id: { [Op.in]: memberships.map((m) => m.organizationId) } }
+//     });
+
+//     const projectsCount = await models.Projects.count({
+//         where: { organizationId: { [Op.in]: organizations.map((o) => o.id) } },
+//     });
+//     const numPages = Math.ceil(projectsCount / pConf.itemsPerPage);
+
+//     const projects = await models.Projects.findAll({
+//         where: { organizationId: { [Op.in]: organizations.map((o) => o.id) } },
+//         include: [
+//             { model: models.Organizations, as: "organization" },
+//             { model: models.TimeFrames, as: "timeFrame" }
+//         ],
+//         order: [ ["name", "ASC"] ],
+//         limit: pConf.itemsPerPage,
+//         offset: (curPage > 1) ? (curPage - 1) * pConf.itemsPerPage : 0
+//     })
+
+//     return { user, projects, curPage, numPages };
+// }
+
+
+/**
+ * @description Get all of a user's projects
+ */
+// const searchProjects = async (req) => {
+//     const curPage = (req.query.curPage) ? parseInt(req.query.curPage) : 1;
+
+//     const userId = req.session.user.userId;
+//     const user = await models.Users.findOne({ where: { id: userId } });
+    
+//     const searchTerm = req.body.searchTerm;
+
+//     const memberships = await models.Memberships.findAll({
+//         where: { userId }
+//     });
+//     const organizations = await models.Organizations.findAll({
+//         where: { id: { [Op.in]: memberships.map((m) => m.organizationId) } }
+//     });
+
+//     const projectsWhereClause = {
+//         where: { organizationId: { [Op.in]: organizations.map((o) => o.id) } }
+//     }
+//     if(searchTerm){ projectsWhereClause.name = { [Op.like]: `%${searchTerm}%` } }
+
+//     const projectsCount = await models.Projects.count({ where: whereClause });
+//     const numPages = Math.ceil(projectsCount.length / pConf.itemsPerPage);
+
+//     const projects = await models.Projects.findAll({
+//         where: whereClause,
+//         include: [
+//             { model: models.Organizations, as: "organization" },
+//             { model: models.TimeFrames, as: "timeFrame" }
+//         ],
+//         order: [ ["name", "ASC"] ],
+//         limit: pConf.itemsPerPage,
+//         offset: (curPage > 1) ? (curPage - 1) * pConf.itemsPerPage : 0
+//     });
+
+//     // Actually use search term here
+//     // const filteredProjects = (searchTerm)
+//     //     ?   projects.filter((p) => (
+//     //             p.name.toLowerCase().startsWith(searchTerm.toLowerCase()) ||
+//     //             p.organization.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+//     //         ))
+//     //     : projects;
+
+//     return { user, projects, curPage, numPages };
+// }
 
 
 /**
@@ -158,7 +220,7 @@ const create = async (req) => {
 
 module.exports = {
     getProjects,
-    searchProjects,
+    // searchProjects,
     getRecent,
     create
 }

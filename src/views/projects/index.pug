@@ -16,7 +16,7 @@ block mainContent
                 div(class="search-bar-container")
                     div(class="input-container")
                         p(class="form-label") Search
-                        input.edit(class="secondary-shadow" type="text" name="searchTerm" placeholder="Project or org name...")
+                        input.edit(class="secondary-shadow" type="text" name="searchTerm" placeholder="Project name...")
 
 
             - if(projects.length === 0)
@@ -38,3 +38,5 @@ block mainContent
 
                         - if(i < projects.length - 1)
                             div(class="vertical-list-divider")
+
+                    div(class="pagination-container")
