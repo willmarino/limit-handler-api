@@ -1,5 +1,5 @@
 .pagination{
-    width: 80%;
+    width: 250px;
     height: 40px;
 
     display: flex;
@@ -7,17 +7,21 @@
     
 
     margin-top: 30px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .pagination .pagination-left, .pagination .pagination-right{
     width: 40px;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
-.pagination .pagination-left p, .pagination .pagination-right p{
+.pagination .pagination-left button, .pagination .pagination-right button{
+    font-family: "RubikBold";
+    
     height: 40px;
     width: 40px;
+
+    font-size: 16px;
     text-align: center;
     line-height: 40px;
 }

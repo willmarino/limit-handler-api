@@ -49,7 +49,7 @@ block mainContent
                             - pageNums.push(curPage + 1);
 
                         div(class="pagination-left")
-                            p(class=className hx-get=`/projects?curPage=${Math.max(curPage - 1, 1)}` hx-target=".page") <
+                            button(class="clickable text-hover" hx-get=`/projects?curPage=${Math.max(curPage - 1, 1)}` hx-target=".page") <
 
                         div(class="pagination-center")
                             - for(const pageNum of pageNums)
@@ -60,4 +60,4 @@ block mainContent
                                 p(class=className hx-get=`/projects?curPage=${pageNum}` hx-target=".page") #{pageNum}
 
                         div(class="pagination-left")
-                            p(class=className hx-get=`/projects?curPage=${Math.min(curPage + 1, numPages)}` hx-target=".page") >
+                            button(class="clickable text-hover" hx-get=`/projects?curPage=${Math.min(curPage + 1, numPages)}` hx-target=".page") >
