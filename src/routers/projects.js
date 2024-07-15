@@ -9,7 +9,8 @@ const responseTemplates = require("../util/response_templates");
 
 
 /**
- * @description Get user's projects
+ * @description Get user's projects.
+ * Request query can include a searchTerm param, but does not have to. 
  */
 router.get("/", async (req, res, next) => {
     try{
@@ -28,25 +29,6 @@ router.get("/", async (req, res, next) => {
     }
 });
 
-/**
- * @description Get user's projects with a project name search filter
- */
-// router.get("/search", async (req, res, next) => {
-//     try{
-//         const r = await projectsService.getProjects(req);
-//         console.log(r.searchTerm)
-//         console.log(r.searchTerm)
-//         console.log(r.searchTerm)
-
-//         const template = pug.compileFile("src/views/projects/search.pug")
-//         const markup = template({ ...r })
-
-//         res.set("HX-Push-Url", `/projects/search?searchTerm=${(r.searchTerm || "")}&curPage=${r.curPage}`)
-//         res.status(200).send(markup);
-//     }catch(err){
-//         next(err);
-//     }
-// });
 
 /**
  * @description Get user's most recently created project
