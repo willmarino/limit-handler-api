@@ -11,11 +11,11 @@ const pConf = require("../config/pagination");
  */
 const getProjects = async (req) => {
     const curPage = (req.query.curPage) ? parseInt(req.query.curPage) : 1;
+    const searchTerm = req.query.searchTerm;
 
     const userId = req.session.user.userId;
     const user = await models.Users.findOne({ where: { id: userId } });
     
-    const searchTerm = req.body.searchTerm;
 
     const memberships = await models.Memberships.findAll({
         where: { userId }
@@ -43,7 +43,7 @@ const getProjects = async (req) => {
         offset: (curPage > 1) ? (curPage - 1) * pConf.itemsPerPage : 0
     });
 
-    return { user, projects, curPage, numPages };
+    return { user, projects, searchTerm, curPage, numPages };
 }
 
 

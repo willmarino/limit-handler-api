@@ -12,7 +12,7 @@ block mainContent
             div(class="right")
                 p(class="clickable text-hover" hx-get="/projects/new" hx-target=".page") New Project
         div(class="body")
-            form(hx-post="/projects/search" hx-target=".projects-list-container" hx-swap="outerHTML")
+            form(hx-get="/projects" hx-target=".page")
                 div(class="search-bar-container")
                     div(class="input-container")
                         p(class="form-label") Search
@@ -49,7 +49,9 @@ block mainContent
                             - pageNums.push(curPage + 1);
 
                         div(class="pagination-left")
-                            button(class="clickable text-hover" hx-get=`/projects?curPage=${Math.max(curPage - 1, 1)}` hx-target=".page") <
+                            - let hxGetLeftArrowUrl = `/projects?curPage=${Math.max(curPage - 1, 1)}`;
+                            - if(searchTerm) hxGetLeftArrowUrl += `&searchTerm=${searchTerm}`;
+                            button(class="clickable text-hover" hx-get=hxGetLeftArrowUrl hx-target=".page") <
 
                         div(class="pagination-center")
                             - for(const pageNum of pageNums)
@@ -57,7 +59,11 @@ block mainContent
                                 - if(pageNum === curPage)
                                     - className += " current-page-num";
                                 
-                                p(class=className hx-get=`/projects?curPage=${pageNum}` hx-target=".page") #{pageNum}
+                                - let hxGetPageUrl = `/projects?curPage=${pageNum}`;
+                                - if(searchTerm) hxGetPageUrl += `&searchTerm=${searchTerm}`;
+                                p(class=className hx-get=hxGetPageUrl hx-target=".page") #{pageNum}
 
                         div(class="pagination-left")
-                            button(class="clickable text-hover" hx-get=`/projects?curPage=${Math.min(curPage + 1, numPages)}` hx-target=".page") >
+                            - let hxGetRightArrowUrl = `/projects?curPage=${Math.min(curPage + 1, numPages)}`;
+                            - if(searchTerm) hxGetRightArrowUrl += `&searchTerm=${searchTerm}`;
+                            button(class="clickable text-hover" hx-get=hxGetRightArrowUrl hx-target=".page") >
