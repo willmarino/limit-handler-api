@@ -15,8 +15,9 @@ const getProject = async (req) => {
     const userId = req.session.user.userId;
 
     const project = await models.Projects.findOne({ where: { id: projectId } });
+    const organization = await models.Organizations.findOne({ where: { id: project.organizationId } });
 
-    return { project, user: { userName: req.session.user.userName } };
+    return { project, organization, user: { userName: req.session.user.userName } };
 }
 
 

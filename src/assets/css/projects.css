@@ -54,8 +54,31 @@
 }
 
 
-/* New Project Page */
+/* New project page */
 .create-project-form-container{
     width: 100%;
     display: flex;
+}
+
+/* Project show page */
+.project-show .top-bar{
+    display: flex;
+    height: 14px;
+
+    /* margin-left: 20px; */
+}
+
+.project-show .top-bar p{
+    height: 14px;
+    
+    line-height: 14px;
+    margin-left: 5px;
+    
+    font-family: "RubikBold";
+    font-size: 14px;
+}
+
+.chart-container{
+    height: 600px;
+    width: 800px;
 }
