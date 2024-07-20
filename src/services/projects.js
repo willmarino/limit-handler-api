@@ -11,13 +11,54 @@ const pConf = require("../config/pagination");
  * @description Get a single project
  */
 const getProject = async (req) => {
-    const projectId = req.params.id;
-    const userId = req.session.user.userId;
-
-    const project = await models.Projects.findOne({ where: { id: projectId } });
+    const project = await models.Projects.findOne({ where: { id: req.params.id } });
     const organization = await models.Organizations.findOne({ where: { id: project.organizationId } });
+    const projectTimeFrame = await models.TimeFrames.findOne({ where: { id: project.timeFrameId } })
+    // const allTimeFrames = await models.TimeFrames.findAll();
 
-    return { project, organization, user: { userName: req.session.user.userName } };
+    const datasets = [
+        {
+            label: "www.abcdef.com",
+            fill: false,
+            lineTension: 0,
+            backgroundColor: "rgba(0, 0, 255, 1.0)",
+            borderColor: "rgba(0, 0, 255, 0.3)",
+            data: []
+        },
+        {
+            label: "www.ghijk.com",
+            fill: false,
+            lineTension: 0,
+            backgroundColor: "rgba(252, 3, 3, 1.0)",
+            borderColor: "rgba(252, 3, 3, 0.3)",
+            data: []
+        },
+        {
+            label: "www.lmnopqrstuv.com",
+            fill: false,
+            lineTension: 0,
+            backgroundColor: "rgba(25, 94, 0, 1.0)",
+            borderColor: "rgba(25, 94, 0, 0.3)",
+            data: []
+        }
+    ];
+
+    for(const dataset of datasets){
+        for(let i = 0; i < 7; i++){
+            dataset.data.push(Math.round(Math.random() * 10));
+        }
+    }
+
+    return {
+        project,
+        organization,
+        projectTimeFrame,
+        // allTimeFrames,
+        userSelectedTimeFrame: req.query.userSelectedTimeFrame,
+        user: { userName: req.session.user.userName },
+        datasets,
+
+    };
 }
 
 
