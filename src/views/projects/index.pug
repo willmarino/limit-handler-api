@@ -1,16 +1,7 @@
-extends ../users/lobby.pug
+extends ./layout.pug
 
-block mainContent
+block subContent
 
-    //- div(class="lobby-main primary-color outline")
-    div(class="lobby-main primary-color")
-        div(class="header")
-            div(class="left")
-                p(class="header-segment") #{user.userName}
-                p(class="header-segment-separator") ->
-                p(class="header-segment") Projects
-            div(class="right")
-                p(class="clickable text-hover" hx-get="/projects/new" hx-target=".page") New Project
         div(class="body")
             form(hx-get="/projects" hx-target=".page")
                 div(class="search-bar-container")
@@ -32,14 +23,16 @@ block mainContent
                             
                             div(class="project")
                                 div(class="project-top")
-                                    p(class="project-name") #{project.name}
-                                    p(class="project-org") #{project.organization.name}
+                                    p(class="project-name clickable text-hover" hx-get=`/projects/show/${project.id}` hx-target=".page") #{project.name}
+                                    p(class="project-org clickable text-hover") #{project.organization.name}
                                 
                                 p(class="project-description") Limiting to #{project.callLimit} calls every #{project.timeFrame.name.toLowerCase()}
 
                             - if(i < projects.length - 1)
                                 div(class="vertical-list-divider")
 
+                    
+                    
                     div(class="pagination")
                         - const pageNums = [curPage];
                         

@@ -81,6 +81,7 @@ const getUser = async (userId) => {
     // Compile results from the two queries into an intuitive JSON
     const userInfo = {
         user: {
+            userName: userWithMemberships.userName, // TODO this is heinous
             name: userWithMemberships.userName,
             email: userWithMemberships.email,
             createdAt: userWithMemberships.createdAt

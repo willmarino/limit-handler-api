@@ -9,10 +9,10 @@ block content
                 div(class="lobby-sidebar primary-color")
                     ul
                         li
-                            p(class="clickable") Projects
+                            p(class="clickable text-hover" hx-get="/projects" hx-target=".page") Projects
                         li
-                            p(class="clickable") Organizations
+                            p(class="clickable text-hover") Organizations
                         li
-                            p(class="clickable") Invitations
+                            p(class="clickable text-hover") Invitations
 
-                block mainContent
+                block center

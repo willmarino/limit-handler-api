@@ -6,6 +6,20 @@ const cryptoHelpers = require("../helpers/crypto");
 const pConf = require("../config/pagination");
 
 
+
+/**
+ * @description Get a single project
+ */
+const getProject = async (req) => {
+    const projectId = req.params.id;
+    const userId = req.session.user.userId;
+
+    const project = await models.Projects.findOne({ where: { id: projectId } });
+
+    return { project, user: { userName: req.session.user.userName } };
+}
+
+
 /**
  * @description New getProjects func which can be run by index and search router functions
  */
@@ -137,5 +151,6 @@ module.exports = {
     getProjects,
     // searchProjects,
     // getRecent,
-    create
+    create,
+    getProject
 }
