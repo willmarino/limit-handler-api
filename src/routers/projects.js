@@ -74,7 +74,8 @@ router.get("/new", async(req, res, next) => {
         const timeframes = await timeFramesService.getTimeFrames();
 
         const template = pug.compileFile("src/views/projects/new.pug");
-        const markup = template({ ...r, timeframes });
+        // TODO figure out a way to pass pug layouts info for page routing in an organized manner, "newProjectPage: true" is unwieldy
+        const markup = template({ ...r, timeframes, newProjectPage: true });
 
         res.set("HX-Push-Url", `/projects/new`)
         res.status(200).send(markup);

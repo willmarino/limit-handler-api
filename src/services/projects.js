@@ -14,7 +14,6 @@ const getProject = async (req) => {
     const project = await models.Projects.findOne({ where: { id: req.params.id } });
     const organization = await models.Organizations.findOne({ where: { id: project.organizationId } });
     const projectTimeFrame = await models.TimeFrames.findOne({ where: { id: project.timeFrameId } })
-    // const allTimeFrames = await models.TimeFrames.findAll();
 
     const datasets = [
         {

@@ -1,0 +1,108 @@
+/* Projects Index Page */
+.search-bar-container{
+    width: 200px;
+}
+
+.organizations-list-container{
+    width: 600px;
+    height: 500px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.organizations-list{
+    width: 100%;
+}
+
+.organization{
+    height: 35px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.organization .organization-name{
+    font-family: "RubikBold";
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.organization .organization-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.organization .organization-top .organization-org{
+    font-family: "RubikBold";
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.organization-description{
+    font-size: 13px;
+}
+
+.vertical-list-divider{
+    height: 1px;
+    border-bottom: 1px solid #a1a1aa;
+    margin: 10px 0px;
+}
+
+
+/* New organization page */
+.create-organization-form-container{
+    width: 100%;
+    display: flex;
+}
+
+/* Project show page */
+.organization-show .top-bar{
+    display: flex;
+    height: 14px;
+}
+
+.organization-show .top-bar p{
+    height: 14px;
+    
+    line-height: 14px;
+    margin-right: 5px;
+    
+    font-family: "RubikBold";
+    font-size: 14px;
+}
+
+.description-container .description{
+    font-size: 14px;
+}
+
+.chart-timeframe-filter{
+    height: 20px;
+    display: flex;
+}
+
+.chart-timeframe-filter p{
+    font-size: 14px;
+    line-height: 14px;
+
+    margin-right: 1px;
+    margin-top: 1px;
+}
+
+.chart-timeframe-filter select{
+    height: 14px;
+    font-size: 12px;
+    line-height: 14px;
+
+    text-decoration: underline;
+}
+
+.chart-container{
+    height: 600px;
+    width: 800px;
+}
+

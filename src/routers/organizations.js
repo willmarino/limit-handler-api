@@ -24,28 +24,50 @@ router.get("/show/:id", async (req, res, next) => {
 
 
 /**
+ * @descriptions Index route for user's organizations.
+ */
+router.get("/", async (req, res, next) => {
+    try{
+        const r = await organizationsService.getUserOrganizations(req);
+        const template = pug.compileFile("src/views/organizations/index.pug");
+
+        const markup = template({ ...r, user: req.session.user });
+
+        res.set("HX-Push-Url", "/organizations");
+        res.status(200).send(markup);
+
+    }catch(err){
+        next(err);
+    }
+})
+
+
+
+/**
  * @description Create org GET form route
  */
-router.get("/create", async (req, res, next) => {
+router.get("/new", async (req, res, next) => {
     try{
         const subTiers = await subscriptionTiersService.getSubscriptionTiers();
 
-        const template = pug.compileFile("src/views/organizations/create.pug");
+        const template = pug.compileFile("src/views/organizations/new.pug");
         const markup = template({
             subTiers,
             name: req.query.name,
             selectedSubTier: req.query.selectedSubTier,
-            errMessage: req.query.errMessage
+            errMessage: req.query.errMessage,
+            user: req.session.user,
+            newOrgPage: true
         });
 
         const hxPushUrl = (Object.keys(req.query).length > 0)
-            ? `/organizations/create?${qs.stringify(req.query)}`
-            : "/organizations/create";
+            ? `/organizations/new?${qs.stringify(req.query)}`
+            : "/organizations/new";
 
         res.set("HX-Push-Url", hxPushUrl);
         res.status(200).send(markup);
     }catch(err){
-        next();
+        next(err);
     }
 });
 
@@ -57,7 +79,7 @@ router.post("/create", async (req, res, next) => {
     try{
         
         await organizationsService.createOrganization(req);
-        res.redirect("/projects");
+        res.redirect("/organizations");
 
     }catch(err){
 
@@ -66,7 +88,7 @@ router.post("/create", async (req, res, next) => {
         if(req.body.selectedSubTier) queryStringData.selectedSubTier = req.body.selectedSubTier;
 
         const queryString = qs.stringify(queryStringData);
-        res.redirect(`/organizations/create?${queryString}`);
+        res.redirect(`/organizations/new?${queryString}`);
     }
 });
 

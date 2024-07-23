@@ -1,8 +1,10 @@
+const { Op } = require("sequelize");
 const { models } = require("../db/connection");
 const formValidators = require("../helpers/form_validation");
 const cryptoHelpers = require("../helpers/crypto");
 const bcrypyHelpers = require("../helpers/bcrypt");
 const SimpleErrorWrapper = require("../util/error_wrapper");
+const pConf = require("../config/pagination");
 
 /**
  * @description Get organization by id.
@@ -89,6 +91,28 @@ const getOrgSimple = async (orgId) => {
 
 
 /**
+ * @description Get all organizations which requesting user is a part of.
+ */
+const getUserOrganizations = async (req) => {
+    const userId = req.session.user.userId;
+    const searchTerm = req.query.searchTerm;
+
+    const memberships = await models.Memberships.findAll({ where: { userId: userId } });
+
+    const orgsWhereClause = { id: { [Op.in]: memberships.map((m) => m.organizationId) } };
+    if(searchTerm){
+        orgsWhereClause.name = { [Op.like]: `%${searchTerm}%` };
+    }
+
+    const organizations = await models.Organizations.findAll({
+        where: orgsWhereClause
+    });
+
+    return { organizations };
+}
+
+
+/**
  * @description - Create a new organization given a name and generate a refresh token.
  * @param name - Name of the new organization
  */
@@ -151,6 +175,7 @@ const createOrganization = async (req) => {
 
 module.exports = {
     getOrganization,
-    createOrganization,
-    getOrgSimple
+    getOrgSimple,
+    getUserOrganizations,
+    createOrganization
 }
