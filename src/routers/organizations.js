@@ -33,7 +33,10 @@ router.get("/", async (req, res, next) => {
 
         const markup = template({ ...r, user: req.session.user });
 
-        res.set("HX-Push-Url", "/organizations");
+        let urlString = `/organizations?curPage=${r.curPage}`;
+        if(r.searchTerm) urlString += `&searchTerm=${r.searchTerm}`;
+
+        res.set("HX-Push-Url", urlString);
         res.status(200).send(markup);
 
     }catch(err){

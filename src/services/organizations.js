@@ -94,6 +94,8 @@ const getOrgSimple = async (orgId) => {
  * @description Get all organizations which requesting user is a part of.
  */
 const getUserOrganizations = async (req) => {
+    const curPage = (req.query.curPage) ? parseInt(req.query.curPage) : 1;
+
     const userId = req.session.user.userId;
     const searchTerm = req.query.searchTerm;
 
@@ -104,11 +106,15 @@ const getUserOrganizations = async (req) => {
         orgsWhereClause.name = { [Op.like]: `%${searchTerm}%` };
     }
 
-    const organizations = await models.Organizations.findAll({
-        where: orgsWhereClause
+    const organizations = await models.Organizations.findAndCountAll({
+        where: orgsWhereClause,
+        limit: pConf.itemsPerPage,
+        offset: (curPage > 1) ? (curPage - 1) * pConf.itemsPerPage : 0
     });
 
-    return { organizations };
+    const numPages = Math.ceil(organizations.count / pConf.itemsPerPage);
+
+    return { organizations: organizations.rows, curPage, numPages, searchTerm };
 }
 
 
