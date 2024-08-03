@@ -2,9 +2,9 @@ extends ./layout.pug
 
 block subContent
 
-    p(class="subheader") Create a new project
 
     div(class="create-project-form-container")
+        p(class="subheader") Create a new project
         form(class="standard-form create-project-form" hx-post="/projects/create" hx-target=".page")
             
             div(class="dropdown-input-container")
@@ -19,21 +19,23 @@ block subContent
 
             div(class="input-container")
                 p(class="form-label") Name
-                input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Project Name")
+                input.edit(id="name-input" class="secondary-shadow" type="text" name="name" value=name placeholder="Project Name")
 
             div(class="input-container")
                 p(class="form-label") Call Limit
-                input.edit(class="secondary-shadow" type="text" name="callLimit" value=name placeholder="10, 100, ...")
+                input.edit(id="call-limit-input" class="secondary-shadow" type="text" name="callLimit" value=name placeholder="10, 100, ...")
 
             div(class="dropdown-input-container")
                 p(class="form-label") Timeframe
-                select(class="org-dropdown primary-button secondary-shadow clickable" name="timeFrameName")
+                select(id="time-frame-input" class="org-dropdown primary-button secondary-shadow clickable" name="timeFrameName")
                     - for(let i = 0; i < timeframes.length; i++)
                         - const timeframe = timeframes[i];
                         - if(i === 0)
                             option(selected) #{timeframe.name}
                         - else
                             option() #{timeframe.name}
+
+            p(id="new-project-description" class="soft-text") This project will limit outgoing requests to a rate of X per second
                 
 
             button(class="submit-button secondary-color secondary-shadow clickable")
@@ -42,4 +44,39 @@ block subContent
             p(class="form-error-message") #{errMessage}
 
     script.
-        
+        var callLimitInput = document.getElementById("call-limit-input");
+        callLimitInput.addEventListener("input", (e) => {
+            
+            const projectDescription = document.getElementById("new-project-description");
+            
+            let newProjectDescription = "";
+            if(!isNaN(e.target.value)){
+                const pdSplit = projectDescription.textContent.split(" ");
+                
+                for(let i = 0; i < pdSplit.length; i++){
+                    const word = pdSplit[i];
+                    if(i !== pdSplit.length - 3){
+                        newProjectDescription += `${word}`;
+                        if(i < pdSplit.length - 1){ newProjectDescription += " " };
+
+                    }else{
+                        newProjectDescription += `${e.target.value} `;
+                    }
+                }
+
+                projectDescription.textContent = newProjectDescription;
+            }
+        })
+
+        var timeframeInput = document.getElementById("time-frame-input");
+        timeframeInput.addEventListener("change", (e) => {
+            const projectDescription = document.getElementById("new-project-description");
+
+            console.log(e.target.value);
+            projectDescription.textContent = projectDescription.textContent
+                .slice(0, projectDescription.textContent.length - 1) + `${e.target.value}`;
+            
+            const pdSplit = projectDescription.textContent.split(" ");
+
+            projectDescription.textContent = pdSplit.slice(0, pdSplit.length - 1).join(" ") + ` ${e.target.value.toLowerCase()}`;
+        });

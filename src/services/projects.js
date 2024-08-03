@@ -150,6 +150,12 @@ const create = async (req) => {
     const creatorId = req.session.user.userId;
     const { orgName, name, callLimit, timeFrameName } = req.body;
 
+    if(!name)
+        throw new SimpleErrorWrapper("Must enter a name for the new project", 400);
+
+    if(!callLimit)
+        throw new SimpleErrorWrapper("Must enter a call limit number for the new project", 400);
+
     const org = await models.Organizations.findOne({
         where: { name: orgName }
     });

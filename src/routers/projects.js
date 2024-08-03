@@ -70,12 +70,17 @@ router.get("/show/:id", async (req, res, next) => {
 
 router.get("/new", async(req, res, next) => {
     try{
+        const errMessage = req.query.errMessage || "";
         const r = await usersService.getUser(req.session.user.userId);
         const timeframes = await timeFramesService.getTimeFrames();
 
         const template = pug.compileFile("src/views/projects/new.pug");
-        // TODO figure out a way to pass pug layouts info for page routing in an organized manner, "newProjectPage: true" is unwieldy
-        const markup = template({ ...r, timeframes, newProjectPage: true });
+        const markup = template({
+            ...r,
+            timeframes,
+            newProjectPage: true,
+            errMessage: errMessage
+        });
 
         res.set("HX-Push-Url", `/projects/new`)
         res.status(200).send(markup);
@@ -96,7 +101,8 @@ router.post("/create", async (req, res, next) => {
         res.redirect("/projects")
 
     }catch(err){
-        next(err);
+        // next(err);
+        res.redirect(`/projects/new?errMessage=${err.message}`)
     }
 });
 
