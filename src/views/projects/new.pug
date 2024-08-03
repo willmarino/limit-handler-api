@@ -2,12 +2,14 @@ extends ./layout.pug
 
 block subContent
 
+    p(class="subheader") Create a new project
+
     div(class="create-project-form-container")
         form(class="standard-form create-project-form" hx-post="/projects/create" hx-target=".page")
             
             div(class="dropdown-input-container")
                 p(class="form-label") Org
-                select(class="org-dropdown primary-button secondary-color secondary-shadow clickable" name="orgName")
+                select(class="org-dropdown primary-button secondary-shadow clickable" name="orgName")
                     - for(let i = 0; i < organizations.length; i++)
                         - const org = organizations[i];
                         - if(i === 0)
@@ -23,20 +25,15 @@ block subContent
                 p(class="form-label") Call Limit
                 input.edit(class="secondary-shadow" type="text" name="callLimit" value=name placeholder="10, 100, ...")
 
-            div(class="choice-selector-input-container")
+            div(class="dropdown-input-container")
                 p(class="form-label") Timeframe
-                div(class="choice-selector")
+                select(class="org-dropdown primary-button secondary-shadow clickable" name="timeFrameName")
                     - for(let i = 0; i < timeframes.length; i++)
-                        - let buttonClass = "choice-button secondary-shadow";
-                        - if(i === 0) buttonClass += " secondary-color";
-
-                        div(class="choice")
-                            button(class=buttonClass type="button")
-                                p #{timeframes[i].name}
-                            div(class="choice-description")
-                                p(class="soft-text") Limit your program to a certain number of API calls per #{timeframes[i].name.toLowerCase()}
-                    
-                    input.edit(id="hidden-timeframe-input" type="hidden" name="timeFrameName" value="Second")
+                        - const timeframe = timeframes[i];
+                        - if(i === 0)
+                            option(selected) #{timeframe.name}
+                        - else
+                            option() #{timeframe.name}
                 
 
             button(class="submit-button secondary-color secondary-shadow clickable")
@@ -45,20 +42,4 @@ block subContent
             p(class="form-error-message") #{errMessage}
 
     script.
-        var choiceButtons = document.getElementsByClassName("choice-button");
-
-        for(let i = 0; i < choiceButtons.length; i++){
-            const cb = choiceButtons[i];
-            cb.addEventListener("click", () => {
-                const hiddenInput = document.getElementById("hidden-timeframe-input");
-                const buttonValue = cb.children[0].textContent;
-                hiddenInput.value = buttonValue;
-
-                for(let j = 0; j < choiceButtons.length; j++){
-                    const b = choiceButtons[j];
-                    b.classList.remove("secondary-color")
-                }
-
-                cb.classList.add("secondary-color");
-            })
-        };
+        

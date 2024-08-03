@@ -58,6 +58,11 @@
 .create-project-form-container{
     width: 100%;
     display: flex;
+    margin-top: 10px;
+}
+
+.create-project-form{
+    width: 400px;
 }
 
 /* Project show page */
