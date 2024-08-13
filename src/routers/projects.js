@@ -97,12 +97,10 @@ router.get("/new", async(req, res, next) => {
 router.post("/create", async (req, res, next) => {
     try{
         await projectsService.create(req);
-        
         res.redirect("/projects")
 
     }catch(err){
-        // next(err);
-        res.redirect(`/projects/new?errMessage=${err.message}`)
+        res.redirect(`/projects/new?errMessage=${err.message}`);
     }
 });
 

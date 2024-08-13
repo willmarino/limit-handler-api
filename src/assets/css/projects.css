@@ -115,3 +115,19 @@
     width: 800px;
 }
 
+
+.organization-show .top-bar{
+    display: flex;
+    height: 14px;
+}
+
+.organization-show .top-bar p{
+    height: 14px;
+    
+    line-height: 14px;
+    margin-right: 5px;
+    
+    font-family: "RubikBold";
+    font-size: 14px;
+}
+

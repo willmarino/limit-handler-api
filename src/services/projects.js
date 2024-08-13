@@ -52,7 +52,6 @@ const getProject = async (req) => {
         project,
         organization,
         projectTimeFrame,
-        // allTimeFrames,
         userSelectedTimeFrame: req.query.userSelectedTimeFrame,
         user: { userName: req.session.user.userName },
         datasets,
@@ -196,8 +195,6 @@ const create = async (req) => {
 
 module.exports = {
     getProjects,
-    // searchProjects,
-    // getRecent,
     create,
     getProject
 }

@@ -55,9 +55,24 @@
 
 
 /* New organization page */
-.create-organization-form-container{
-    width: 100%;
+
+.create-org-form-container{
+    width: 400px;
+    height: 300px;
+
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    margin: 40px 0 120px 0;
+}
+
+.create-org-form-container .form-container-header-label{
+    margin-bottom: 30px;
+}
+
+.create-org-form .input-container{
+    margin-bottom: 20px;
 }
 
 .org-dropdown{
@@ -65,49 +80,27 @@
     padding-left: 5px
 }
 
-/* Project show page */
-.organization-show .top-bar{
+li[id^='new-org-description']{
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+
+/* Org show page */
+.org-show .top-bar{
     display: flex;
     height: 14px;
 }
 
-.organization-show .top-bar p{
-    height: 14px;
-    
-    line-height: 14px;
-    margin-right: 5px;
-    
+.org .org-name{
     font-family: "RubikBold";
-    font-size: 14px;
-}
-
-.description-container .description{
-    font-size: 14px;
-}
-
-.chart-timeframe-filter{
-    height: 20px;
-    display: flex;
-}
-
-.chart-timeframe-filter p{
-    font-size: 14px;
-    line-height: 14px;
-
-    margin-right: 1px;
-    margin-top: 1px;
-}
-
-.chart-timeframe-filter select{
-    height: 14px;
-    font-size: 12px;
-    line-height: 14px;
-
     text-decoration: underline;
+    font-size: 14px;
 }
 
-.chart-container{
-    height: 600px;
-    width: 800px;
-}
 
+
+
+.members-list{
+
+}

@@ -11,7 +11,9 @@ const pConf = require("../config/pagination");
  * @param orgId - Id of organization
  * @param userId - Id of user
  */
-const getOrganization = async (orgId, userId) => {
+const getOrganization = async (req) => {
+    const { id: orgId } = req.params;
+    const userId = req.session.user.userId;
 
     const memberships = await models.Memberships.findAll({
         where: { userId: userId }
@@ -42,14 +44,8 @@ const getOrganization = async (orgId, userId) => {
                 model: models.Projects,
                 as: "projects",
                 include: [
-                    {
-                        model: models.Users,
-                        as: "creator"
-                    },
-                    {
-                        model: models.TimeFrames,
-                        as: "timeFrame"
-                    }
+                    { model: models.Users, as: "creator" },
+                    { model: models.TimeFrames, as: "timeFrame" }
                 ]
             }
         ]
@@ -78,7 +74,7 @@ const getOrganization = async (orgId, userId) => {
         })
     };
 
-    return orgResponse;
+    return { organization: orgResponse };
 }
 
 /**

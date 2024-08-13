@@ -9,21 +9,21 @@ block subContent
             div(class="input-container")
                 p(class="form-label") Org Name
                 input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Organization Name")
-            
-            div(class="choice-selector")
-                - for(let i = 0; i < subTiers.length; i++)
-                    - let buttonClass = "choice-button secondary-shadow";
-                    - if(i === 0) buttonClass += " secondary-color";
 
-                    div(class="choice")
-                        button(class=buttonClass type="button")
-                            p #{subTiers[i].name}
-                            p #{subTiers[i].cost} Dollars / Month
-                        div(class="choice-description")
-                            p(class="soft-text") Allows #{subTiers[i].readableCallLimit.toLowerCase()} API calls per day
-                            p(class="soft-text") Number of members capped at #{subTiers[i].userLimitCount}
-                
-                input.edit(id="selectedSubTierInput" type="hidden" name="selectedSubTier" value="Basic")
+            div(class="dropdown-input-container")
+                p(class="form-label") Subscription Tier
+                select(id="sub-tier-dropdown" class="org-dropdown secondary-shadow clickable" name="selectedSubTier")
+                    - for(let i = 0; i < subTiers.length; i++)
+                        - const subTier = subTiers[i];
+                        - if(i === 0)
+                            option(selected) #{subTier.name}
+                        - else
+                            option() #{subTier.name}
+
+            ul
+                li(id="new-org-description-1" class="soft-text") The 'Basic' subscription tier will cost $#{subTiers[0].cost} dollars a month.
+                li(id="new-org-description-2" class="soft-text") #{subTiers[0].readableCallLimit.toLowerCase()} calls will be allowed per day.
+                li(id="new-org-description-3" class="soft-text") Org members will be capped at #{subTiers[0].userLimitCount}.
 
             button(class="submit-button secondary-color secondary-shadow clickable")
                 p Submit
@@ -31,20 +31,21 @@ block subContent
             p(class="form-error-message") #{errMessage}
 
     script.
-        var choiceButtons = document.getElementsByClassName("choice-button");
+        var subTierDropdown = document.getElementById("sub-tier-dropdown");
+        subTierDropdown.addEventListener("change", (e) => {
 
-        for(let i = 0; i < choiceButtons.length; i++){
-            const cb = choiceButtons[i];
-            cb.addEventListener("click", () => {
-                const hiddenInput = document.getElementById("selectedSubTierInput");
-                const buttonValue = cb.children[0].textContent
-                hiddenInput.value = buttonValue;
+            const selectedSubTierName = e.target.value;
+            const selectedSubTier = !{JSON.stringify(subTiers)}.filter((st) => st.name === selectedSubTierName)[0];
 
-                for(let j = 0; j < choiceButtons.length; j++){
-                    const b = choiceButtons[j];
-                    b.classList.remove("secondary-color")
-                }
+            const descriptionElementOne = document.getElementById("new-org-description-1");
+            descriptionElementOne.textContent = `The '${selectedSubTierName}' subscription tier will cost ${selectedSubTier.cost} dollars a month.`;
 
-                cb.classList.add("secondary-color");
-            })
-        };
+            const descriptionElementTwo = document.getElementById("new-org-description-2");
+            const readableCallLimit = selectedSubTier.readableCallLimit.toLowerCase();
+            descriptionElementTwo.textContent = `${readableCallLimit} calls will be allowed per day.`
+
+
+            const descriptionElementThree = document.getElementById("new-org-description-3");
+
+        });
+    

@@ -11,12 +11,13 @@ const responseTemplates = require("../util/response_templates");
  */
 router.get("/show/:id", async (req, res, next) => {
     try{
-        const { id: orgId } = req.params;
-        const userId = req.session.user.userId;
-        const organization = await organizationsService.getOrganization(orgId, userId);
-        res.status(200).send(
-            responseTemplates.success( organization, "Success fetching single organization" )
-        );
+        const r = await organizationsService.getOrganization(req);
+
+        const template = pug.compileFile("src/views/organizations/show.pug");
+        const markup = template ({ ...r, user: req.session.user });
+
+        res.set("HX-Push-Url", `/organizations/show/${req.params.id}`);
+        res.status(200).send(markup);
     }catch(err){
         next(err);
     }
