@@ -12,7 +12,7 @@ router.get("/show", async (req, res, next) => {
         const userId = req.session.user.userId;
         const userInfo = await usersService.getUser(userId);
 
-        const template = pug.compileFile("src/views/users/lobby.pug");
+        const template = pug.compileFile("src/views/layouts/lobby.pug");
         const markup = template({
             userInfo,
             testVar: true,

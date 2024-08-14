@@ -104,6 +104,12 @@ const getUserOrganizations = async (req) => {
 
     const organizations = await models.Organizations.findAndCountAll({
         where: orgsWhereClause,
+        include: {
+            model: models.Subscriptions,
+            as: "subscriptions",
+            where: { isActive: true },
+            include: { model: models.SubscriptionTiers, as: "subscriptionTier" }
+        },
         limit: pConf.itemsPerPage,
         offset: (curPage > 1) ? (curPage - 1) * pConf.itemsPerPage : 0
     });

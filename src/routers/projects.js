@@ -55,7 +55,7 @@ router.get("/show/:id", async (req, res, next) => {
 //     try{
 //         const r = await projectsService.getRecent(req);
 
-//         const t = pug.compileFile("src/views/users/lobby.pug");
+//         const t = pug.compileFile("src/views/layouts/lobby.pug");
 //         const markup = t({ ...r });
 
 //         res.set("HX-Push-Url", "/projects/recent");
