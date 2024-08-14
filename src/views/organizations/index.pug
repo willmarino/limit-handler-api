@@ -26,7 +26,7 @@ block subContent
                                     p(class="organization-name clickable text-hover" hx-get=`/organizations/show/${organization.id}` hx-target=".page") #{organization.name}
                                     p(class="organization-org") #{organization.subscriptions[0].subscriptionTier.name}
                                 
-                                p(class="organization-description soft-text") Filler description for organization - this should be number of members and projects
+                                p(class="organization-description soft-text") #{organization.description}
 
                             - if(i < organizations.length - 1)
                                 div(class="vertical-list-divider")
