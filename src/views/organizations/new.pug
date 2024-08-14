@@ -16,14 +16,12 @@ block subContent
                     - for(let i = 0; i < subTiers.length; i++)
                         - const subTier = subTiers[i];
                         - if(i === 0)
-                            option(selected) #{subTier.name}
+                            option(selected) #{subTier.name} - $#{subTier.cost} per month
                         - else
-                            option() #{subTier.name}
+                            option() #{subTier.name} - $#{subTier.cost} per month
 
             ul
-                li(id="new-org-description-1" class="soft-text") The 'Basic' subscription tier will cost $#{subTiers[0].cost} dollars a month.
-                li(id="new-org-description-2" class="soft-text") #{subTiers[0].readableCallLimit.toLowerCase()} calls will be allowed per day.
-                li(id="new-org-description-3" class="soft-text") Org members will be capped at #{subTiers[0].userLimitCount}.
+                li(id="new-org-description" class="soft-text") Capped at #{subTiers[0].userLimitCount} members and #{subTiers[0].readableCallLimit.toLowerCase()} calls per day
 
             button(class="submit-button secondary-color secondary-shadow clickable")
                 p Submit
@@ -34,18 +32,11 @@ block subContent
         var subTierDropdown = document.getElementById("sub-tier-dropdown");
         subTierDropdown.addEventListener("change", (e) => {
 
-            const selectedSubTierName = e.target.value;
+            const selectedSubTierName = e.target.value.split(" - ")[0];
             const selectedSubTier = !{JSON.stringify(subTiers)}.filter((st) => st.name === selectedSubTierName)[0];
 
-            const descriptionElementOne = document.getElementById("new-org-description-1");
-            descriptionElementOne.textContent = `The '${selectedSubTierName}' subscription tier will cost ${selectedSubTier.cost} dollars a month.`;
-
-            const descriptionElementTwo = document.getElementById("new-org-description-2");
-            const readableCallLimit = selectedSubTier.readableCallLimit.toLowerCase();
-            descriptionElementTwo.textContent = `${readableCallLimit} calls will be allowed per day.`
-
-
-            const descriptionElementThree = document.getElementById("new-org-description-3");
+            const descriptionElement = document.getElementById("new-org-description");
+            descriptionElement.textContent = `Capped at ${selectedSubTier.userLimitCount} members and ${selectedSubTier.readableCallLimit.toLowerCase()} calls per day`;
 
         });
     

@@ -119,7 +119,8 @@ const getUserOrganizations = async (req) => {
  * @param name - Name of the new organization
  */
 const createOrganization = async (req) => {
-    const { name, selectedSubTier } = req.body;
+    const { name, selectedSubTier: selectedSubTierInput } = req.body;
+    const selectedSubTier = selectedSubTierInput.split(" - ")[0];
 
     if(!name) throw new SimpleErrorWrapper("Please enter an organization name");
     if(!selectedSubTier) throw new SimpleErrorWrapper("Please select a subscription tier");
@@ -139,6 +140,10 @@ const createOrganization = async (req) => {
     const refreshToken = await cryptoHelpers.generateRandomString(18);
     const hashedRefreshToken = await bcrypyHelpers.createHash(refreshToken);
 
+    // Make new subscription for organization
+    const subscriptionTier = await models.SubscriptionTiers.findOne({ where: { name: selectedSubTier } });
+    if(!subscriptionTier) throw new SimpleErrorWrapper("Invalid subscription tier");
+
     // Create organization db record
     const organization = await models.Organizations.create({
         refreshToken: hashedRefreshToken,
@@ -147,10 +152,6 @@ const createOrganization = async (req) => {
     });
 
     await organization.reload();
-
-    // Make new subscription for organization
-    const subscriptionTier = await models.SubscriptionTiers.findOne({ where: { name: selectedSubTier } });
-    if(!subscriptionTier) throw new SimpleErrorWrapper("Invalid subscription tier");
 
     const subscription = await models.Subscriptions.create({
         subscriptionTierId: subscriptionTier.id,
@@ -164,7 +165,7 @@ const createOrganization = async (req) => {
     const isNewMembershipPrimary = otherMemberships.length > 0;
 
     const userRole = await models.UserRoles.findOne({ where: { role: "owner" } });
-    const membership = await models.Memberships.create({
+    await models.Memberships.create({
         organizationId: organization.id,
         userId: req.session.user.userId,
         userRoleId: userRole.id,
