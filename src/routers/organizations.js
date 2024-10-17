@@ -58,6 +58,7 @@ router.get("/new", async (req, res, next) => {
         const markup = template({
             subTiers,
             name: req.query.name,
+            description: req.query.description,
             selectedSubTier: req.query.selectedSubTier,
             errMessage: req.query.errMessage,
             user: req.session.user,

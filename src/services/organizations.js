@@ -125,11 +125,12 @@ const getUserOrganizations = async (req) => {
  * @param name - Name of the new organization
  */
 const createOrganization = async (req) => {
-    const { name, selectedSubTier: selectedSubTierInput } = req.body;
+    const { name, selectedSubTier: selectedSubTierInput, description } = req.body;
     const selectedSubTier = selectedSubTierInput.split(" - ")[0];
 
     if(!name) throw new SimpleErrorWrapper("Please enter an organization name");
     if(!selectedSubTier) throw new SimpleErrorWrapper("Please select a subscription tier");
+    if(!description) throw new SimpleErrorWrapper("Please enter a description")
 
     // Input validation
     formValidators.validateProfanity(name, "Org name cannot include profanity");
@@ -154,7 +155,8 @@ const createOrganization = async (req) => {
     const organization = await models.Organizations.create({
         refreshToken: hashedRefreshToken,
         name,
-        identifier
+        identifier,
+        description
     });
 
     await organization.reload();
