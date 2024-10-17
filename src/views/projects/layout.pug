@@ -1,0 +1,20 @@
+extends ../layouts/lobby.pug
+
+block center
+
+    div(class="lobby-main primary-color")
+        div(class="header")
+            div(class="left")
+                p(class="header-segment") #{user.userName}
+                p(class="header-segment-separator") ->
+                p(class="header-segment clickable text-hover" hx-get="/projects" hx-target=".page") Projects
+                - if(project)
+                    p(class="header-segment-separator") ->
+                    p(class="header-segment") #{project.name}
+                - if(newProjectPage)
+                    p(class="header-segment-separator") ->
+                    p(class="header-segment") Create new
+            div(class="right")
+                p(class="clickable text-hover" hx-get="/projects/new" hx-target=".page") New Project
+
+        block subContent

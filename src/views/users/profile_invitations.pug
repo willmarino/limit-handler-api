@@ -25,7 +25,7 @@ block profile_main
                             p(class="error") Expired
 
                         - if(!inv.accepted && !inv.expired)
-                            form(id="accept-inv-form" hx-post="/invitations/accept")
+                            form(id="accept-inv-form" class="standard-form" hx-post="/invitations/accept")
                                 input.edit(type="hidden" name="invitationId" value=inv.id)
                                 button(class="submit-button secondary-color secondary-shadow clickable")
                                     p Accept

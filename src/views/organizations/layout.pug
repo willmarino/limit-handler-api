@@ -1,0 +1,20 @@
+extends ../layouts/lobby.pug
+
+block center
+
+    div(class="lobby-main primary-color")
+        div(class="header")
+            div(class="left")
+                p(class="header-segment") #{user.userName}
+                p(class="header-segment-separator") ->
+                p(class="header-segment clickable text-hover" hx-get="/organizations" hx-target=".page") Organizations
+                - if(organization)
+                    p(class="header-segment-separator") ->
+                    p(class="header-segment") #{organization.name}
+                - if(newOrgPage)
+                    p(class="header-segment-separator") ->
+                    p(class="header-segment") Create new
+            div(class="right")
+                p(class="clickable text-hover" hx-get="/organizations/new" hx-target=".page") New Organization
+
+        block subContent

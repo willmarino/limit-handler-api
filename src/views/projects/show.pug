@@ -1,0 +1,55 @@
+extends ./layout.pug
+
+block subContent
+
+    div(class="body")
+        div(class="project-show bold")
+            div(class="top-bar")
+                p(class="project-name") #{project.name}
+                p -
+                p(class="org-name clickable text-hover") #{organization.name}
+
+            br
+
+            div(class="description-container")
+                p(class="description") This project limits outgoing requests to #{project.callLimit} per #{projectTimeFrame.name.toLowerCase()}.
+            br
+            br
+            br
+            br
+            br
+            br
+            br
+            br
+            
+            form(method="GET" action=`/projects/show/${project.id}`)
+                div(class="chart-timeframe-filter")
+                    p Requests last
+                    select(class="timeframe-select clickable text-hover" onchange="this.form.submit()" name="userSelectedTimeFrame") timeframe
+                        - for(const tf of ["second", "minute", "hour", "day"])
+                            - const curTFSelected = (userSelectedTimeFrame) ? userSelectedTimeFrame === tf : projectTimeFrame.name.toLowerCase() === tf ;
+                            option(selected=curTFSelected) #{tf}
+            br
+
+            div(class="chart-container")
+                canvas(id="project-stats-chart")
+
+
+        script.
+            new Chart(
+                "project-stats-chart",
+                {
+                    type: "line",
+                    data: {
+                        labels: [ 1, 2, 3, 4, 5, 6, 7 ],
+                        datasets: !{JSON.stringify(datasets)}
+                    },
+                    options: {
+                        legend: { display: true, position: "bottom" },
+                        scales: {
+                            yAxes: [{ ticks: { min: 0, max: 10 } }]
+                        }
+                    }
+
+                }
+            )

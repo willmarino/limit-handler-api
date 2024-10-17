@@ -1,0 +1,46 @@
+extends ./layout.pug
+
+block subContent
+
+    div(class="create-org-form-container")
+        div(class="form-container-header")
+            p(class="form-container-header-label") Create a new organization
+        form(class="standard-form create-org-form" hx-post="/organizations/create" hx-target=".page")
+            div(class="input-container")
+                p(class="form-label") Org Name
+                input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Name")
+
+            div(class="input-container")
+                p(class="form-label") Org Description
+                input.edit(class="secondary-shadow" type="text" name="description" value=description placeholder="Description")
+
+            div(class="dropdown-input-container")
+                p(class="form-label") Subscription Tier
+                select(id="sub-tier-dropdown" class="org-dropdown secondary-shadow clickable" name="selectedSubTier")
+                    - for(let i = 0; i < subTiers.length; i++)
+                        - const subTier = subTiers[i];
+                        - if(i === 0)
+                            option(selected) #{subTier.name} - $#{subTier.cost} per month
+                        - else
+                            option() #{subTier.name} - $#{subTier.cost} per month
+
+            ul
+                li(id="new-org-description" class="soft-text") Capped at #{subTiers[0].userLimitCount} members and #{subTiers[0].readableCallLimit.toLowerCase()} calls per day
+
+            button(class="submit-button secondary-color secondary-shadow clickable")
+                p Submit
+            
+            p(class="form-error-message") #{errMessage}
+
+    script.
+        var subTierDropdown = document.getElementById("sub-tier-dropdown");
+        subTierDropdown.addEventListener("change", (e) => {
+
+            const selectedSubTierName = e.target.value.split(" - ")[0];
+            const selectedSubTier = !{JSON.stringify(subTiers)}.filter((st) => st.name === selectedSubTierName)[0];
+
+            const descriptionElement = document.getElementById("new-org-description");
+            descriptionElement.textContent = `Capped at ${selectedSubTier.userLimitCount} members and ${selectedSubTier.readableCallLimit.toLowerCase()} calls per day`;
+
+        });
+    

@@ -1,0 +1,133 @@
+/* Projects Index Page */
+.search-bar-container{
+    width: 200px;
+}
+
+.projects-list-container{
+    width: 600px;
+    height: 500px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.projects-list{
+    width: 100%;
+}
+
+.project{
+    height: 35px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.project .project-name{
+    font-family: "RubikBold";
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.project .project-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.project .project-top .project-org{
+    font-family: "RubikBold";
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.project-description{
+    font-size: 13px;
+}
+
+.vertical-list-divider{
+    height: 1px;
+    border-bottom: 1px solid #a1a1aa;
+    margin: 10px 0px;
+}
+
+
+/* New project page */
+.create-project-form-container{
+    width: 100%;
+    margin-top: 40px;
+}
+
+.create-project-form{
+    width: 500px;
+}
+
+#new-project-description{
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+/* Project show page */
+.project-show .top-bar{
+    display: flex;
+    height: 14px;
+}
+
+.project-show .top-bar p{
+    height: 14px;
+    
+    line-height: 14px;
+    margin-right: 5px;
+    
+    font-family: "RubikBold";
+    font-size: 14px;
+}
+
+.description-container .description{
+    font-size: 14px;
+}
+
+.chart-timeframe-filter{
+    height: 20px;
+    display: flex;
+}
+
+.chart-timeframe-filter p{
+    font-size: 14px;
+    line-height: 14px;
+
+    margin-right: 1px;
+    margin-top: 1px;
+}
+
+.chart-timeframe-filter select{
+    height: 14px;
+    font-size: 12px;
+    line-height: 14px;
+
+    text-decoration: underline;
+}
+
+.chart-container{
+    height: 600px;
+    width: 800px;
+}
+
+
+.organization-show .top-bar{
+    display: flex;
+    height: 14px;
+}
+
+.organization-show .top-bar p{
+    height: 14px;
+    
+    line-height: 14px;
+    margin-right: 5px;
+    
+    font-family: "RubikBold";
+    font-size: 14px;
+}
+

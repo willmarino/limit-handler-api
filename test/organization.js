@@ -15,25 +15,14 @@ describe("GET /organizations/show/:id", () => {
 
     it("should return an organization object if the user is a member of the organization", async () => {
         const agent = await getWebAgent(webApp, "testemail4@mail.com", "password4$");
-        const organizationsResponse = await agent.get("/organizations/show/1")
+        const orgResponse = await agent.get("/organizations/show/1")
 
-        organizationsResponse.status.should.eq(200);
-        
-        const org = organizationsResponse.body.data;
+        orgResponse.status.should.eq(200);
 
-        org.name.should.eq("test org 1");
-        org.members.length.should.eq(3);
-        org.members.forEach((mem) => {
-            should.exist(mem.name);
-            should.exist(mem.email);
-            should.exist(mem.role);
-        });
-
-        org.projects.length.should.eq(1);
-        org.projects[0].name.should.eq("org 1 5 per min");
-        org.projects[0].creator.should.eq("usernamebill");
-        org.projects[0].callLimit.should.eq(5);
-        org.projects[0].timeFrame.should.eq("Minute");
+        orgResponse.should.have.html.selector(
+            ".org-name",
+            { textContent: "test org 1" }
+        );
         
         agent.close();
     })
@@ -45,7 +34,7 @@ describe("POST /organizations", () => {
         const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
         const creationResponse = await agent
             .post("/organizations/create")
-            .send({ name: "new test org", selectedSubTier: "Basic" });
+            .send({ name: "new test org", description: "filler description", selectedSubTier: "Basic" });
 
         creationResponse.status.should.eq(200);
 
@@ -59,7 +48,7 @@ describe("POST /organizations", () => {
         const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
         const creationResponse = await agent
             .post("/organizations/create")
-            .send({ name: "new test org" });
+            .send({ name: "new test org", filler: "filler description" });
 
         creationResponse.should.have.html.selector(
             ".form-error-message",
@@ -101,11 +90,11 @@ describe("POST /organizations", () => {
         const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
         await agent
             .post("/organizations/create")
-            .send({ name: "new test org", selectedSubTier: "Basic" });
+            .send({ name: "new test org", description: "filler description", selectedSubTier: "Basic" });
 
         const creationResponse = await agent
             .post("/organizations/create")
-            .send({ name: "new test org", selectedSubTier: "Basic" });
+            .send({ name: "new test org", description: "filler description", selectedSubTier: "Basic" });
         
         creationResponse.should.have.html.selector(
             ".form-error-message",

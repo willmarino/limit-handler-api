@@ -1,0 +1,18 @@
+extends ./main.pug
+
+block content
+
+    div(class="page-content")
+        div(class="scroll")
+            div(class="lobby")
+                //- div(class="lobby-sidebar primary-color outline")
+                div(class="lobby-sidebar primary-color")
+                    ul
+                        li
+                            p(class="clickable text-hover" hx-get="/projects" hx-target=".page") Projects
+                        li
+                            p(class="clickable text-hover" hx-get="/organizations" hx-target=".page") Organizations
+                        li
+                            p(class="clickable text-hover") Invitations
+
+                block center

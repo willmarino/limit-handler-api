@@ -1,0 +1,15 @@
+extends ./layout.pug
+
+block subContent
+
+    div(class="body")
+        div(class="org-show bold")
+            div(class="top-bar")
+                p(class="org-name") #{organization.name}
+
+            br
+
+            div(class="description-container")
+                p(class="description") This organization has #{organization.members.length} members and #{organization.projects.length} projects.
+            br
+            br

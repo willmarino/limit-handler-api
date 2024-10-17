@@ -1,15 +1,19 @@
+const { Op } = require("sequelize");
 const { models } = require("../db/connection");
 const formValidators = require("../helpers/form_validation");
 const cryptoHelpers = require("../helpers/crypto");
 const bcrypyHelpers = require("../helpers/bcrypt");
 const SimpleErrorWrapper = require("../util/error_wrapper");
+const pConf = require("../config/pagination");
 
 /**
  * @description Get organization by id.
  * @param orgId - Id of organization
  * @param userId - Id of user
  */
-const getOrganization = async (orgId, userId) => {
+const getOrganization = async (req) => {
+    const { id: orgId } = req.params;
+    const userId = req.session.user.userId;
 
     const memberships = await models.Memberships.findAll({
         where: { userId: userId }
@@ -40,14 +44,8 @@ const getOrganization = async (orgId, userId) => {
                 model: models.Projects,
                 as: "projects",
                 include: [
-                    {
-                        model: models.Users,
-                        as: "creator"
-                    },
-                    {
-                        model: models.TimeFrames,
-                        as: "timeFrame"
-                    }
+                    { model: models.Users, as: "creator" },
+                    { model: models.TimeFrames, as: "timeFrame" }
                 ]
             }
         ]
@@ -76,7 +74,7 @@ const getOrganization = async (orgId, userId) => {
         })
     };
 
-    return orgResponse;
+    return { organization: orgResponse };
 }
 
 /**
@@ -89,14 +87,51 @@ const getOrgSimple = async (orgId) => {
 
 
 /**
+ * @description Get all organizations which requesting user is a part of.
+ */
+const getUserOrganizations = async (req) => {
+    const curPage = (req.query.curPage) ? parseInt(req.query.curPage) : 1;
+
+    const userId = req.session.user.userId;
+    const searchTerm = req.query.searchTerm;
+
+    const memberships = await models.Memberships.findAll({ where: { userId: userId } });
+
+    const orgsWhereClause = { id: { [Op.in]: memberships.map((m) => m.organizationId) } };
+    if(searchTerm){
+        orgsWhereClause.name = { [Op.like]: `%${searchTerm}%` };
+    }
+
+    const organizations = await models.Organizations.findAndCountAll({
+        where: orgsWhereClause,
+        include: {
+            model: models.Subscriptions,
+            as: "subscriptions",
+            where: { isActive: true },
+            include: { model: models.SubscriptionTiers, as: "subscriptionTier" }
+        },
+        limit: pConf.itemsPerPage,
+        offset: (curPage > 1) ? (curPage - 1) * pConf.itemsPerPage : 0
+    });
+
+    const numPages = Math.ceil(organizations.count / pConf.itemsPerPage);
+
+    return { organizations: organizations.rows, curPage, numPages, searchTerm };
+}
+
+
+/**
  * @description - Create a new organization given a name and generate a refresh token.
  * @param name - Name of the new organization
  */
 const createOrganization = async (req) => {
-    const { name, selectedSubTier } = req.body;
+    const { name, selectedSubTier: selectedSubTierInput, description } = req.body;
 
     if(!name) throw new SimpleErrorWrapper("Please enter an organization name");
-    if(!selectedSubTier) throw new SimpleErrorWrapper("Please select a subscription tier");
+    if(!selectedSubTierInput) throw new SimpleErrorWrapper("Please select a subscription tier");
+    if(!description) throw new SimpleErrorWrapper("Please enter a description");
+
+    const selectedSubTier = selectedSubTierInput.split(" - ")[0];
 
     // Input validation
     formValidators.validateProfanity(name, "Org name cannot include profanity");
@@ -113,18 +148,19 @@ const createOrganization = async (req) => {
     const refreshToken = await cryptoHelpers.generateRandomString(18);
     const hashedRefreshToken = await bcrypyHelpers.createHash(refreshToken);
 
+    // Make new subscription for organization
+    const subscriptionTier = await models.SubscriptionTiers.findOne({ where: { name: selectedSubTier } });
+    if(!subscriptionTier) throw new SimpleErrorWrapper("Invalid subscription tier");
+
     // Create organization db record
     const organization = await models.Organizations.create({
         refreshToken: hashedRefreshToken,
         name,
-        identifier
+        identifier,
+        description
     });
 
     await organization.reload();
-
-    // Make new subscription for organization
-    const subscriptionTier = await models.SubscriptionTiers.findOne({ where: { name: selectedSubTier } });
-    if(!subscriptionTier) throw new SimpleErrorWrapper("Invalid subscription tier");
 
     const subscription = await models.Subscriptions.create({
         subscriptionTierId: subscriptionTier.id,
@@ -138,7 +174,7 @@ const createOrganization = async (req) => {
     const isNewMembershipPrimary = otherMemberships.length > 0;
 
     const userRole = await models.UserRoles.findOne({ where: { role: "owner" } });
-    const membership = await models.Memberships.create({
+    await models.Memberships.create({
         organizationId: organization.id,
         userId: req.session.user.userId,
         userRoleId: userRole.id,
@@ -149,10 +185,9 @@ const createOrganization = async (req) => {
 
 
 
-
-
 module.exports = {
     getOrganization,
-    createOrganization,
-    getOrgSimple
+    getOrgSimple,
+    getUserOrganizations,
+    createOrganization
 }

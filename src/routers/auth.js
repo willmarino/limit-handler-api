@@ -25,7 +25,7 @@ router.use("/", (req, res, next) => {
     const reqIsAuthenticated = Boolean(req.session.user);
 
     if(reqIsAuthenticated){
-        res.redirect("/users/show");
+        res.redirect("/projects");
     }else{
         next();
     }
@@ -58,7 +58,7 @@ router.post("/login", async (req, res, next) => {
     try{
 
         await sessionsService.login(req);
-        res.redirect("/users/show");
+        res.redirect("/projects");
     
     }catch(err){
 
@@ -97,7 +97,7 @@ router.post("/register", async (req, res, next) => {
     try{
     
         await usersService.registerUser(req);
-        res.redirect("/users/show");
+        res.redirect("/projects");
 
     }catch(err){
 

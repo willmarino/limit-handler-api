@@ -5,20 +5,68 @@
 }
 
 .lobby-sidebar{
-    min-width: 400px;
+    min-width: 260px;
     min-height: 800px;
     
     flex-grow: 0;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: start;
+    /* flex-direction: column; */
+    /* justify-content: space-between; v1 */
+    justify-content: center;
 
     padding: 20px;
 
     border-radius: 5px;
 }
 
-.lobby-sidebar-user-info{
+
+
+/* v2 sidebar */
+
+.lobby-sidebar ul{
+    width: 100%;
+    height: 80px;
+
+    /* margin-top: 100px; */
+    margin-top: 20px;
+
+}
+
+
+.lobby-sidebar ul li{
+    height: 20px;
+    margin-bottom: 10px;
+    /* background: green; */
+    /* border: 1px solid green; */
+}
+
+.lobby-sidebar ul li p{
+    width: max-content;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    font-family: "RubikBold";
+
+    text-decoration: underline;
+}
+
+/* .lobby-sidebar ul li a:hover{
+    color: #64748b;
+} */
+
+
+
+
+
+/* v2 sidebar*/
+
+
+
+
+
+
+/* .lobby-sidebar-user-info{
     height: 140px;
 }
 
@@ -126,7 +174,7 @@
     text-align: center;
     font-size: 13px;
     color: #006A4E;
-}
+} */
 
 
 
@@ -135,13 +183,68 @@
     min-width: 600px;
     flex-grow: 1;
 
+    display: flex;
+    flex-direction: column;
+
+    /* padding: 20px 40px; */
     padding: 20px;
+    /* margin-left: 100px; */
     margin-left: 100px;
 
     border-radius: 5px;
 }
 
-.new-project-prompt{
+
+/* v2 */
+
+.lobby-main .header{
+    width: 100%;
+    height: 60px;
+    /* flex-grow: 0; */
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+.lobby-main .header p{
+    font-family: "RubikBold";
+}
+
+.lobby-main .header .left{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.lobby-main .header .left .header-segment{
+    font-size: 14px;
+    margin-right: 10px;
+    text-decoration: underline;
+}
+
+.lobby-main .header .left .header-segment-separator{
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.lobby-main .header .right p{
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+
+.lobby-main .body{
+    width: 100%;
+    flex-grow: 1;
+}
+
+
+/* v2 */
+
+/* .new-project-prompt{
     width: 400px;
     height: 80px;
 
@@ -150,8 +253,8 @@
     justify-content: space-between;
     align-items: center;
 
-    /* background: red; */
-}
+    background: red;
+} */
 
 
 /* TODO clean up outdated class stylings, dont need to have 'lobby-button', this should be in buttons.css */
@@ -159,7 +262,7 @@
 
 
 /*  */
-.lobby-main-header{
+/* .lobby-main-header{
     width: 100%;
     height: 35px;
 
@@ -167,14 +270,14 @@
     justify-content: space-between;
     align-items: center;
 
-    /* border: 1px solid black; */
-}
+    border: 1px solid black;
+} */
 
-.lobby-main-header-left{
+/* .lobby-main-header-left{
     height: 100%;
-}
+} */
 
-.lobby-main-header-left-section{
+/* .lobby-main-header-left-section{
     height: 100%;
 
     display: flex;
@@ -182,18 +285,17 @@
     align-items: center;
 
     font-size: 14px;
-    /* background: green; */
-}
+} */
 
-.lobby-main-header-right{
+/* .lobby-main-header-right{
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 
-}
+} */
 
-.lobby-main-header-right-section{
+/* .lobby-main-header-right-section{
     width: 120px;
     height: 100%;
 
@@ -204,20 +306,20 @@
     margin: 0px 0px 0px 10px;
     
     font-size: 14px;
-    /* background: red; */
-}
+    background: red;
+} */
 
 
 /*  */
-.lobby-main-body{
+/* .lobby-main-body{
     height: 580px;
 
     margin-top: 20px;
 
-    /* background: blue; */
-}
+    background: blue;
+} */
 
-.project-dropdown{
+/* .project-dropdown{
     margin-left: 10px;
 }
 
@@ -226,8 +328,8 @@
 }
 
 
-/*  */
+
 #project-stats-chart{
     height: 100%;
     width: 100%;
-}
+} */

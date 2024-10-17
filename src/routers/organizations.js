@@ -11,12 +11,13 @@ const responseTemplates = require("../util/response_templates");
  */
 router.get("/show/:id", async (req, res, next) => {
     try{
-        const { id: orgId } = req.params;
-        const userId = req.session.user.userId;
-        const organization = await organizationsService.getOrganization(orgId, userId);
-        res.status(200).send(
-            responseTemplates.success( organization, "Success fetching single organization" )
-        );
+        const r = await organizationsService.getOrganization(req);
+
+        const template = pug.compileFile("src/views/organizations/show.pug");
+        const markup = template ({ ...r, user: req.session.user });
+
+        res.set("HX-Push-Url", `/organizations/show/${req.params.id}`);
+        res.status(200).send(markup);
     }catch(err){
         next(err);
     }
@@ -24,28 +25,54 @@ router.get("/show/:id", async (req, res, next) => {
 
 
 /**
+ * @descriptions Index route for user's organizations.
+ */
+router.get("/", async (req, res, next) => {
+    try{
+        const r = await organizationsService.getUserOrganizations(req);
+        const template = pug.compileFile("src/views/organizations/index.pug");
+
+        const markup = template({ ...r, user: req.session.user });
+
+        let urlString = `/organizations?curPage=${r.curPage}`;
+        if(r.searchTerm) urlString += `&searchTerm=${r.searchTerm}`;
+
+        res.set("HX-Push-Url", urlString);
+        res.status(200).send(markup);
+
+    }catch(err){
+        next(err);
+    }
+})
+
+
+
+/**
  * @description Create org GET form route
  */
-router.get("/create", async (req, res, next) => {
+router.get("/new", async (req, res, next) => {
     try{
         const subTiers = await subscriptionTiersService.getSubscriptionTiers();
 
-        const template = pug.compileFile("src/views/organizations/create.pug");
+        const template = pug.compileFile("src/views/organizations/new.pug");
         const markup = template({
             subTiers,
             name: req.query.name,
+            description: req.query.description,
             selectedSubTier: req.query.selectedSubTier,
-            errMessage: req.query.errMessage
+            errMessage: req.query.errMessage,
+            user: req.session.user,
+            newOrgPage: true
         });
 
         const hxPushUrl = (Object.keys(req.query).length > 0)
-            ? `/organizations/create?${qs.stringify(req.query)}`
-            : "/organizations/create";
+            ? `/organizations/new?${qs.stringify(req.query)}`
+            : "/organizations/new";
 
         res.set("HX-Push-Url", hxPushUrl);
         res.status(200).send(markup);
     }catch(err){
-        next();
+        next(err);
     }
 });
 
@@ -57,7 +84,7 @@ router.post("/create", async (req, res, next) => {
     try{
         
         await organizationsService.createOrganization(req);
-        res.redirect("/users/show");
+        res.redirect("/organizations");
 
     }catch(err){
 
@@ -66,7 +93,7 @@ router.post("/create", async (req, res, next) => {
         if(req.body.selectedSubTier) queryStringData.selectedSubTier = req.body.selectedSubTier;
 
         const queryString = qs.stringify(queryStringData);
-        res.redirect(`/organizations/create?${queryString}`);
+        res.redirect(`/organizations/new?${queryString}`);
     }
 });
 
