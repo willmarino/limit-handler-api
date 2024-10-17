@@ -90,11 +90,11 @@ describe("POST /organizations", () => {
         const agent = await getWebAgent(webApp, "testemail1@mail.com", "password1!");
         await agent
             .post("/organizations/create")
-            .send({ name: "new test org", selectedSubTier: "Basic" });
+            .send({ name: "new test org", description: "filler description", selectedSubTier: "Basic" });
 
         const creationResponse = await agent
             .post("/organizations/create")
-            .send({ name: "new test org", selectedSubTier: "Basic" });
+            .send({ name: "new test org", description: "filler description", selectedSubTier: "Basic" });
         
         creationResponse.should.have.html.selector(
             ".form-error-message",
