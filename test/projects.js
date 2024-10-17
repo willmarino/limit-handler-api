@@ -14,9 +14,11 @@ describe("POST /projects/create", () => {
                 callLimit: 20,
                 timeFrameName: "second"
             });
-        
-        projectResponse.status.should.eq(400);
-        projectResponse.body.message.should.eq("Cannot create project, you are not a member of that organization");
+
+        projectResponse.should.have.html.selector(
+            ".form-error-message",
+            { textContent: "Cannot create project, you are not a member of that organization" }
+        )
 
         agent.close();
     });
@@ -32,8 +34,10 @@ describe("POST /projects/create", () => {
                 timeFrameName: "second"
             });
         
-        projectResponse.status.should.eq(400);
-        projectResponse.body.message.should.eq("Insufficient permissions, you need to be an owner or admin to create projects");
+        projectResponse.should.have.html.selector(
+            ".form-error-message",
+            { textContent: "Insufficient permissions, you need to be an owner or admin to create projects" }
+        )
 
         agent.close();
     });
@@ -50,11 +54,6 @@ describe("POST /projects/create", () => {
             });
 
         projectResponse.status.should.eq(200);
-        // projectResponse.body.data.creatorId.should.eq(1);
-        // projectResponse.body.data.organizationId.should.eq(2);
-        // projectResponse.body.data.name.should.eq("bobs new project 20 calls per second");
-        // projectResponse.body.data.callLimit.should.eq(20);
-        // projectResponse.body.data.timeFrameId.should.eq(1);
 
         agent.close();
     });
