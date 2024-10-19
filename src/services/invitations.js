@@ -1,7 +1,30 @@
 const { Op } = require("sequelize");
 const { models } = require("../db/connection");
 const emailService = require("./emails");
-const bcryptHelpers = require("../helpers/bcrypt");
+// const bcryptHelpers = require("../helpers/bcrypt");
+const formHelpers = require("../helpers/forms");
+const pConf = require("../config/pagination");
+
+
+/**
+ * @description Get received invitations
+ */
+const getReceivedInvitations = async (req) => {
+    const userId = req.session.user.userId;
+    const { curPage } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
+
+    const invitationsResponse = await models.Invitations.findAndCountAll(
+        {
+            where: { receiverId : userId },
+            limit: pConf.itemsPerPage,
+            offset: (curPage - 1) * pConf.itemsPerPage
+        }
+    );
+
+    const { count, rows: invitations } = invitationsResponse;
+    
+    return { count, invitations };
+}
 
 
 /**
@@ -116,6 +139,7 @@ const acceptInvitation = async (req) => {
 
 
 module.exports = {
+    getReceivedInvitations,
     createInvitation,
     acceptInvitation
 }

@@ -2,6 +2,22 @@ const pug = require("pug");
 const router = require("express").Router();
 const invitationsService = require("../services/invitations");
 
+
+/**
+ * @description Received invitations index - scoped to user
+ */
+router.get("/sent/:id", async (req, res, next) => {
+    try{
+        const { invitations, count } = await invitationsService.getSentInvitations(req);
+        // const template
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+})
+
+
+
 /**
  * @description Memberships - Creation of invites - sends email to user, creates invitation.
  * Only send back a p tag with a status message!
