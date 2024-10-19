@@ -1,28 +1,33 @@
 const { Op } = require("sequelize");
 const { models } = require("../db/connection");
 const emailService = require("./emails");
-// const bcryptHelpers = require("../helpers/bcrypt");
 const formHelpers = require("../helpers/forms");
-const pConf = require("../config/pagination");
+const pagination = require("../config/pagination");
 
 
 /**
  * @description Get received invitations
  */
-const getReceivedInvitations = async (req) => {
+const getSentInvitations = async (req) => {
     const userId = req.session.user.userId;
     const { curPage } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
 
     const invitationsResponse = await models.Invitations.findAndCountAll(
         {
-            where: { receiverId : userId },
-            limit: pConf.itemsPerPage,
-            offset: (curPage - 1) * pConf.itemsPerPage
+            where: { senderId : userId },
+            limit: pagination.itemsPerPage,
+            offset: (curPage - 1) * pagination.itemsPerPage,
+            include: [
+                { model: models.Users, as: "receiver" },
+                { model: models.UserRoles, as: "userRole" },
+                { model: models.Organizations, as: "organization" }
+            ]
         }
     );
 
     const { count, rows: invitations } = invitationsResponse;
-    
+
+    pagination.setPaginationData(req, curPage, count);
     return { count, invitations };
 }
 
@@ -139,7 +144,7 @@ const acceptInvitation = async (req) => {
 
 
 module.exports = {
-    getReceivedInvitations,
+    getSentInvitations,
     createInvitation,
     acceptInvitation
 }

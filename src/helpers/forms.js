@@ -17,6 +17,8 @@ const getParamsFromQuery = (req, defaults) => {
         }
     }
 
+    req.context.set("queryParams", queryParams);
+
     return queryParams;
 }
 

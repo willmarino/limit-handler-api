@@ -1,0 +1,74 @@
+/* Projects Index Page */
+.search-bar-container{
+    width: 200px;
+}
+
+.invitations-list-container{
+    width: 600px;
+    height: 500px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.invitations-list{
+    width: 100%;
+}
+
+.invitation{
+    height: 35px;
+
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.invitation .invitation-name{
+    font-family: "RubikBold";
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.invitation .invitation-left{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+}
+
+.invitation .invitation-right{
+    width: 50px;
+}
+
+.undo-invite-button-container{
+    height: 100%;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    border: 1px solid #a1a1aa;
+    border-radius: 3px;
+}
+
+.undo-invite-button-container:hover{
+    
+}
+
+.undo-invite-button-container p{
+    font-size: 13px;
+}
+
+.invitation-description{
+    font-size: 13px;
+}
+
+.vertical-list-divider{
+    height: 1px;
+    border-bottom: 1px solid #a1a1aa;
+    margin: 10px 0px;
+}
+

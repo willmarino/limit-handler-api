@@ -1,15 +1,20 @@
 const pug = require("pug");
 const router = require("express").Router();
 const invitationsService = require("../services/invitations");
+const { viewAttrs } = require("../helpers/views");
 
 
 /**
  * @description Received invitations index - scoped to user
  */
-router.get("/sent/:id", async (req, res, next) => {
+router.get("/sent", async (req, res, next) => {
     try{
-        const { invitations, count } = await invitationsService.getSentInvitations(req);
-        // const template
+        const r = await invitationsService.getSentInvitations(req);
+
+        const template = pug.compileFile("src/views/invitations/index.pug");
+        const markup = template ({ ...r, invitationsPageType: "Sent", ...viewAttrs(req) });
+
+        res.set("HX-Push-Url", `/invitations/sent?curPage=${req.context.get("queryParams").curPage}`);
         res.status(200).send(markup);
     }catch(err){
         next(err);

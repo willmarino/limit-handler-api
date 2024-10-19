@@ -1,0 +1,68 @@
+extends ./layout.pug
+
+block subContent
+
+        div(class="body")
+            form(hx-get="/invitations/received" hx-target=".page")
+                div(class="search-bar-container")
+                    div(class="input-container")
+                        p(class="form-label") Search
+                        input.edit(class="secondary-shadow" type="text" name="searchTerm" placeholder="User name...")
+
+
+            div(class="invitations-list-container")
+                - if(invitations.length === 0)
+                    div(class="empty-invitations-list")
+                        p Oops! It looks like you don't have any invitations!
+                        p(id="create-invitation-link") Create one here
+
+                - else
+                    div(class="invitations-list")
+                        - for(let i = 0; i < invitations.length; i++)
+                            - const invitation = invitations[i];
+                            
+                            div(class="invitation")
+                                //- div(class="invitation-top")
+                                div(class="invitation-left")
+                                    p(class="invitation-name clickable text-hover") To: #{invitation.receiver.userName}
+                                    //- p(class="invitation-org") invitation org
+                                    p(class="invitation-description soft-text") Invited #{invitation.receiver.userName} to join #{invitation.organization.name} as a #{invitation.userRole.role}
+                                div(class="invitation-right")
+                                    div(class="undo-invite-button-container")
+                                        p Undo
+                                
+
+
+                            - if(i < invitations.length - 1)
+                                div(class="vertical-list-divider")
+
+                    
+                    
+                    div(class="pagination")
+                        - const curPage = pagination.curPage;
+                        - const pageNums = [curPage];
+                        
+                        - if(curPage > 1)
+                            - pageNums.unshift(curPage - 1);
+                        - if(curPage < numPages)
+                            - pageNums.push(curPage + 1);
+
+                        div(class="pagination-left")
+                            - let hxGetLeftArrowUrl = `/invitations/sent?curPage=${Math.max(curPage - 1, 1)}`;
+                            - if(searchTerm) hxGetLeftArrowUrl += `&searchTerm=${searchTerm}`;
+                            button(class="clickable text-hover" hx-get=hxGetLeftArrowUrl hx-target=".page") <
+
+                        div(class="pagination-center")
+                            - for(const pageNum of pageNums)
+                                - let className = "page-num clickable text-hover";
+                                - if(pageNum === curPage)
+                                    - className += " current-page-num";
+                                
+                                - let hxGetPageUrl = `/invitations/sent?curPage=${pageNum}`;
+                                - if(searchTerm) hxGetPageUrl += `&searchTerm=${searchTerm}`;
+                                p(class=className hx-get=hxGetPageUrl hx-target=".page") #{pageNum}
+
+                        div(class="pagination-left")
+                            - let hxGetRightArrowUrl = `/invitations/sent?curPage=${Math.min(curPage + 1, numPages)}`;
+                            - if(searchTerm) hxGetRightArrowUrl += `&searchTerm=${searchTerm}`;
+                            button(class="clickable text-hover" hx-get=hxGetRightArrowUrl hx-target=".page") >
