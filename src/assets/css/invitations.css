@@ -50,12 +50,17 @@
     justify-content: center;
     align-items: center;
     
-    border: 1px solid #a1a1aa;
+    border: 1px solid #27272a;
     border-radius: 3px;
+
+    background: #e4e4e7;
+
+    transition: 0.3s;
 }
 
 .undo-invite-button-container:hover{
-    
+    cursor: pointer;
+    box-shadow: 0px 0px 4px #71717a;
 }
 
 .undo-invite-button-container p{

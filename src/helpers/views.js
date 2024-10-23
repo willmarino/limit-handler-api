@@ -10,6 +10,7 @@ const viewAttrs = (req) => {
         user: req.session.user,
         queryParams: req.context.get("queryParams"),
         pagination: req.context.get("pagination"),
+        siteMessage: req.context.get("siteMessage"),
         formatDate: (date) => {
             return dtFormatter.format(date)
         }

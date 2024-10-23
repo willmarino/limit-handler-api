@@ -9,6 +9,8 @@ const { viewAttrs } = require("../helpers/views");
  */
 router.get("/sent", async (req, res, next) => {
     try{
+
+        // console.log()
         const r = await invitationsService.getSentInvitations(req);
 
         const template = pug.compileFile("src/views/invitations/index.pug");
@@ -61,6 +63,16 @@ router.post("/accept", async (req, res, next) => {
         res.status(200).send(markup);
     }catch(err){
         next(err);
+    }
+});
+
+
+router.post("/undo/:id", async (req, res, next) => {
+    try{
+        await invitationsService.unsend(req);
+        res.redirect(`/invitations/sent?siteMessage=${"Success rescinding invitation"}`);
+    }catch(err){
+        res.redirect("/invitations/sent");
     }
 })
 

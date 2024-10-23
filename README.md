@@ -35,6 +35,14 @@ Simple form which lets the user choose a name and a subscription tier for their 
 * **timeframe** - A unit of time for which limit handler allows `projects.callLimit` requests to pass through to the third party API the end user (developer) is writing a program against.
 * **sessions** - Tracking of logins by users, essentially just a timestamp at this point.
 
+
+
+
+### Req context middleware
+* Site messages (from dev to user) are pulled from request query and put into request context for availability in router and service functions.
+
+
+
 ### Icons Attribution
 [Gear Icon](https://freeicons.io/free-setting-and-configuration-icons/gear-settings-setting-wheel-icon-9576)
 [Clock logo by dmitri13](https://www.freepik.com/icon/clock_992700#fromView=search&page=1&position=0&uuid=4a031b8f-ce83-4210-9f6f-9c55ad09d887)

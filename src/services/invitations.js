@@ -14,7 +14,7 @@ const getSentInvitations = async (req) => {
 
     const invitationsResponse = await models.Invitations.findAndCountAll(
         {
-            where: { senderId : userId },
+            where: { senderId: userId, unsent: false },
             limit: pagination.itemsPerPage,
             offset: (curPage - 1) * pagination.itemsPerPage,
             include: [
@@ -137,6 +137,15 @@ const acceptInvitation = async (req) => {
 }
 
 
+/**
+ * @description Rescind or "unsend" an invitation.
+ */
+const unsend = async (req) => {
+    const { id: invitationId } = req.params;
+
+    const invitation = await models.Invitations.findOne({ where: { id: invitationId } });
+    await invitation.update({ unsent: true });
+}
 
 
 
@@ -146,5 +155,6 @@ const acceptInvitation = async (req) => {
 module.exports = {
     getSentInvitations,
     createInvitation,
-    acceptInvitation
+    acceptInvitation,
+    unsend
 }
