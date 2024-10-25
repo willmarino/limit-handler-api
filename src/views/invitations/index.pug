@@ -26,8 +26,8 @@ block subContent
                                     p(class="invitation-name clickable text-hover") To: #{invitation.receiver.userName}
                                     p(class="invitation-description soft-text") Invited #{invitation.receiver.userName} to join #{invitation.organization.name} as a #{invitation.userRole.role}
                                 div(class="invitation-right")
-                                    div(class="undo-invite-button-container" hx-post=`/invitations/undo/${invitation.id}` hx-target=".page")
-                                        p Undo
+                                    //- div(class="undo-invite-button-container" hx-post=`/invitations/undo/${invitation.id}` hx-target=".page")
+                                    p(class="invitation-name clickable text-hover" hx-post=`/invitations/undo/${invitation.id}` hx-target=".page") Undo
                                 
 
 

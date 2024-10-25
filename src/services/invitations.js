@@ -145,6 +145,7 @@ const unsend = async (req) => {
 
     const invitation = await models.Invitations.findOne({ where: { id: invitationId } });
     await invitation.update({ unsent: true });
+    
 }
 
 
