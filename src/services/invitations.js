@@ -14,7 +14,7 @@ const getSentInvitations = async (req) => {
 
     const invitationsResponse = await models.Invitations.findAndCountAll(
         {
-            where: { senderId: userId, unsent: false },
+            where: { senderId: userId, accepted: false, unsent: false },
             limit: pagination.itemsPerPage,
             offset: (curPage - 1) * pagination.itemsPerPage,
             include: [
@@ -30,6 +30,34 @@ const getSentInvitations = async (req) => {
     pagination.setPaginationData(req, curPage, count);
     return { count, invitations };
 }
+
+
+/**
+ * @description Get all received and unanswered invitations
+ */
+const getReceivedInvitations = async (req) => {
+    const userId = req.session.user.userId;
+    const { curPage } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
+
+    const invitationsResponse = await models.Invitations.findAndCountAll(
+        {
+            where: { receiverId: userId, accepted: false, unsent: false },
+            limit: pagination.itemsPerPage,
+            offset: (curPage - 1) * pagination.itemsPerPage,
+            include: [
+                { model: models.Users, as: "sender" },
+                { model: models.UserRoles, as: "userRole" },
+                { model: models.Organizations, as: "organization" }
+            ]
+        }
+    );
+
+    const { count, rows: invitations } = invitationsResponse;
+
+    pagination.setPaginationData(req, curPage, count);
+    return { count, invitations };
+}
+
 
 
 /**
@@ -145,7 +173,7 @@ const unsend = async (req) => {
 
     const invitation = await models.Invitations.findOne({ where: { id: invitationId } });
     await invitation.update({ unsent: true });
-    
+
 }
 
 
@@ -155,6 +183,7 @@ const unsend = async (req) => {
 
 module.exports = {
     getSentInvitations,
+    getReceivedInvitations,
     createInvitation,
     acceptInvitation,
     unsend

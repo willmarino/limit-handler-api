@@ -10,10 +10,9 @@ const { viewAttrs } = require("../helpers/views");
 router.get("/sent", async (req, res, next) => {
     try{
 
-        // console.log()
         const r = await invitationsService.getSentInvitations(req);
 
-        const template = pug.compileFile("src/views/invitations/index.pug");
+        const template = pug.compileFile("src/views/invitations/sent.pug");
         const markup = template ({ ...r, invitationsPageType: "Sent", ...viewAttrs(req) });
 
         res.set("HX-Push-Url", `/invitations/sent?curPage=${req.context.get("queryParams").curPage}`);
@@ -22,6 +21,19 @@ router.get("/sent", async (req, res, next) => {
         next(err);
     }
 })
+
+/**
+ * @description Sent invitations index
+ */
+router.get("/received", async (req, res, next) => {
+    try{
+        const r = await invitationsService.getReceivedInvitations(req);
+
+        const template = pug.compileFile("src/views/invitations/received.pug");
+    }catch(err){
+        
+    }
+});
 
 
 

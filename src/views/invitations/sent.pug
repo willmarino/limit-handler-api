@@ -3,7 +3,7 @@ extends ./layout.pug
 block subContent
 
         div(class="body")
-            form(hx-get="/invitations/received" hx-target=".page")
+            form(hx-get="/invitations/sent" hx-target=".page")
                 div(class="search-bar-container")
                     div(class="input-container")
                         p(class="form-label") Search
@@ -26,7 +26,6 @@ block subContent
                                     p(class="invitation-name clickable text-hover") To: #{invitation.receiver.userName}
                                     p(class="invitation-description soft-text") Invited #{invitation.receiver.userName} to join #{invitation.organization.name} as a #{invitation.userRole.role}
                                 div(class="invitation-right")
-                                    //- div(class="undo-invite-button-container" hx-post=`/invitations/undo/${invitation.id}` hx-target=".page")
                                     p(class="invitation-name clickable text-hover" hx-post=`/invitations/undo/${invitation.id}` hx-target=".page") Undo
                                 
 
