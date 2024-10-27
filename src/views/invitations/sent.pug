@@ -13,8 +13,8 @@ block subContent
             div(class="invitations-list-container")
                 - if(invitations.length === 0)
                     div(class="empty-invitations-list")
-                        p Oops! It looks like you don't have any invitations!
-                        p(id="create-invitation-link") Create one here
+                        p No pending invitations
+                        p(id="create-invitation-link") Send one here
 
                 - else
                     div(class="invitations-list")

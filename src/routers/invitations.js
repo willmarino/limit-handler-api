@@ -13,7 +13,7 @@ router.get("/sent", async (req, res, next) => {
         const r = await invitationsService.getSentInvitations(req);
 
         const template = pug.compileFile("src/views/invitations/sent.pug");
-        const markup = template ({ ...r, invitationsPageType: "Sent", ...viewAttrs(req) });
+        const markup = template ({ ...r, pageName: "Sent", ...viewAttrs(req) });
 
         res.set("HX-Push-Url", `/invitations/sent?curPage=${req.context.get("queryParams").curPage}`);
         res.status(200).send(markup);
@@ -30,8 +30,12 @@ router.get("/received", async (req, res, next) => {
         const r = await invitationsService.getReceivedInvitations(req);
 
         const template = pug.compileFile("src/views/invitations/received.pug");
+        const markup = template ({ ...r, pageName: "Received", ...viewAttrs(req) });
+
+        res.set("HX-Push-Url", `/invitations/received?curPage=${req.context.get("queryParams").curPage}`);
+        res.status(200).send(markup);
     }catch(err){
-        
+        next(err);
     }
 });
 
