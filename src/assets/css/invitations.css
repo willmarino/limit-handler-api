@@ -13,6 +13,18 @@
     align-items: center;
 }
 
+.empty-invitations-list-container{
+    height: 140px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 140px;
+    margin-right: 380px;
+}
+
 .invitations-list{
     width: 100%;
 }
@@ -58,9 +70,6 @@
 }
 
 
-.empty-invitations-list{
-    display: flex;
-    flex-direction: column;
-
-    
+.empty-inbox-img{
+    height: 100px;
 }
