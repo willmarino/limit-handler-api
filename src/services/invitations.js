@@ -1,7 +1,63 @@
 const { Op } = require("sequelize");
 const { models } = require("../db/connection");
 const emailService = require("./emails");
-const bcryptHelpers = require("../helpers/bcrypt");
+const formHelpers = require("../helpers/forms");
+const pagination = require("../config/pagination");
+
+
+/**
+ * @description Get received invitations
+ */
+const getSentInvitations = async (req) => {
+    const userId = req.session.user.userId;
+    const { curPage } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
+
+    const invitationsResponse = await models.Invitations.findAndCountAll(
+        {
+            where: { senderId: userId, accepted: false, unsent: false },
+            limit: pagination.itemsPerPage,
+            offset: (curPage - 1) * pagination.itemsPerPage,
+            include: [
+                { model: models.Users, as: "receiver" },
+                { model: models.UserRoles, as: "userRole" },
+                { model: models.Organizations, as: "organization" }
+            ]
+        }
+    );
+
+    const { count, rows: invitations } = invitationsResponse;
+
+    pagination.setPaginationData(req, curPage, count);
+    return { count, invitations };
+}
+
+
+/**
+ * @description Get all received and unanswered invitations
+ */
+const getReceivedInvitations = async (req) => {
+    const userId = req.session.user.userId;
+    const { curPage } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
+
+    const invitationsResponse = await models.Invitations.findAndCountAll(
+        {
+            where: { receiverId: userId, accepted: false, unsent: false },
+            limit: pagination.itemsPerPage,
+            offset: (curPage - 1) * pagination.itemsPerPage,
+            include: [
+                { model: models.Users, as: "sender" },
+                { model: models.UserRoles, as: "userRole" },
+                { model: models.Organizations, as: "organization" }
+            ]
+        }
+    );
+
+    const { count, rows: invitations } = invitationsResponse;
+
+    pagination.setPaginationData(req, curPage, count);
+    return { count, invitations };
+}
+
 
 
 /**
@@ -109,6 +165,16 @@ const acceptInvitation = async (req) => {
 }
 
 
+/**
+ * @description Rescind or "unsend" an invitation.
+ */
+const unsend = async (req) => {
+    const { id: invitationId } = req.params;
+
+    const invitation = await models.Invitations.findOne({ where: { id: invitationId } });
+    await invitation.update({ unsent: true });
+
+}
 
 
 
@@ -116,6 +182,9 @@ const acceptInvitation = async (req) => {
 
 
 module.exports = {
+    getSentInvitations,
+    getReceivedInvitations,
     createInvitation,
-    acceptInvitation
+    acceptInvitation,
+    unsend
 }

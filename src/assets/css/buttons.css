@@ -47,3 +47,7 @@
 .select-option{
     padding: 0px 10px;
 }
+
+.highlighted{
+    color: #64748b;
+}

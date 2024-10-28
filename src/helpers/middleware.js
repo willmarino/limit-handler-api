@@ -17,6 +17,8 @@ const addRequestContext = (req, res, next) => {
         enumerable: false
     });
 
+    req.context.set("siteMessage", req.query.siteMessage);
+
     next();
 };
 

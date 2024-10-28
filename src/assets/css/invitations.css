@@ -1,0 +1,81 @@
+/* Projects Index Page */
+.search-bar-container{
+    width: 200px;
+}
+
+.invitations-list-container{
+    width: 600px;
+    height: 500px;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.empty-invitations-list-container{
+    height: 140px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-top: 140px;
+    margin-right: 380px;
+}
+
+.invitations-list{
+    width: 100%;
+}
+
+.invitation{
+    height: 35px;
+
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.invitation .invitation-name{
+    font-family: "RubikBold";
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.invitation .invitation-left{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+}
+
+.invitation .invitation-right{
+    width: 50px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.invitation-description{
+    font-size: 13px;
+}
+
+.vertical-list-divider{
+    height: 1px;
+    border-bottom: 1px solid #a1a1aa;
+    margin: 10px 0px;
+}
+
+
+.empty-inbox-img{
+    height: 100px;
+}
+
+
+.invitations-nav{
+    display: flex;
+    
+}

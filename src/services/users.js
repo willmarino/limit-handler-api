@@ -237,6 +237,7 @@ const registerUser = async (req) => {
     req.session.user = {
         userId: user.id,
         email: user.email,
+        userName: user.userName,
         password: user.password
     }
 

@@ -1,6 +1,45 @@
 const pug = require("pug");
 const router = require("express").Router();
 const invitationsService = require("../services/invitations");
+const { viewAttrs } = require("../helpers/views");
+
+
+/**
+ * @description Received invitations index - scoped to user
+ */
+router.get("/sent", async (req, res, next) => {
+    try{
+
+        const r = await invitationsService.getSentInvitations(req);
+
+        const template = pug.compileFile("src/views/invitations/sent.pug");
+        const markup = template ({ ...r, pageName: "Sent", ...viewAttrs(req) });
+
+        res.set("HX-Push-Url", `/invitations/sent?curPage=${req.context.get("queryParams").curPage}`);
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+})
+
+/**
+ * @description Sent invitations index
+ */
+router.get("/received", async (req, res, next) => {
+    try{
+        const r = await invitationsService.getReceivedInvitations(req);
+
+        const template = pug.compileFile("src/views/invitations/received.pug");
+        const markup = template ({ ...r, pageName: "Received", ...viewAttrs(req) });
+
+        res.set("HX-Push-Url", `/invitations/received?curPage=${req.context.get("queryParams").curPage}`);
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
+});
+
+
 
 /**
  * @description Memberships - Creation of invites - sends email to user, creates invitation.
@@ -40,6 +79,16 @@ router.post("/accept", async (req, res, next) => {
         res.status(200).send(markup);
     }catch(err){
         next(err);
+    }
+});
+
+
+router.post("/undo/:id", async (req, res, next) => {
+    try{
+        await invitationsService.unsend(req);
+        res.redirect(`/invitations/sent?siteMessage=${"Success rescinding invitation"}`);
+    }catch(err){
+        res.redirect("/invitations/sent");
     }
 })
 
