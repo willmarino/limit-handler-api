@@ -10,11 +10,10 @@ block subContent
                         input.edit(class="secondary-shadow" type="text" name="searchTerm" placeholder="User name...")
 
 
-            div(class="invitations-list-container")
                 - if(invitations.length === 0)
-                    div(class="empty-invitations-list")
+                    div(class="empty-invitations-list-container")
+                        img(src="/img/no-results.png" class="empty-inbox-img")
                         p No pending invitations
-                        p(id="create-invitation-link") Send one here
 
                 - else
                     div(class="invitations-list")

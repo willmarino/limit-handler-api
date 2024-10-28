@@ -73,3 +73,9 @@
 .empty-inbox-img{
     height: 100px;
 }
+
+
+.invitations-nav{
+    display: flex;
+    
+}
