@@ -10,7 +10,10 @@ const pagination = require("../config/pagination");
  */
 const getSentInvitations = async (req) => {
     const userId = req.session.user.userId;
-    const { curPage } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
+    const { curPage, searchTerm } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
+
+    const userWhereStatement = {};
+    if(searchTerm) userWhereStatement.userName = searchTerm; 
 
     const invitationsResponse = await models.Invitations.findAndCountAll(
         {
@@ -18,7 +21,11 @@ const getSentInvitations = async (req) => {
             limit: pagination.itemsPerPage,
             offset: (curPage - 1) * pagination.itemsPerPage,
             include: [
-                { model: models.Users, as: "receiver" },
+                {
+                    model: models.Users,
+                    as: "receiver",
+                    where: userWhereStatement
+                },
                 { model: models.UserRoles, as: "userRole" },
                 { model: models.Organizations, as: "organization" }
             ]

@@ -27,13 +27,10 @@ block subContent
                                         p(class="invitation-description soft-text") Invited #{invitation.receiver.userName} to join #{invitation.organization.name} as a #{invitation.userRole.role}
                                     div(class="invitation-right")
                                         p(class="invitation-name clickable text-hover" hx-post=`/invitations/undo/${invitation.id}` hx-target=".page") Undo
-                                    
-
 
                                 - if(i < invitations.length - 1)
                                     div(class="vertical-list-divider")
 
-                        
                         
                         div(class="pagination")
                             - const curPage = pagination.curPage;
