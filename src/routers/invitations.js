@@ -40,10 +40,16 @@ router.get("/received", async (req, res, next) => {
 });
 
 
+/**
+ * @description Get template for new invitation creation.
+ */
+router.get("/new", async (req, res, next) => {
+    // const r = await invitationService.
+})
+
 
 /**
- * @description Memberships - Creation of invites - sends email to user, creates invitation.
- * Only send back a p tag with a status message!
+ * @description Creating a new invitation new invitations.
  */
 router.post("/create", async (req, res, next) => {
     try{
