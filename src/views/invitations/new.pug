@@ -3,5 +3,30 @@ extends ./layout.pug
 block subContent
 
     div(class="body")
+        
+        form(class="standard-form create-invitation-form" hx-post="/invitations/create" hx-target=".page")
 
-        p creating an invitation
+            div(class="dropdown-input-container")
+                p(class="form-label") Organization
+                select(id="organization-name-input" class="org-dropdown primary-button secondary-shadow clickable" name="organizationName")
+                    - for(let i = 0; i < organizations.length; i++)
+                        - const organization = organizations[i];
+                        - if(i === 0)
+                            option(selected) #{organization.name}
+                        - else
+                            option() #{organization.name}
+
+            div(class="input-container")
+                p(class="form-label") Invitee Email
+                input.edit(id="name-input" class="secondary-shadow" type="text" name="email" value=name placeholder="Email")
+
+
+            div(class="dropdown-input-container")
+                p(class="form-label") Role
+                select(id="user-role-input" class="org-dropdown primary-button secondary-shadow clickable" name="userRole")
+                    - for(let i = 0; i < userRoles.length; i++)
+                        - const organization = userRoles[i];
+                        - if(i === 0)
+                            option(selected) #{organization.name}
+                        - else
+                            option() #{organization.name}

@@ -1,6 +1,7 @@
 const pug = require("pug");
 const router = require("express").Router();
 const invitationsService = require("../services/invitations");
+const usersService = require("../services/users");
 const { viewAttrs } = require("../helpers/views");
 
 
@@ -44,10 +45,17 @@ router.get("/received", async (req, res, next) => {
  * @description Get template for new invitation creation.
  */
 router.get("/new", async (req, res, next) => {
-    // const r = await invitationService.
     try{
+        const r = await usersService.getUser(req.session.user.userId);
+        const userRoles = await models.UserRoles.findAll({});
+        
         const template = pug.compileFile("src/views/invitations/new.pug");
-        const markup = template({ pageName: "Send New Invite",...viewAttrs(req) });
+        const markup = template({
+            ...r,
+            userRoles,
+            pageName: "Send New Invite",
+            ...viewAttrs(req)
+        });
 
         res.set("HX-Push-Url", `/invitations/new`);
         res.status(200).send(markup);
