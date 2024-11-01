@@ -30,7 +30,7 @@ router.get("/received", async (req, res, next) => {
         const r = await invitationsService.getReceivedInvitations(req);
 
         const template = pug.compileFile("src/views/invitations/received.pug");
-        const markup = template ({ ...r, pageName: "Received", ...viewAttrs(req) });
+        const markup = template({ ...r, pageName: "Received", ...viewAttrs(req) });
 
         res.set("HX-Push-Url", `/invitations/received?curPage=${req.context.get("queryParams").curPage}`);
         res.status(200).send(markup);
@@ -45,6 +45,15 @@ router.get("/received", async (req, res, next) => {
  */
 router.get("/new", async (req, res, next) => {
     // const r = await invitationService.
+    try{
+        const template = pug.compileFile("src/views/invitations/new.pug");
+        const markup = template({ pageName: "Send New Invite",...viewAttrs(req) });
+
+        res.set("HX-Push-Url", `/invitations/new`);
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
 })
 
 

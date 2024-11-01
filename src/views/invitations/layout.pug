@@ -9,17 +9,20 @@ block center
                 p(class="header-segment-separator") ->
                 p(class="header-segment clickable text-hover" hx-get="/invitations/sent" hx-target=".page") Invitations
                 p(class="header-segment-separator") ->
-                div(class="invitations-nav")
-                    - let receivedClassList = "header-segment clickable text-hover";
-                    - let sentClassList = "header-segment clickable text-hover";
-                    - if(pageName === "Received")
-                        - receivedClassList = `${receivedClassList} highlighted`
-                    - else
-                        - sentClassList = `${sentClassList} highlighted`
+                - if(pageName === "Send New Invite")
+                    p(class="header-segment") New Invite
+                - if(pageName !== "Send New Invite")
+                    div(class="invitations-nav")
+                        - let receivedClassList = "header-segment clickable text-hover";
+                        - let sentClassList = "header-segment clickable text-hover";
+                        - if(pageName === "Received")
+                            - receivedClassList = `${receivedClassList} highlighted`
+                        - else
+                            - sentClassList = `${sentClassList} highlighted`
 
-                    p(class=receivedClassList style="margin-right: 5px;" hx-get="/invitations/received" hx-target=".page") Received
-                    p(style="margin-right: 5px;") /
-                    p(class=sentClassList hx-get="/invitations/sent" hx-target=".page") Sent
+                        p(class=receivedClassList style="margin-right: 5px;" hx-get="/invitations/received" hx-target=".page") Received
+                        p(style="margin-right: 5px;") /
+                        p(class=sentClassList hx-get="/invitations/sent" hx-target=".page") Sent
             div(class="right")
                 p(class="clickable text-hover" hx-get="/invitations/new" hx-target=".page") Send New Invite
 
