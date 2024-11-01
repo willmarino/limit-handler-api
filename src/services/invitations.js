@@ -80,23 +80,25 @@ const getReceivedInvitations = async (req) => {
 const createInvitation = async (req) => {
     const senderId = req.session.user.userId;
 
-    const { receiverInfo, userRoleName, orgName } = req.body;
+    // const { receiverInfo, userRoleName, orgName } = req.body;
+    const { receiverEmail, organizationName, userRoleName } = req.body;
 
     const receiver = await models.Users.findOne({
         where: {
             [Op.or]: [
-                { email: receiverInfo },
-                { userName: receiverInfo }
+                { email: receiverEmail },
+                // { userName: receiverInfo }
             ]
         }
     });
 
     if(!receiver){
-        throw new Error("Unable to find user by email or username");
+        // throw new Error("Unable to find user by email or username");
+        throw new Error("Unable to find user by email");
     }
 
     const org = await models.Organizations.findOne({
-        where: { name: orgName }
+        where: { name: organizationName }
     })
 
     if(!org){
@@ -117,6 +119,7 @@ const createInvitation = async (req) => {
             organizationId: org.id,
             receiverId: receiver.id,
             userRoleId: userRole.id,
+            unsent: false,
             expirationDate: {
                 [Op.gt]: new Date()
             }
@@ -136,15 +139,16 @@ const createInvitation = async (req) => {
         expirationDate: new Date().getTime() + (1000 * 60 * 60 * 24)
     });
 
-    await emailService.sendOrgInvitationEmail(
-        invitation.id,
-        req.session.user.userName,
-        receiver.userName,
-        orgName,
-        userRoleName
-    );
+    // await emailService.sendOrgInvitationEmail(
+    //     invitation.id,
+    //     req.session.user.userName,
+    //     receiver.userName,
+    //     orgName,
+    //     userRoleName
+    // );
 
-    return { invitation, receiverInfo };
+    // return { invitation, receiverInfo };
+    return 1;
 }
 
 

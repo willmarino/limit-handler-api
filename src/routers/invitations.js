@@ -2,6 +2,7 @@ const pug = require("pug");
 const router = require("express").Router();
 const invitationsService = require("../services/invitations");
 const usersService = require("../services/users");
+const userRolesService = require("../services/user_roles");
 const { viewAttrs } = require("../helpers/views");
 
 
@@ -47,7 +48,7 @@ router.get("/received", async (req, res, next) => {
 router.get("/new", async (req, res, next) => {
     try{
         const r = await usersService.getUser(req.session.user.userId);
-        const userRoles = await models.UserRoles.findAll({});
+        const userRoles = await userRolesService.getAll();
         
         const template = pug.compileFile("src/views/invitations/new.pug");
         const markup = template({
@@ -70,16 +71,10 @@ router.get("/new", async (req, res, next) => {
  */
 router.post("/create", async (req, res, next) => {
     try{
-        const { invitation, receiverInfo } = await invitationsService.createInvitation(req);
-
-        const template = pug.compileFile("src/views/invitations/create.pug");
-        const markup = template({ message: `Sent an invitation to ${receiverInfo}` });
-        res.status(200).send(markup);
-
+        const r = await invitationsService.createInvitation(req);
+        res.redirect("/invitations/sent");
     }catch(err){
-        const template = pug.compileFile("src/views/invitations/create.pug");
-        const markup = template({ message: err.message });
-        res.status(200).send(markup);
+        res.redirect("/invitations/sent");
 
     }
 });
