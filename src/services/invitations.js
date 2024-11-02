@@ -156,11 +156,14 @@ const createInvitation = async (req) => {
  * @description Validate invitation and acceptance info, mark invitation as accepted.
  */
 const acceptInvitation = async (req) => {
-    const { invitationId } = req.body;
+
+    const userId = req.session.user.userId;
+    const { id: invitationId } = req.params;
 
     const invitation = await models.Invitations.findOne({
-        where: { id: invitationId }
+        where: { id: invitationId, receiverId: userId }
     });
+
 
     if(!invitation){
         return { success: false, message: "Invitation not found" };
@@ -176,7 +179,7 @@ const acceptInvitation = async (req) => {
         organizationId: invitation.organizationId,
         userId: invitation.receiverId,
         userRoleId: invitation.userRoleId
-    })
+    });
     
     return { success: true, message: "Invitation accepted" };
 

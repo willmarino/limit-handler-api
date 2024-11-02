@@ -86,17 +86,14 @@ router.post("/create", async (req, res, next) => {
  * Verify that the acceptance of the invitation is valid,
  * give the user a message indicating their success while rerouting them to /projects
  */
-router.post("/accept", async (req, res, next) => {
+router.post("/accept/:id", async (req, res, next) => {
     try{
-        const r = await invitationsService.acceptInvitation(req);
-        const { success, message } = r;
-        
-        const template = pug.compileFile("src/views/invitations/accept.pug");
-        const markup = template({ success, message });
-
-        res.status(200).send(markup);
+        console.log("aaaaaaaa");
+        await invitationsService.acceptInvitation(req);
+        console.log("bbbbbbb");
+        res.redirect("/invitations/received");
     }catch(err){
-        next(err);
+        res.redirect("/invitations/received");
     }
 });
 
