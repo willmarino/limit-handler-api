@@ -79,3 +79,10 @@
     display: flex;
 
 }
+
+
+
+/* Create new invitations */
+.create-invitation-form{
+    width: 400px;
+}

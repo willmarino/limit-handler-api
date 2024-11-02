@@ -1,6 +1,8 @@
 const pug = require("pug");
 const router = require("express").Router();
 const invitationsService = require("../services/invitations");
+const usersService = require("../services/users");
+const userRolesService = require("../services/user_roles");
 const { viewAttrs } = require("../helpers/views");
 
 
@@ -30,7 +32,7 @@ router.get("/received", async (req, res, next) => {
         const r = await invitationsService.getReceivedInvitations(req);
 
         const template = pug.compileFile("src/views/invitations/received.pug");
-        const markup = template ({ ...r, pageName: "Received", ...viewAttrs(req) });
+        const markup = template({ ...r, pageName: "Received", ...viewAttrs(req) });
 
         res.set("HX-Push-Url", `/invitations/received?curPage=${req.context.get("queryParams").curPage}`);
         res.status(200).send(markup);
@@ -44,7 +46,23 @@ router.get("/received", async (req, res, next) => {
  * @description Get template for new invitation creation.
  */
 router.get("/new", async (req, res, next) => {
-    // const r = await invitationService.
+    try{
+        const r = await usersService.getUser(req.session.user.userId);
+        const userRoles = await userRolesService.getAll();
+        
+        const template = pug.compileFile("src/views/invitations/new.pug");
+        const markup = template({
+            ...r,
+            userRoles,
+            pageName: "Send New Invite",
+            ...viewAttrs(req)
+        });
+
+        res.set("HX-Push-Url", `/invitations/new`);
+        res.status(200).send(markup);
+    }catch(err){
+        next(err);
+    }
 })
 
 
@@ -53,16 +71,10 @@ router.get("/new", async (req, res, next) => {
  */
 router.post("/create", async (req, res, next) => {
     try{
-        const { invitation, receiverInfo } = await invitationsService.createInvitation(req);
-
-        const template = pug.compileFile("src/views/invitations/create.pug");
-        const markup = template({ message: `Sent an invitation to ${receiverInfo}` });
-        res.status(200).send(markup);
-
+        const r = await invitationsService.createInvitation(req);
+        res.redirect("/invitations/sent");
     }catch(err){
-        const template = pug.compileFile("src/views/invitations/create.pug");
-        const markup = template({ message: err.message });
-        res.status(200).send(markup);
+        res.redirect("/invitations/sent");
 
     }
 });
@@ -74,17 +86,14 @@ router.post("/create", async (req, res, next) => {
  * Verify that the acceptance of the invitation is valid,
  * give the user a message indicating their success while rerouting them to /projects
  */
-router.post("/accept", async (req, res, next) => {
+router.post("/accept/:id", async (req, res, next) => {
     try{
-        const r = await invitationsService.acceptInvitation(req);
-        const { success, message } = r;
-        
-        const template = pug.compileFile("src/views/invitations/accept.pug");
-        const markup = template({ success, message });
-
-        res.status(200).send(markup);
+        console.log("aaaaaaaa");
+        await invitationsService.acceptInvitation(req);
+        console.log("bbbbbbb");
+        res.redirect("/invitations/received");
     }catch(err){
-        next(err);
+        res.redirect("/invitations/received");
     }
 });
 
