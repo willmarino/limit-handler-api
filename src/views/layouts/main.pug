@@ -36,9 +36,11 @@ html(lang="en")
                     a(class="text-hover" href="/projects") Limit Handler
 
                 - if(flashError)
-                    div(class="error") #{flashError}
+                    div(class="flash-message flash-message-error secondary-shadow")
+                        p #{flashError}
                 - else if(flashSuccess)
-                    div(class="success") #{flashSuccess}
+                    div(class="flash-message flash-message-success secondary-shadow")
+                        p #{flashSuccess}
 
                 div(class="site-header-right")
                     p(class="clickable text-hover") Questions
