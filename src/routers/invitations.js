@@ -88,9 +88,7 @@ router.post("/create", async (req, res, next) => {
  */
 router.post("/accept/:id", async (req, res, next) => {
     try{
-        console.log("aaaaaaaa");
         await invitationsService.acceptInvitation(req);
-        console.log("bbbbbbb");
         res.redirect("/invitations/received");
     }catch(err){
         res.redirect("/invitations/received");

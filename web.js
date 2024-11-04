@@ -56,6 +56,9 @@ webApp.use("/server_health", serverHealthRouter);
 // Session cookie validation
 webApp.use(customMiddleware.validateSessionCookie);
 
+// Convert req.flash messages into req.context info
+webApp.use(customMiddleware.convertFlashMessage);
+
 // Authenticated routes
 webApp.use("/users", usersRouter)
 webApp.use("/projects", projectsRouter);
