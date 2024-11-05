@@ -81,10 +81,7 @@ router.post("/create", async (req, res, next) => {
 
 
 /**
- * @description When a user accepts an invitation via clicking a link in an email,
- * they will get sent to this route with some clarifying information in the request query.
- * Verify that the acceptance of the invitation is valid,
- * give the user a message indicating their success while rerouting them to /projects
+ * @description Accept an invitation from the received invitations menu.
  */
 router.post("/accept/:id", async (req, res, next) => {
     try{
@@ -96,6 +93,9 @@ router.post("/accept/:id", async (req, res, next) => {
 });
 
 
+/**
+ * @description When a user rescinds an invitation.
+ */
 router.post("/undo/:id", async (req, res, next) => {
     try{
         await invitationsService.unsend(req);
