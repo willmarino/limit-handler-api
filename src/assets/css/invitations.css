@@ -3,34 +3,9 @@
     width: 200px;
 }
 
-.invitations-list-container{
-    width: 600px;
-    height: 500px;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.empty-invitations-list-container{
-    height: 150px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-top: 140px;
-    margin-right: 380px;
-}
-
-.invitations-list{
-    width: 100%;
-}
-
 .invitation{
     height: 35px;
+    width: 100%;
 
     display: flex;
     justify-content: space-between;

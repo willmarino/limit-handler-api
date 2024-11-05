@@ -9,29 +9,28 @@ block subContent
                 input.edit(class="secondary-shadow" type="text" name="searchTerm" placeholder="Project name...")
 
 
-    div(class="table-container")
-        - if(projects.length === 0)
-            div(class="empty-projects-list")
-                p Oops! It looks like you don't have any projects!
-                p(id="create-project-link") Create one here
+    - if(projects.length === 0)
+        div(class="empty-list-container")
+            img(src="/img/no-results.png" class="empty-inbox-img")
+            p You do not have any projects!
 
-        - else
-            div(class="projects-list")
-                - for(let i = 0; i < projects.length; i++)
-                    - const project = projects[i];
+    - else
+        div(class="table-container")
+            - for(let i = 0; i < projects.length; i++)
+                - const project = projects[i];
+                
+                div(class="project")
+                    div(class="project-top")
+                        p(class="project-name clickable text-hover" hx-get=`/projects/show/${project.id}` hx-target=".page") #{project.name}
+                        p(class="project-org clickable text-hover") #{project.organization.name}
                     
-                    div(class="project")
-                        div(class="project-top")
-                            p(class="project-name clickable text-hover" hx-get=`/projects/show/${project.id}` hx-target=".page") #{project.name}
-                            p(class="project-org clickable text-hover") #{project.organization.name}
-                        
-                        p(class="project-description") Limiting to #{project.callLimit} calls every #{project.timeFrame.name.toLowerCase()}
+                    p(class="project-description") Limiting to #{project.callLimit} calls every #{project.timeFrame.name.toLowerCase()}
 
-                    - if(i < projects.length - 1)
-                        div(class="vertical-list-divider")
+                - if(i < projects.length - 1)
+                    div(class="vertical-list-divider")
 
-            
-            
+        
+        div(class="pagination-container")
             div(class="pagination")
                 - const pageNums = [curPage];
                 
