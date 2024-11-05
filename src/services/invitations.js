@@ -3,6 +3,7 @@ const { models } = require("../db/connection");
 const emailService = require("./emails");
 const formHelpers = require("../helpers/forms");
 const pagination = require("../config/pagination");
+const flash = require("../helpers/flash");
 
 
 /**
@@ -47,7 +48,10 @@ const getReceivedInvitations = async (req) => {
     const { curPage, searchTerm } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
 
     const userWhereStatement = {};
-    if(searchTerm) userWhereStatement.userName = searchTerm; 
+    // if(searchTerm) userWhereStatement.userName = searchTerm; 
+    if(searchTerm) userWhereStatement.userName = {
+        [Op.like]: `%${searchTerm}%`
+    }; 
 
     const invitationsResponse = await models.Invitations.findAndCountAll(
         {
@@ -166,11 +170,13 @@ const acceptInvitation = async (req) => {
 
 
     if(!invitation){
-        return { success: false, message: "Invitation not found" };
+        flash.addMessage(req, "error", "Invitation not found");
+        return;
     }
 
     if(invitation.expirationDate < new Date()){
-        return { success: false, message: "Invitation has expired" };
+        flash.addMessage(req, "error", "Invitation has expired");
+        return;
     }
     
     await invitation.update({ accepted: true });
@@ -181,8 +187,7 @@ const acceptInvitation = async (req) => {
         userRoleId: invitation.userRoleId
     });
     
-    return { success: true, message: "Invitation accepted" };
-
+    flash.addMessage(req, "success", "Invitation accepted successfully");
 }
 
 

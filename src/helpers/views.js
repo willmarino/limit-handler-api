@@ -10,7 +10,9 @@ const viewAttrs = (req) => {
         user: req.session.user,
         queryParams: req.context.get("queryParams"),
         pagination: req.context.get("pagination"),
-        siteMessage: req.context.get("siteMessage"),
+        flashError: req.context.get("flash.error"),
+        flashSuccess: req.context.get("flash.success"),
+
         formatDate: (date) => {
             return dtFormatter.format(date)
         }

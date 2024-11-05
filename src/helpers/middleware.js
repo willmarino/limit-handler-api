@@ -114,10 +114,29 @@ const errorHandler = (err, req, res, next) => {
         );
 };
 
+/**
+ * @description For each incoming request, check if there are any 'flash.*' keys in session,
+ * and if there is, then add them to request context and then delete them.
+ * Then, in ejs templates the messages can be accessed and displayed via request context.
+ * This ensures flash messages will only be shown once.
+ */
+const convertFlashMessage = (req, res, next) => {
+    for(const key in req.session){
+        if(key.startsWith("flash.")){
+            req.context.set(key, req.session[key]);
+            delete req.session[key];
+        }
+    }
+
+    next();
+}
+
+
 
 module.exports = {
     addRequestContext,
     validateSessionCookie,
     validateAuthToken,
-    errorHandler
+    errorHandler,
+    convertFlashMessage
 }

@@ -30,24 +30,21 @@ html(lang="en")
         div(class="page background-color")
 
             //- header
-            //- div(class="site-header soft-shadow")
-            //- div(class="site-header outline")
             div(class="site-header")
 
                 button(class="site-header-left clickable" hx-get="/auth/login" hx-target=".page")
                     a(class="text-hover" href="/projects") Limit Handler
-                    //- img(src="/img/logo/clock_24.png")
 
-                div(class="status-message") #{siteMessage ? siteMessage : ""}
+                - if(flashError)
+                    div(class="flash-message flash-message-error secondary-shadow")
+                        p #{flashError}
+                - else if(flashSuccess)
+                    div(class="flash-message flash-message-success secondary-shadow")
+                        p #{flashSuccess}
 
                 div(class="site-header-right")
-                    //- button(class="secondary-color secondary-shadow" hx-get="/users/show" hx-target=".page") Dashboard
-                    //- button(class="secondary-color secondary-shadow" hx-get="/projects" hx-target=".page") Dashboard
-                    //- button(class="secondary-color secondary-shadow" hx-get="/users/profile" hx-target=".page") Profile
-                    //- button(class="secondary-color secondary-shadow") Questions
                     p(class="clickable text-hover") Questions
                     - if(loggedOut !== true)
-                        //- button(id="logout-button" class="secondary-color secondary-shadow" hx-post="/auth/logout" hx-target=".page") Logout
                         p(id="logout-button" class="clickable text-hover" hx-post="/auth/logout" hx-target=".page") Logout
 
             //- Display messages to users
