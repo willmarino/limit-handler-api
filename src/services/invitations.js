@@ -14,7 +14,9 @@ const getSentInvitations = async (req) => {
     const { curPage, searchTerm } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
 
     const userWhereStatement = {};
-    if(searchTerm) userWhereStatement.userName = searchTerm; 
+    if(searchTerm) userWhereStatement.userName = {
+        [Op.like]: `%${searchTerm}%`
+    };
 
     const invitationsResponse = await models.Invitations.findAndCountAll(
         {
@@ -48,10 +50,9 @@ const getReceivedInvitations = async (req) => {
     const { curPage, searchTerm } = formHelpers.getParamsFromQuery(req, { curPage: 1 });
 
     const userWhereStatement = {};
-    // if(searchTerm) userWhereStatement.userName = searchTerm; 
     if(searchTerm) userWhereStatement.userName = {
         [Op.like]: `%${searchTerm}%`
-    }; 
+    };
 
     const invitationsResponse = await models.Invitations.findAndCountAll(
         {
