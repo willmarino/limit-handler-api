@@ -1,35 +1,33 @@
 extends ./layout.pug
 
 block subContent
-
-    div(class="body")
         
-        form(class="standard-form create-invitation-form" hx-post="/invitations/create" hx-target=".page")
+    form(class="standard-form create-invitation-form" hx-post="/invitations/create" hx-target=".page")
 
-            div(class="input-container")
-                p(class="form-label") Invitee Email
-                input.edit(id="name-input" class="secondary-shadow" type="text" name="receiverEmail" value=name placeholder="Invitee Email")
+        div(class="input-container")
+            p(class="form-label") Invitee Email
+            input.edit(id="name-input" class="secondary-shadow" type="text" name="receiverEmail" value=name placeholder="Invitee Email")
 
-            div(class="dropdown-input-container")
-                p(class="form-label") Organization
-                select(id="organization-name-input" class="org-dropdown primary-button secondary-shadow clickable" name="organizationName")
-                    - for(let i = 0; i < organizations.length; i++)
-                        - const organization = organizations[i];
-                        - if(i === 0)
-                            option(selected) #{organization.name}
-                        - else
-                            option() #{organization.name}
+        div(class="dropdown-input-container")
+            p(class="form-label") Organization
+            select(id="organization-name-input" class="org-dropdown primary-button secondary-shadow clickable" name="organizationName")
+                - for(let i = 0; i < organizations.length; i++)
+                    - const organization = organizations[i];
+                    - if(i === 0)
+                        option(selected) #{organization.name}
+                    - else
+                        option() #{organization.name}
 
 
-            div(class="dropdown-input-container")
-                p(class="form-label") Role
-                select(id="user-role-input" class="org-dropdown primary-button secondary-shadow clickable" name="userRoleName")
-                    - for(let i = 0; i < userRoles.length; i++)
-                        - const userRole = userRoles[i];
-                        - if(i === 0)
-                            option(selected) #{userRole.role}
-                        - else
-                            option() #{userRole.role}
-            
-            button(class="submit-button secondary-color secondary-shadow clickable")
-                p Send
+        div(class="dropdown-input-container")
+            p(class="form-label") Role
+            select(id="user-role-input" class="org-dropdown primary-button secondary-shadow clickable" name="userRoleName")
+                - for(let i = 0; i < userRoles.length; i++)
+                    - const userRole = userRoles[i];
+                    - if(i === 0)
+                        option(selected) #{userRole.role}
+                    - else
+                        option() #{userRole.role}
+        
+        button(class="submit-button secondary-color secondary-shadow clickable")
+            p Send

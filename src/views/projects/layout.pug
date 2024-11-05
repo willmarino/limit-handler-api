@@ -2,8 +2,8 @@ extends ../layouts/lobby.pug
 
 block center
 
-    div(class="lobby-main primary-color")
-        div(class="header")
+    div(class="lobby-main")
+        div(class="header primary-color secondary-shadow")
             div(class="left")
                 p(class="header-segment") #{user.userName}
                 p(class="header-segment-separator") ->
@@ -17,4 +17,5 @@ block center
             div(class="right")
                 p(class="clickable text-hover" hx-get="/projects/new" hx-target=".page") New Project
 
-        block subContent
+        div(class="body")
+            block subContent

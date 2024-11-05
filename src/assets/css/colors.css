@@ -1,26 +1,19 @@
-.secondary-color { 
-    /* from pallete gen */
-    /* background: #A6E1FA;  */
-    /* from taiwlind */
-    background: #cbd5e1;
-}
-	
-.primary-color { 
-    /* from pallete gen */
-    /* background: #0A2472; */
-    /* from taiwlind */
-    /* background: #0E6BA8; */
-
-}
-
 .background-color { 
-    /* background: #f9fafb; */
     background: white;
 }
 
+.primary-color {
+    background: #94a3b8;
+}
+
+.secondary-color { 
+    background: #cbd5e1;
+}
 
 .soft-text{
-    /* color: #111827; */
     color: #4b5563;
-    /* color: #6b7280; */
 }
+
+
+
+
