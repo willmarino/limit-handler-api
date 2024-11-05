@@ -11,8 +11,6 @@
     flex-grow: 0;
     display: flex;
     flex-direction: start;
-    /* flex-direction: column; */
-    /* justify-content: space-between; v1 */
     justify-content: center;
 
     padding: 20px;
@@ -28,7 +26,6 @@
     width: 100%;
     height: 80px;
 
-    /* margin-top: 100px; */
     margin-top: 20px;
 
 }
@@ -37,8 +34,6 @@
 .lobby-sidebar ul li{
     height: 20px;
     margin-bottom: 10px;
-    /* background: green; */
-    /* border: 1px solid green; */
 }
 
 .lobby-sidebar ul li p{
@@ -51,132 +46,6 @@
     text-decoration: underline;
 }
 
-/* .lobby-sidebar ul li a:hover{
-    color: #64748b;
-} */
-
-
-
-
-
-/* v2 sidebar*/
-
-
-
-
-
-
-/* .lobby-sidebar-user-info{
-    height: 140px;
-}
-
-.lobby-sidebar-user-info div{
-    margin-bottom: 20px;
-}
-
-.lobby-sidebar-user-info-pp{
-    width: 100px;
-    height: 100px;
-
-    border-radius: 50%;
-
-    background: black;
-}
-
-.lobby-sidebar-user-info-top{
-    display: flex;
-    justify-content: space-between;
-}
-
-.lobby-sidebar-user-info-top #pp-input{
-    width: 200px;
-}
-
-.lobby-sidebar-mid{
-    padding-top: 20px;
-}
-
-.lobby-sidebar-subheader{
-    font-size: 14px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid black;
-}
-
-.org-bar{
-    height: 50px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-}
-
-.org-bar p{
-    font-size: 12px;
-}
-
-.lobby .members-list .member{
-    height: 30px;
-    
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    font-size: 14px;
-}
-
-
-
-#no-org-warning{
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-
-.lobby-sidebar-section-two{
-    width: 100%;
-    height: 120px;
-}
-
-.lobby-sidebar-section-two form{
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-}
-
-.lobby-sidebar-section-two .button-and-message{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    font-size: 14px;
-}
-
-.lobby-sidebar-section-two .submit-button-short{
-    width: 100px;
-}
-
-.lobby-sidebar-section-two .add-member-message-error{
-    width: 260px;
-    height: 45px;
-    line-height: 45px;
-
-    text-align: center;
-    font-size: 13px;
-    color: #ef4444;
-}
-
-.lobby-sidebar-section-two .add-member-message-success{
-    width: 260px;
-    height: 45px;
-    line-height: 45px;
-
-    text-align: center;
-    font-size: 13px;
-    color: #006A4E;
-} */
-
-
 
 /* lobby main */
 .lobby-main{
@@ -186,9 +55,7 @@
     display: flex;
     flex-direction: column;
 
-    /* padding: 20px 40px; */
     padding: 20px;
-    /* margin-left: 100px; */
     margin-left: 100px;
 
     border-radius: 5px;
@@ -200,7 +67,6 @@
 .lobby-main .header{
     width: 100%;
     height: 60px;
-    /* flex-grow: 0; */
 
     display: flex;
     justify-content: space-between;
@@ -240,96 +106,3 @@
     width: 100%;
     flex-grow: 1;
 }
-
-
-/* v2 */
-
-/* .new-project-prompt{
-    width: 400px;
-    height: 80px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-
-    background: red;
-} */
-
-
-/* TODO clean up outdated class stylings, dont need to have 'lobby-button', this should be in buttons.css */
-
-
-
-/*  */
-/* .lobby-main-header{
-    width: 100%;
-    height: 35px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    border: 1px solid black;
-} */
-
-/* .lobby-main-header-left{
-    height: 100%;
-} */
-
-/* .lobby-main-header-left-section{
-    height: 100%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    font-size: 14px;
-} */
-
-/* .lobby-main-header-right{
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-} */
-
-/* .lobby-main-header-right-section{
-    width: 120px;
-    height: 100%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    margin: 0px 0px 0px 10px;
-    
-    font-size: 14px;
-    background: red;
-} */
-
-
-/*  */
-/* .lobby-main-body{
-    height: 580px;
-
-    margin-top: 20px;
-
-    background: blue;
-} */
-
-/* .project-dropdown{
-    margin-left: 10px;
-}
-
-.project-dropdown option{
-    font-size: 12px;
-}
-
-
-
-#project-stats-chart{
-    height: 100%;
-    width: 100%;
-} */
