@@ -12,6 +12,7 @@ const viewAttrs = (req) => {
         pagination: req.context.get("pagination"),
         flashError: req.context.get("flash.error"),
         flashSuccess: req.context.get("flash.success"),
+        curPath: req.originalUrl,
 
         formatDate: (date) => {
             return dtFormatter.format(date)
