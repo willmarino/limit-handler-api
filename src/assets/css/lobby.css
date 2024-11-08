@@ -86,7 +86,8 @@
 
 .lobby-main .header-bar{
     height: 60px;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
+    margin-bottom: 20px;
 }
 
 .lobby-main .header-bar p{
@@ -136,8 +137,10 @@
 
 .lobby-main .body{
     width: 100%;
-    padding: 20px 10px;
+    padding: 30px 20px;
     flex-grow: 1;
+
+    border-radius: 5px;
 }
 
 
