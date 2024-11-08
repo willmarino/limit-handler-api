@@ -3,7 +3,7 @@ const qs = require("node:querystring");
 const router = require("express").Router();
 const organizationsService = require("../services/organizations");
 const subscriptionTiersService = require("../services/subscription_tiers");
-const responseTemplates = require("../util/response_templates");
+const viewHelpers = require("../helpers/views");
 
 
 /**
@@ -32,8 +32,12 @@ router.get("/", async (req, res, next) => {
         const r = await organizationsService.getUserOrganizations(req);
         const template = pug.compileFile("src/views/organizations/index.pug");
 
-        const markup = template({ ...r, user: req.session.user });
+        const markup = template({
+            ...r,
+            ...viewHelpers.viewAttrs(req)
+        });
 
+        // TODO just use req.originalUrl for this
         let urlString = `/organizations?curPage=${r.curPage}`;
         if(r.searchTerm) urlString += `&searchTerm=${r.searchTerm}`;
 

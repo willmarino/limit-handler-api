@@ -1,6 +1,7 @@
 .primary-shadow{
     /* box-shadow: -2px 2px 5px 1px #9ca3af; */
-    box-shadow: -2px 2px 5px 1px #475569;
+    /* box-shadow: -2px 2px 3px 1px #475569; */
+    box-shadow: -2px 2px 3px 1px #64748b;
 }
 
 .secondary-shadow{

@@ -1,5 +1,6 @@
 .background-color { 
-    background: white;
+    /* background: white; */
+    background: #f1f5f9;
 }
 
 .primary-color {
@@ -8,7 +9,8 @@
 }
 
 .secondary-color { 
-    background: #cbd5e1;
+    /* background: white; */
+    background: #f8fafc;
 }
 
 .soft-text{
