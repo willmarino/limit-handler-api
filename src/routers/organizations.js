@@ -3,7 +3,7 @@ const qs = require("node:querystring");
 const router = require("express").Router();
 const organizationsService = require("../services/organizations");
 const subscriptionTiersService = require("../services/subscription_tiers");
-const responseTemplates = require("../util/response_templates");
+const viewHelpers = require("../helpers/views");
 
 
 /**
@@ -14,7 +14,7 @@ router.get("/show/:id", async (req, res, next) => {
         const r = await organizationsService.getOrganization(req);
 
         const template = pug.compileFile("src/views/organizations/show.pug");
-        const markup = template ({ ...r, user: req.session.user });
+        const markup = template ({ ...r, ...viewHelpers.viewAttrs(req) });
 
         res.set("HX-Push-Url", `/organizations/show/${req.params.id}`);
         res.status(200).send(markup);
@@ -32,8 +32,12 @@ router.get("/", async (req, res, next) => {
         const r = await organizationsService.getUserOrganizations(req);
         const template = pug.compileFile("src/views/organizations/index.pug");
 
-        const markup = template({ ...r, user: req.session.user });
+        const markup = template({
+            ...r,
+            ...viewHelpers.viewAttrs(req)
+        });
 
+        // TODO just use req.originalUrl for this
         let urlString = `/organizations?curPage=${r.curPage}`;
         if(r.searchTerm) urlString += `&searchTerm=${r.searchTerm}`;
 
@@ -62,7 +66,8 @@ router.get("/new", async (req, res, next) => {
             selectedSubTier: req.query.selectedSubTier,
             errMessage: req.query.errMessage,
             user: req.session.user,
-            newOrgPage: true
+            newOrgPage: true,
+            ...viewHelpers.viewAttrs(req)
         });
 
         const hxPushUrl = (Object.keys(req.query).length > 0)

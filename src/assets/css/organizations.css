@@ -3,7 +3,7 @@
     width: 200px;
 }
 
-.organizations-list-container{
+/* .organizations-list-container{
     width: 600px;
     height: 500px;
     margin-top: 50px;
@@ -11,7 +11,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-}
+} */
 
 .organizations-list{
     width: 100%;

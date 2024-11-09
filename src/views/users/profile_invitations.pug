@@ -5,7 +5,7 @@ block profile_main
     - const user = profileData.user;
     - const organizations = profileData.organizations;
     - const invitations = profileData.invitations;
-    div(class="profile-main primary-color primary-shadow")
+    div(class="profile-main primary-shadow")
         div(class="header")
             p(class="bold") Invitations
         - if(invitations.length === 0)
@@ -27,5 +27,5 @@ block profile_main
                         - if(!inv.accepted && !inv.expired)
                             form(id="accept-inv-form" class="standard-form" hx-post="/invitations/accept")
                                 input.edit(type="hidden" name="invitationId" value=inv.id)
-                                button(class="submit-button secondary-color secondary-shadow clickable")
+                                button(class="submit-button primary-color secondary-shadow clickable")
                                     p Accept

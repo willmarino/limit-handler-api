@@ -5,14 +5,13 @@ block content
     div(class="page-content")
         div(class="scroll")
             div(class="lobby")
-                //- div(class="lobby-sidebar primary-color outline")
-                div(class="lobby-sidebar primary-color")
+                div(class="lobby-sidebar")
                     ul
-                        li
+                        li(class=`${(curPath.includes("/projects") ? "primary-color": "")}`)
                             p(class="clickable text-hover" hx-get="/projects" hx-target=".page") Projects
-                        li
+                        li(class=`${(curPath.includes("/organizations") ? "primary-color": "")}`)
                             p(class="clickable text-hover" hx-get="/organizations" hx-target=".page") Organizations
-                        li
+                        li(class=`${(curPath.includes("/invitations") ? "primary-color": "")}`)
                             p(class="clickable text-hover" hx-get="/invitations/received" hx-target=".page") Invitations
 
                 block center

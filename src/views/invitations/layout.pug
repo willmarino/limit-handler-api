@@ -2,9 +2,9 @@ extends ../layouts/lobby.pug
 
 block center
 
-    div(class="lobby-main primary-color")
-        div(class="header")
-            div(class="left")
+    div(class="lobby-main")
+        div(class="center")
+            div(class="left header-bar primary-color secondary-shadow")
                 p(class="header-segment") #{user.userName}
                 p(class="header-segment-separator") ->
                 p(class="header-segment clickable text-hover" hx-get="/invitations/sent" hx-target=".page") Invitations
@@ -23,11 +23,9 @@ block center
                         p(class=receivedClassList style="margin-right: 5px;" hx-get="/invitations/received" hx-target=".page") Received
                         p(style="margin-right: 5px;") /
                         p(class=sentClassList hx-get="/invitations/sent" hx-target=".page") Sent
-            div(class="right")
-                p(class="clickable text-hover" hx-get="/invitations/new" hx-target=".page") Send New Invite
+            div(class="body")
+                block subContent
 
-        block subContent
-
-    script.
-        
-
+        div(class="middle")
+        div(class="right header-bar primary-color")
+            p(class="clickable text-hover" hx-get="/invitations/new" hx-target=".page") Send New Invite

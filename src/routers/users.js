@@ -2,6 +2,7 @@ const pug = require("pug");
 const router = require("express").Router();
 const usersService = require("../services/users");
 const imageService = require("../services/image");
+const viewHelpers = require("../helpers/views");
 
 
 /**
@@ -18,7 +19,8 @@ router.get("/show", async (req, res, next) => {
             testVar: true,
             xVals: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
             yVals: [ 10, 4, 22, 3, 17, 11, 13, 17, 23, 29 ],
-            message: req.query.message || ""
+            message: req.query.message || "",
+            ...viewHelpers.viewAttrs(req)
         });
 
         res.set("HX-Push-Url", "/users/show")
@@ -37,7 +39,7 @@ router.get("/profile", async (req, res, next) => {
         const profileData = await usersService.getProfile(req);
 
         const template = pug.compileFile("src/views/users/profile_you.pug");
-        const markup = template({ profileData });
+        const markup = template({ profileData, ...viewHelpers.viewAttrs(req) });
 
 
         res.set("HX-Push-Url", "/users/profile")
@@ -55,7 +57,7 @@ router.get("/profile/organizations", async (req, res, next) => {
         const profileData = await usersService.getProfile(req);
 
         const template = pug.compileFile("src/views/users/profile_organizations.pug");
-        const markup = template({ profileData });
+        const markup = template({ profileData, ...viewHelpers.viewAttrs(req) });
 
 
         res.set("HX-Push-Url", "/users/profile/organizations")
@@ -73,7 +75,7 @@ router.get("/profile/invitations", async (req, res, next) => {
         const profileData = await usersService.getProfile(req);
 
         const template = pug.compileFile("src/views/users/profile_invitations.pug");
-        const markup = template({ profileData });
+        const markup = template({ profileData, ...viewHelpers.viewAttrs(req) });
 
 
         res.set("HX-Push-Url", "/users/profile/invitations")

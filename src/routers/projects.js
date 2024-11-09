@@ -3,9 +3,8 @@ const qs = require("node:querystring");
 const router = require("express").Router();
 const projectsService = require("../services/projects");
 const timeFramesService = require("../services/time_frames");
-const organizationsService = require("../services/organizations");
 const usersService = require("../services/users");
-const responseTemplates = require("../util/response_templates");
+const viewHelpers = require("../helpers/views");
 
 
 /**
@@ -17,7 +16,7 @@ router.get("/", async (req, res, next) => {
         const r = await projectsService.getProjects(req);
 
         const template = pug.compileFile("src/views/projects/index.pug")
-        const markup = template({ ...r })
+        const markup = template({ ...r, ...viewHelpers.viewAttrs(req) })
 
         let urlString = `/projects?curPage=${r.curPage}`;
         if(r.searchTerm) urlString += `&searchTerm=${r.searchTerm}`;
@@ -38,7 +37,7 @@ router.get("/show/:id", async (req, res, next) => {
         const r = await projectsService.getProject(req);
 
         const template = pug.compileFile("src/views/projects/show.pug")
-        const markup = template({ ...r })
+        const markup = template({ ...r, ...viewHelpers.viewAttrs(req) })
 
         res.set("HX-Push-Url", `/projects/show/${req.params.id}`);
         res.status(200).send(markup);
@@ -79,7 +78,8 @@ router.get("/new", async(req, res, next) => {
             ...r,
             timeframes,
             newProjectPage: true,
-            errMessage: errMessage
+            errMessage: errMessage,
+            ...viewHelpers.viewAttrs(req)
         });
 
         res.set("HX-Push-Url", `/projects/new`)

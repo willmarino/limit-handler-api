@@ -1,26 +1,38 @@
-.secondary-color { 
-    /* from pallete gen */
-    /* background: #A6E1FA;  */
-    /* from taiwlind */
+/* 
+.background-color { 
+    background: white;
+    background: #f1f5f9;
+}
+
+.primary-color {
+    background: #94a3b8;
     background: #cbd5e1;
 }
-	
-.primary-color { 
-    /* from pallete gen */
-    /* background: #0A2472; */
-    /* from taiwlind */
-    /* background: #0E6BA8; */
 
-}
-
-.background-color { 
-    /* background: #f9fafb; */
+.secondary-color { 
     background: white;
+    background: #f8fafc;
 }
-
 
 .soft-text{
-    /* color: #111827; */
     color: #4b5563;
-    /* color: #6b7280; */
+}
+*/
+
+
+
+.primary-color{
+
+}
+
+.primary-variant-color{
+    
+}
+
+.secondary-color{
+
+}
+
+.background-color{
+
 }

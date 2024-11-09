@@ -2,7 +2,6 @@ extends ./layout.pug
 
 block subContent
 
-
     div(class="create-project-form-container")
         p(class="subheader") Create a new project
         form(class="standard-form create-project-form" hx-post="/projects/create" hx-target=".page")
@@ -39,7 +38,7 @@ block subContent
             p(id="new-project-description" class="soft-text") This project will limit outgoing requests to a rate of X per second
                 
 
-            button(class="submit-button secondary-color secondary-shadow clickable")
+            button(class="submit-button primary-color secondary-shadow clickable")
                 p Submit
             
             p(class="form-error-message") #{errMessage}
