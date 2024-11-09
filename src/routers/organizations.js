@@ -14,7 +14,7 @@ router.get("/show/:id", async (req, res, next) => {
         const r = await organizationsService.getOrganization(req);
 
         const template = pug.compileFile("src/views/organizations/show.pug");
-        const markup = template ({ ...r, user: req.session.user });
+        const markup = template ({ ...r, ...viewHelpers.viewAttrs(req) });
 
         res.set("HX-Push-Url", `/organizations/show/${req.params.id}`);
         res.status(200).send(markup);
@@ -66,7 +66,8 @@ router.get("/new", async (req, res, next) => {
             selectedSubTier: req.query.selectedSubTier,
             errMessage: req.query.errMessage,
             user: req.session.user,
-            newOrgPage: true
+            newOrgPage: true,
+            ...viewHelpers.viewAttrs(req)
         });
 
         const hxPushUrl = (Object.keys(req.query).length > 0)
