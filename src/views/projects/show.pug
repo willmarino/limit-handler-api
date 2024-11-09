@@ -12,14 +12,15 @@ block subContent
 
         div(class="description-container")
             p(class="description") This project limits outgoing requests to #{project.callLimit} per #{projectTimeFrame.name.toLowerCase()}.
-        br
-        br
-        br
-        br
-        br
-        br
-        br
-        br
+        
+        //- br
+        //- br
+        //- br
+        //- br
+        //- br
+        //- br
+        //- br
+        //- br
         
         form(method="GET" action=`/projects/show/${project.id}`)
             div(class="chart-timeframe-filter")

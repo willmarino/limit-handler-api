@@ -37,7 +37,7 @@ router.get("/show/:id", async (req, res, next) => {
         const r = await projectsService.getProject(req);
 
         const template = pug.compileFile("src/views/projects/show.pug")
-        const markup = template({ ...r })
+        const markup = template({ ...r, ...viewHelpers.viewAttrs(req) })
 
         res.set("HX-Push-Url", `/projects/show/${req.params.id}`);
         res.status(200).send(markup);
@@ -78,7 +78,8 @@ router.get("/new", async(req, res, next) => {
             ...r,
             timeframes,
             newProjectPage: true,
-            errMessage: errMessage
+            errMessage: errMessage,
+            ...viewHelpers.viewAttrs(req)
         });
 
         res.set("HX-Push-Url", `/projects/new`)

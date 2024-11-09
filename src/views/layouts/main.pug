@@ -33,7 +33,7 @@ html(lang="en")
             div(class="site-header")
 
                 button(class="site-header-left clickable" hx-get="/auth/login" hx-target=".page")
-                    a(class="text-hover" href="/projects") Limit Handler
+                    p(class="text-hover") Limit Handler
 
                 - if(flashError)
                     div(class="flash-message flash-message-error secondary-shadow")
