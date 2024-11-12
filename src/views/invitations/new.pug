@@ -6,11 +6,11 @@ block subContent
 
         div(class="input-container")
             p(class="form-label") Invitee Email
-            input.edit(id="name-input" class="secondary-shadow" type="text" name="receiverEmail" value=name placeholder="Invitee Email")
+            input.edit(id="name-input" type="text" name="receiverEmail" value=name placeholder="Invitee Email")
 
         div(class="dropdown-input-container")
             p(class="form-label") Organization
-            select(id="organization-name-input" class="org-dropdown primary-button secondary-shadow clickable" name="organizationName")
+            select(id="organization-name-input" class="org-dropdown primary-button clickable" name="organizationName")
                 - for(let i = 0; i < organizations.length; i++)
                     - const organization = organizations[i];
                     - if(i === 0)
@@ -21,7 +21,7 @@ block subContent
 
         div(class="dropdown-input-container")
             p(class="form-label") Role
-            select(id="user-role-input" class="org-dropdown primary-button secondary-shadow clickable" name="userRoleName")
+            select(id="user-role-input" class="org-dropdown primary-button clickable" name="userRoleName")
                 - for(let i = 0; i < userRoles.length; i++)
                     - const userRole = userRoles[i];
                     - if(i === 0)
@@ -29,5 +29,5 @@ block subContent
                     - else
                         option() #{userRole.role}
         
-        button(class="submit-button primary-color secondary-shadow clickable")
+        button(class="submit-button primary-color clickable")
             p Send

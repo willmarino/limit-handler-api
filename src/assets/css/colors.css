@@ -22,17 +22,50 @@
 
 
 .primary-color{
-
+    background: #BB86FC;
 }
 
 .primary-variant-color{
-    
+    background: #3700B3;
 }
 
 .secondary-color{
-
+    background: #03DAC6;
 }
 
 .background-color{
+    background: #121212;
+}
 
+.surface-color{
+    background: #121212;
+}
+
+.error-color{
+    color: #121212;
+}
+
+/* on-background */
+.background-color a, .background-color p{
+    color: #FFFFFF;
+}
+
+/* on-surface */
+.surface-color a, .surface-color p{
+    color: #FFFFFF;
+}
+
+/* on-primary */
+.primary-color a, .primary-color p{
+    color: #000000;
+}
+
+/* on-secondary */
+.secondary-color a, .secondary-color p{
+    color: #000000;
+}
+
+/* on-error */
+.error-color a, .error-color p{
+    color: #000000;
 }

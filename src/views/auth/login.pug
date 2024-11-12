@@ -11,11 +11,11 @@ block content
                 form(class="standard-form auth-form" hx-post="/auth/login" hx-target=".page")
                     div(class="input-container")
                         p(class="form-label") Email
-                        input.edit(class="secondary-shadow" type="text" name="email" placeholder="Email")
+                        input.edit( type="text" name="email" placeholder="Email")
                     div(class="input-container")
                         p(class="form-label") Password
-                        input.edit(class="secondary-shadow" type="password" name="passwordInput" placeholder="Password")
-                    button(class="submit-button primary-color secondary-shadow clickable")
+                        input.edit(type="password" name="passwordInput" placeholder="Password")
+                    button(class="submit-button primary-color clickable")
                         p Submit
                     p(class="form-error-message") #{errMessage}
 

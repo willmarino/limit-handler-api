@@ -6,7 +6,7 @@ block subContent
         div(class="search-bar-container")
             div(class="input-container")
                 p(class="form-label") Search
-                input.edit(class="secondary-shadow" type="text" name="searchTerm" placeholder="Organization name...")
+                input.edit(type="text" name="searchTerm" placeholder="Organization name...")
 
         - if(organizations.length === 0)
             div(class="empty-list-container")

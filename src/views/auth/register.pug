@@ -11,14 +11,14 @@ block content
                 form(class="standard-form auth-form" hx-post="/auth/register" hx-target=".page")
                     div(class="input-container")
                         p(class="form-label") Email
-                        input.edit(class="secondary-shadow" type="text" name="email" placeholder="Email" value=email)
+                        input.edit(type="text" name="email" placeholder="Email" value=email)
                     div(class="input-container")
                         p(class="form-label") Username
-                        input.edit(class="secondary-shadow" type="text" name="userName" placeholder="Username" value=userName)
+                        input.edit(type="text" name="userName" placeholder="Username" value=userName)
                     div(class="input-container")
                         p(class="form-label") Password
-                        input.edit(class="secondary-shadow" type="password" name="passwordInput" placeholder="Password" value=passwordInput)
-                    button(class="submit-button primary-color secondary-shadow clickable")
+                        input.edit(type="password" name="passwordInput" placeholder="Password" value=passwordInput)
+                    button(class="submit-button primary-color clickable")
                         p Submit
                     p(class="form-error-message") #{errMessage}
 

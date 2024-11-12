@@ -36,10 +36,10 @@ html(lang="en")
                     p(class="text-hover") Limit Handler
 
                 - if(flashError)
-                    div(class="flash-message flash-message-error secondary-shadow")
+                    div(class="flash-message flash-message-error")
                         p #{flashError}
                 - else if(flashSuccess)
-                    div(class="flash-message flash-message-success secondary-shadow")
+                    div(class="flash-message flash-message-success")
                         p #{flashSuccess}
 
                 div(class="site-header-right")
@@ -54,7 +54,7 @@ html(lang="en")
             block content
 
             //- footer elements
-            a(href="https://github.com/willmarino/limit-handler-api" class="site-footer-github primary-color primary-shadow") Check out the code here :)
+            a(href="https://github.com/willmarino/limit-handler-api" class="site-footer-github primary-color") Check out the code here :)
 
         script(src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous")
 
