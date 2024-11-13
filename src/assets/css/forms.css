@@ -45,8 +45,6 @@
     width: 100%;
     height: 60px;
     margin: 0px 0px 10px 0px;
-    /* height: 70px; */
-    /* margin: 10px 0px 0px 0px; */
 }
 
 .input-container .form-label, .dropdown-input-container .form-label, .choice-selector-input-container .form-label{
@@ -62,16 +60,20 @@
     padding: 0px 10px;
 
     border-radius: 3px;
-    border: 1px solid #a1a1aa;
+    /* border: 1px solid #a1a1aa; */
+    border: 1px solid #616161;
+    background: #121212;
+    color: #FFFFFF;
+
 }
 
-.input-container input:hover{
+/* .input-container input:hover{
     border: 1px solid #3f3f46;
-}
+} */
 
-.input-container input:focus{
+/* .input-container input:focus{
     border: 1px solid #3f3f46;
-}
+} */
 
 .dropdown-input-container{
     width: 100%;

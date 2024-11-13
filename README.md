@@ -41,7 +41,14 @@ Simple form which lets the user choose a name and a subscription tier for their 
 ### Req context middleware
 * Site messages (from dev to user) are pulled from request query and put into request context for availability in router and service functions.
 
+### Design Tools
+[Color Blending](https://meyerweb.com/eric/tools/color-blend/#121212:FFFFFF:5:hex)
 
+### Design Inspiration
+[Material Design Dark Theme](https://m2.material.io/design/color/dark-theme.html)
+[Linear](https://linear.app/login)
+[Radix UI](https://www.radix-ui.com/)
+[Github](https://github.com)
 
 ### Icons Attribution
 [Gear Icon](https://freeicons.io/free-setting-and-configuration-icons/gear-settings-setting-wheel-icon-9576)
