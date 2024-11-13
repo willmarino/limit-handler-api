@@ -43,6 +43,7 @@ Simple form which lets the user choose a name and a subscription tier for their 
 
 ### Design Tools
 [Color Blending](https://meyerweb.com/eric/tools/color-blend/#121212:FFFFFF:5:hex)
+[Hex to RGBA](https://rgbacolorpicker.com/hex-to-rgba)
 
 ### Design Inspiration
 [Material Design Dark Theme](https://m2.material.io/design/color/dark-theme.html)
