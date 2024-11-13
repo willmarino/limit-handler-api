@@ -51,7 +51,8 @@ Simple form which lets the user choose a name and a subscription tier for their 
 [Radix UI](https://www.radix-ui.com/)
 [Github](https://github.com)
 
-### Icons Attribution
+### Design Attribution
+[Conductor Icon](https://www.flaticon.com/authors/park-jisun)
 [Gear Icon](https://freeicons.io/free-setting-and-configuration-icons/gear-settings-setting-wheel-icon-9576)
 [Clock logo by dmitri13](https://www.freepik.com/icon/clock_992700#fromView=search&page=1&position=0&uuid=4a031b8f-ce83-4210-9f6f-9c55ad09d887)
 [Empty Inbox](https://www.flaticon.com/free-icon/no-results_5058046?term=empty&page=1&position=15&origin=tag&related_id=5058046)

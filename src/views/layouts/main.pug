@@ -33,7 +33,9 @@ html(lang="en")
             div(class="site-header")
 
                 button(class="site-header-left clickable" hx-get="/auth/login" hx-target=".page")
-                    p(class="text-hover") Limit Handler
+                    div(class="site-header-left-flex")
+                        p(class="text-hover") Limit Handler
+                        img(src="/img/school_32px.png")
 
                 - if(flashError)
                     div(class="flash-message flash-message-error")
