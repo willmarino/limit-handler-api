@@ -21,24 +21,19 @@
     height: 35px;
 }
 
+.site-header-left-flex{
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
 .site-header-left p{
     font-family: "RubikBold";
     font-size: 18px;
     text-decoration: underline;
     padding-right: 10px;
 }
-
-/* Using p tags instead of buttons now */
-/* .site-header-right button{
-    width: 150px;
-    height: 35px;
-    
-    border-radius: 5px;
-
-    font-size: 14px;
-
-    margin-left: 15px;
-} */
 
 .site-header-right{
     display: flex;   

@@ -9,9 +9,11 @@
 }
 
 .register-container{
-    height: 380px;
+    height: 400px;
 }
 
 .login-container{
-    height: 300px;
+    height: 320px;
 }
+
+/* TODO take height declarations off of these containers */

@@ -8,15 +8,15 @@ block subContent
         form(class="standard-form create-org-form" hx-post="/organizations/create" hx-target=".page")
             div(class="input-container")
                 p(class="form-label") Org Name
-                input.edit(class="secondary-shadow" type="text" name="name" value=name placeholder="Name")
+                input.edit(type="text" name="name" value=name placeholder="Name")
 
             div(class="input-container")
                 p(class="form-label") Org Description
-                input.edit(class="secondary-shadow" type="text" name="description" value=description placeholder="Description")
+                input.edit(type="text" name="description" value=description placeholder="Description")
 
             div(class="dropdown-input-container")
                 p(class="form-label") Subscription Tier
-                select(id="sub-tier-dropdown" class="org-dropdown secondary-shadow clickable" name="selectedSubTier")
+                select(id="sub-tier-dropdown" class="org-dropdown clickable" name="selectedSubTier")
                     - for(let i = 0; i < subTiers.length; i++)
                         - const subTier = subTiers[i];
                         - if(i === 0)
@@ -27,7 +27,7 @@ block subContent
             ul
                 li(id="new-org-description" class="soft-text") Capped at #{subTiers[0].userLimitCount} members and #{subTiers[0].readableCallLimit.toLowerCase()} calls per day
 
-            button(class="submit-button primary-color secondary-shadow clickable")
+            button(class="submit-button primary-color clickable")
                 p Submit
             
             p(class="form-error-message") #{errMessage}

@@ -4,7 +4,7 @@ block center
 
     div(class="lobby-main")
         div(class="center")
-            div(class="left header-bar primary-color secondary-shadow")
+            div(class="left header-bar")
                 p(class="header-segment") #{user.userName}
                 p(class="header-segment-separator") ->
                 p(class="header-segment clickable text-hover" hx-get="/organizations" hx-target=".page") Organizations
@@ -19,5 +19,5 @@ block center
                 block subContent
 
         div(class="middle")
-        div(class="right header-bar primary-color")
+        div(class="right header-bar")
             p(class="clickable text-hover" hx-get="/organizations/new" hx-target=".page") New Organization

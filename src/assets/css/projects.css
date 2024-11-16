@@ -17,7 +17,7 @@
 }
 
 .project .project-name{
-    color: #0000EE;
+    /* color: #0000EE; */
     font-family: "RubikBold";
     text-decoration: underline;
     font-size: 14px;
@@ -30,7 +30,7 @@
 }
 
 .project .project-top .project-org{
-    color: #0000EE;
+    /* color: #0000EE; */
     font-family: "RubikBold";
     text-decoration: underline;
     font-size: 14px;

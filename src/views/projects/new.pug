@@ -8,7 +8,7 @@ block subContent
             
             div(class="dropdown-input-container")
                 p(class="form-label") Org
-                select(class="org-dropdown primary-button secondary-shadow clickable" name="orgName")
+                select(class="org-dropdown primary-button clickable" name="orgName")
                     - for(let i = 0; i < organizations.length; i++)
                         - const org = organizations[i];
                         - if(i === 0)
@@ -18,15 +18,15 @@ block subContent
 
             div(class="input-container")
                 p(class="form-label") Name
-                input.edit(id="name-input" class="secondary-shadow" type="text" name="name" value=name placeholder="Project Name")
+                input.edit(id="name-input" type="text" name="name" value=name placeholder="Project Name")
 
             div(class="input-container")
                 p(class="form-label") Call Limit
-                input.edit(id="call-limit-input" class="secondary-shadow" type="text" name="callLimit" value=name placeholder="10, 100, ...")
+                input.edit(id="call-limit-input" type="text" name="callLimit" value=name placeholder="10, 100, ...")
 
             div(class="dropdown-input-container")
                 p(class="form-label") Timeframe
-                select(id="time-frame-input" class="org-dropdown primary-button secondary-shadow clickable" name="timeFrameName")
+                select(id="time-frame-input" class="org-dropdown primary-button clickable" name="timeFrameName")
                     - for(let i = 0; i < timeframes.length; i++)
                         - const timeframe = timeframes[i];
                         - if(i === 0)
@@ -38,7 +38,7 @@ block subContent
             p(id="new-project-description" class="soft-text") This project will limit outgoing requests to a rate of X per second
                 
 
-            button(class="submit-button primary-color secondary-shadow clickable")
+            button(class="submit-button primary-color clickable")
                 p Submit
             
             p(class="form-error-message") #{errMessage}

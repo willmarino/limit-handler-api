@@ -6,7 +6,7 @@ block subContent
         div(class="search-bar-container")
             div(class="input-container")
                 p(class="form-label") Search
-                input.edit(class="secondary-shadow" type="text" name="searchTerm" placeholder="Organization name...")
+                input.edit(type="text" name="searchTerm" placeholder="Organization name...")
 
         - if(organizations.length === 0)
             div(class="empty-list-container")
@@ -15,7 +15,7 @@ block subContent
 
         - else
             //- something about adding table-container instead of x-entity-list here is breaking spacing, .body is too big and a scrollbar is popping up
-            div(class="table-container secondary-color") 
+            div(class="table-container") 
                 - for(let i = 0; i < organizations.length; i++)
                     - const organization = organizations[i];
                     
