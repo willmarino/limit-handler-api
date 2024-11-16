@@ -21,7 +21,7 @@ block subContent
                 
                 div(class="project")
                     div(class="project-top")
-                        p(class="project-name clickable text-hover" hx-get=`/projects/show/${project.id}` hx-target=".page") #{project.name}
+                        p(class="project-name primary-variant-color-text clickable text-hover" hx-get=`/projects/show/${project.id}` hx-target=".page") #{project.name}
                         p(class="project-org clickable text-hover") #{project.organization.name}
                     
                     p(class="project-description") Limiting to #{project.callLimit} calls every #{project.timeFrame.name.toLowerCase()}
