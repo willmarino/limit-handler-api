@@ -34,7 +34,9 @@
 }
 
 .background-color{
-    background: #121212;
+    /* background: #121212; */
+    background: linear-gradient(rgb(15, 16, 17) 0%, rgb(8, 8, 8) 50%);
+
 }
 
 .surface-color{
