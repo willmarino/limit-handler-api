@@ -134,19 +134,27 @@
     border-radius: 5px;
 
     box-shadow: inset 0px 0px 0 500px rgba(255,255,255,0.06);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 
 .lobby-main .body .table-container{
     width: 100%;
-    height: 500px;
+    height: 70%;
+    /* height: 500px; */
 
-    margin-top: 50px;
+    /* margin-top: 50px; */
     padding: 10px 5px;
+
+    overflow-y: scroll;
 }
 
 .lobby-main .body .empty-list-container{
-    height: 550px;
+    /* height: 550px; */
+    height: 100%;
 
     display: flex;
     flex-direction: column;
