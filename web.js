@@ -17,6 +17,7 @@ const projectsRouter = require("./src/routers/projects");
 const invitationsRouter = require("./src/routers/invitations");
 
 const authRouter = require("./src/routers/auth");
+const landingRouter = require("./src/routers/landing");
 
 const { logger } = require("./src/util/logger");
 const { morganLog } = require("./src/helpers/logging");
@@ -50,6 +51,7 @@ if (process.env.NODE_ENV !== "test") webApp.use(morganLog);
 webApp.use(customMiddleware.addRequestContext);
 
 // Unauthenticated routes
+webApp.use("/landing", landingRouter);
 webApp.use("/auth", authRouter);
 webApp.use("/server_health", serverHealthRouter);
 
