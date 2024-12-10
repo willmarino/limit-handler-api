@@ -31,7 +31,8 @@ const validateSessionCookie = async (req, res, next) => {
     try{
 
         if(!req.session.user){
-            throw new SimpleErrorWrapper("Unable to authenticate user info (2998)");
+            // throw new SimpleErrorWrapper("Unable to authenticate user info (2998)");
+            throw new SimpleErrorWrapper("Session expired, please log in again");
         }
 
         if(!req.session.user.userId){
